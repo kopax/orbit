@@ -5,4 +5,6 @@ import org.springframework.data.mybatis.repository.support.MybatisRepository;
 
 public interface UserRepository extends MybatisRepository<User, Long> {
 
+    User queryByUsername(String username);
+
 }

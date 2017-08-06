@@ -37,5 +37,10 @@
             <artifactId>webapp-service</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.inmaytide.webapp.utils</groupId>
+            <artifactId>webapp-utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>
