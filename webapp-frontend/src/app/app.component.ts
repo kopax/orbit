@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, HostListener,ViewContainerRef } from '@angular/core';
+import { ActivatedRoute, Router, ActivatedRouteSnapshot, RouterState, RouterStateSnapshot } from '@angular/router';
+import 'rxjs/add/operator/merge';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,23 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  private globalClickCallbackFn: Function;
+  private loginSuccessCallbackFn: Function;
+
+  constructor(
+    public router: Router,
+    public activatedRoute: ActivatedRoute
+  ) {
+
+  }
+
+  ngOnInit() {
+
+  }
+
+  ngOnDestroy() {
+    if (this.globalClickCallbackFn) {
+      this.globalClickCallbackFn();
+    }
+  }
 }

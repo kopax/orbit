@@ -1,13 +1,30 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, ActivatedRouteSnapshot, RouterState, RouterStateSnapshot } from '@angular/router';
 import { User } from '../models/user-model';
 
 
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
-  title = 'app';
+export class LoginComponent implements OnInit {
+
+  public user: User = new User();
+
+  btn_login = 'Login';
+
+  constructor (public router: Router, public activatedRoute: ActivatedRoute) {
+
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  login() {
+    alert('234234');
+  }
+
 }

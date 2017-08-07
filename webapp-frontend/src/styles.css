@@ -1,16 +1,16 @@
 
 html , body{
-	
+ background-color: #F7F7F7;
  height:100%;
- 
+
 }
- 
+
 .full-width {
-	
+
  width:100%;
- 
+
  }
- 
+
 .full-height{
  height:100%;
  }
@@ -3395,6 +3395,8 @@ ul.project_files li a i {
     font-size: 35px
 }
 .login {
+  width:100%;
+  height: 100%;
     background: #F7F7F7
 }
 .login .fa-paw {
@@ -3544,7 +3546,6 @@ form:after {
     box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
     border: 1px solid #c8c8c8;
     color: #777;
-    margin: 0 0 20px;
     width: 100%
 }
 .login_content form input[type="text"]:focus,
@@ -4236,7 +4237,7 @@ ul.notifications {
 table thead .checkbox { margin-top:-7px;margin-top:-21px; }
 table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
 */
-			
+
 .daterangepicker.xdisplay { width:228px; }
 
 .dataTables_wrapper > .row{
