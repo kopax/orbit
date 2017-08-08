@@ -17,4 +17,5 @@ export class User {
   creator: number;
   updater: number;
   version: number;
+  token: string;
 }

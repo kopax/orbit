@@ -1,6 +1,7 @@
 package com.inmaytide.webapp.model.sys;
 
 import com.inmaytide.webapp.model.Basic;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.annotations.Id;
@@ -23,6 +24,8 @@ public class User extends Basic {
     private String remark;
     @Column(name = "super_admin")
     private Integer superAdmin;
+    @Transient
+    private String token;
 
     public User() {
     }
@@ -135,4 +138,11 @@ public class User extends Basic {
         return status == 3;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

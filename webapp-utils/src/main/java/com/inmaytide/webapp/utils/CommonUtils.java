@@ -4,6 +4,8 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import java.util.UUID;
+
 public class CommonUtils {
 
     private static final String USER_PASSWORD_MD5_SALT = "f391d46923fe39c1";
@@ -16,6 +18,10 @@ public class CommonUtils {
     public static String md5(String origin, String salt) {
         Assert.hasText(origin, "The string to be encrypted can not be empty.");
         return new Md5Hash(origin, salt(salt)).toString();
+    }
+
+    public static String uuid() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
     public static void main(String... args) {
