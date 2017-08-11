@@ -10,6 +10,7 @@ import 'rxjs/add/operator/merge';
 export class AppComponent {
   private globalClickCallbackFn: Function;
   private loginSuccessCallbackFn: Function;
+  private sidebar: string;
 
   constructor(
     public router: Router,
@@ -20,6 +21,10 @@ export class AppComponent {
 
   ngOnInit() {
 
+  }
+
+  showMenu() {
+    this.sidebar = "true";
   }
 
   ngOnDestroy() {

@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
 
   public login() {
     this.loginService.login(this.user);
+    this.router.navigateByUrl("home");
   }
 
 }
