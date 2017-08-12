@@ -1,5 +1,5 @@
-import { Component, HostListener,ViewContainerRef } from '@angular/core';
-import { ActivatedRoute, Router, ActivatedRouteSnapshot, RouterState, RouterStateSnapshot } from '@angular/router';
+import {Component, HostListener, ViewContainerRef} from '@angular/core';
+import {ActivatedRoute, Router, ActivatedRouteSnapshot, RouterState, RouterStateSnapshot} from '@angular/router';
 import 'rxjs/add/operator/merge';
 
 @Component({
@@ -10,21 +10,24 @@ import 'rxjs/add/operator/merge';
 export class AppComponent {
   private globalClickCallbackFn: Function;
   private loginSuccessCallbackFn: Function;
-  private sidebar: string;
+  public home: boolean = false;
 
-  constructor(
-    public router: Router,
-    public activatedRoute: ActivatedRoute
-  ) {
+  constructor(public router: Router,
+              public activatedRoute: ActivatedRoute) {
 
   }
+
+  public homeView() {
+    this.home = true;
+  }
+
+  public loginView() {
+    this.home = false;
+  }
+
 
   ngOnInit() {
 
-  }
-
-  showMenu() {
-    this.sidebar = "true";
   }
 
   ngOnDestroy() {

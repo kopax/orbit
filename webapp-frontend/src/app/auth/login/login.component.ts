@@ -2,7 +2,8 @@ import {Component, OnInit, Input} from '@angular/core';
 import {ActivatedRoute, Router, ActivatedRouteSnapshot, RouterState, RouterStateSnapshot} from '@angular/router';
 import {LoginService} from "./login.service";
 import {Observable} from "rxjs/Observable";
-import {User} from '../models/user-model';
+import {User} from '../../models/user-model';
+import {AppComponent} from "../../app.component";
 
 
 @Component({
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
 
   constructor(public router: Router,
               public activatedRoute: ActivatedRoute,
+              public appComponet: AppComponent,
               public loginService: LoginService) {
 
   }
@@ -29,6 +31,7 @@ export class LoginComponent implements OnInit {
 
   public login() {
     this.loginService.login(this.user);
+    this.appComponet.homeView();
     this.router.navigateByUrl("home");
   }
 

@@ -1,4 +1,4 @@
-import {LoginComponent} from './login/login.component';
+import {LoginComponent} from './auth/login/login.component';
 import {HomeComponent} from "./home/home.component";
 
 export const appRoutes = [
@@ -9,7 +9,7 @@ export const appRoutes = [
   },
   {
     path: 'home',
-    component: HomeComponent
+    loadChildren: './home/home.module#HomeModule'
   },
   {
     path: 'login',

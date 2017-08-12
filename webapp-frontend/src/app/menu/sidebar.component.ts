@@ -1,4 +1,5 @@
 import {Component, OnInit} from "@angular/core";
+import * as GlobalVariable from "../globals";
 
 @Component ({
   selector: 'side-bar',
@@ -7,6 +8,7 @@ import {Component, OnInit} from "@angular/core";
 })
 
 export class SidebarComponent implements OnInit{
+  public images: string = GlobalVariable.images;
   ngOnInit(): void {
 
   }

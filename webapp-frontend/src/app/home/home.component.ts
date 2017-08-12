@@ -1,19 +1,22 @@
-import {Component, OnInit} from "@angular/core";
-import {AppComponent} from "../app.component";
+import {Component, Injectable, OnInit} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'home',
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.css']
 })
 
+@Injectable()
 export class HomeComponent implements OnInit {
 
-  constructor(public appComponent: AppComponent) {
+  constructor(public router: Router) {
 
   }
 
   ngOnInit(): void {
-    this.appComponent.showMenu();
+    //this.router.navigateByUrl("content");
   }
+
 
 }

@@ -2,12 +2,13 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {Jsonp, Headers, Response} from '@angular/http';
-import {User} from '../models/user-model';
+import {User} from '../../models/user-model';
 import 'rxjs/add/operator/map';
+import * as GlobalVariable from "../../globals";
 
 @Injectable()
 export class LoginService {
-  public loginURL = 'http://127.0.0.1:8080/webapp/login';
+  public loginURL = GlobalVariable.baseApiUrl + 'login';
   public subject: Subject<User> = new Subject<User>();
 
   constructor(public jsonp: Jsonp) {
