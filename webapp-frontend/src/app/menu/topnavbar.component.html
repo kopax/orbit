@@ -2,13 +2,13 @@
   <div class="nav_menu">
     <nav>
       <div class="nav toggle">
-        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+        <a id="menu_toggle"><i (click)="menuToggle()" class="fa fa-bars"></i></a>
       </div>
 
       <ul class="nav navbar-nav navbar-right">
-        <li class="">
-          <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            <img (click)="click()" src="{{images}}img.jpg" alt="">John Doe
+        <li [ngClass]="{'open': isShowProfile}">
+          <a (click)="showProfile()" href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <img src="{{images}}img.jpg" alt="">John Doe
             <span class=" fa fa-angle-down"></span>
           </a>
           <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -24,7 +24,7 @@
           </ul>
         </li>
 
-        <li role="presentation" class="dropdown">
+        <li role="presentation" class="dropdown" [ngClass]="{'open':isShowMessages}">
           <a href="javascript:;" (click)="showMessages()" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
             <i class="fa fa-envelope-o"></i>
             <span class="badge bg-green">6</span>

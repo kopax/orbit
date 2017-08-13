@@ -10,6 +10,7 @@ import {LoginService} from "./auth/login/login.service";
 import {FormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {HomeModule} from "./home/home.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {HomeModule} from "./home/home.module";
   imports: [
     NgbModule.forRoot(),
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
     FormsModule,
     JsonpModule,
