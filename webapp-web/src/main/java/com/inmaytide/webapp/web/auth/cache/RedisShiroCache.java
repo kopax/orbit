@@ -2,18 +2,22 @@ package com.inmaytide.webapp.web.auth.cache;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
+import org.apache.tomcat.util.buf.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
 public class RedisShiroCache<K, V> implements Cache<K, V> {
 
     private static final Logger log = LoggerFactory.getLogger(RedisShiroCache.class);
+
+    private String keyPrefix = "shiro_cache";
 
     private final RedisCache cache;
 
@@ -24,6 +28,11 @@ public class RedisShiroCache<K, V> implements Cache<K, V> {
         Assert.isInstanceOf(RedisCache.class, cache, "Cache argument must be RedisCache instance.");
         this.cache = (RedisCache) cache;
         redisOperations = (RedisOperations) cache.getNativeCache();
+    }
+
+    public RedisShiroCache(org.springframework.cache.Cache cache, String prefix) {
+        this(cache);
+        this.keyPrefix = prefix;
     }
 
     @Override
@@ -45,7 +54,11 @@ public class RedisShiroCache<K, V> implements Cache<K, V> {
     @SuppressWarnings("unchecked")
     public V put(K k, V v) throws CacheException {
         log("Putting object", k);
-        org.springframework.cache.Cache.ValueWrapper value = cache.putIfAbsent(k, v);
+        Object key = k;
+        if (key instanceof String) {
+            key = this.keyPrefix + Objects.toString(k, "");
+        }
+        org.springframework.cache.Cache.ValueWrapper value = cache.putIfAbsent(key, v);
         return value == null ? null : (V) value.get();
     }
 
@@ -74,9 +87,12 @@ public class RedisShiroCache<K, V> implements Cache<K, V> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Set<K> keys() {
-        return redisOperations.keys("*");
+        Set<?> keys = redisOperations.keys(this.keyPrefix + "*");
+        if (CollectionUtils.isEmpty(keys)) {
+            return Collections.emptySet();
+        }
+        return null;
     }
 
     @Override
