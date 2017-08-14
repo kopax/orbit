@@ -4,16 +4,15 @@ import {HomeComponent} from "./home/home.component";
 export const appRoutes = [
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
-  {
-    path: 'home',
-    loadChildren: './home/home.module#HomeModule'
+    component: LoginComponent
   },
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'home',
+    loadChildren: './home/home.module#HomeModule'
   },
   {
     path: '**', // fallback router must in the last

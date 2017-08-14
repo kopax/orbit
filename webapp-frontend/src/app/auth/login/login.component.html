@@ -5,7 +5,7 @@
   <div class="login_wrapper">
     <div class="animate form login_form">
       <section class="login_content">
-        <form class="form-horizontal" #form="ngForm" (ngSubmit)="form.form.valid && login()">
+        <form class="form-horizontal" novalidate #form="ngForm" (ngSubmit)="login(form)">
           <h1>Login Form</h1>
           <div class="form-group">
             <div class="input-group">
@@ -30,8 +30,13 @@
               </span>
             </div>
           </div>
+          <p *ngIf="form.invalid && form.touched">
+              <ngb-alert type="{{ngbAlert.type}}" [dismissible]="false">
+                {{ngbAlert.message}}
+              </ngb-alert>
+            </p>
           <div class="form-group">
-            <button (click)="login()" class="btn btn-success btn-block">{{btn_login}}</button>
+            <button type="submit" class="btn btn-success btn-block">{{btn_login}}</button>
           </div>
 
           <div class="clearfix"></div>

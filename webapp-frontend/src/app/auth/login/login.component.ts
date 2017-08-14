@@ -3,7 +3,7 @@ import {ActivatedRoute, Router, ActivatedRouteSnapshot, RouterState, RouterState
 import {LoginService} from "./login.service";
 import {Observable} from "rxjs/Observable";
 import {User} from '../../models/user-model';
-import {AppComponent} from "../../app.component";
+import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 
 
 @Component({
@@ -13,13 +13,15 @@ import {AppComponent} from "../../app.component";
 export class LoginComponent implements OnInit {
 
   public user: User = new User();
-  public error: Error;
+  public ngbAlert = {
+    type: 'danger',
+    dismissible: false,
+    message: 'Username or password cannot be empty.'
+  }
 
   btn_login = "Login";
 
   constructor(public router: Router,
-              public activatedRoute: ActivatedRoute,
-              public appComponet: AppComponent,
               public loginService: LoginService) {
 
   }
@@ -28,10 +30,10 @@ export class LoginComponent implements OnInit {
 
   }
 
-  public login() {
-    this.loginService.login(this.user);
-    this.appComponet.homeView();
-    this.router.navigateByUrl("home");
+  public login(form) {
+    if (form.valid) {
+      this.loginService.login(this.user);
+    }
   }
 
 }

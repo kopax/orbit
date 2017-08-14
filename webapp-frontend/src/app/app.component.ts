@@ -10,21 +10,10 @@ import 'rxjs/add/operator/merge';
 export class AppComponent {
   private globalClickCallbackFn: Function;
   private loginSuccessCallbackFn: Function;
-  public home: boolean = false;
 
-  constructor(public router: Router,
-              public activatedRoute: ActivatedRoute) {
+  constructor() {
 
   }
-
-  public homeView() {
-    this.home = true;
-  }
-
-  public loginView() {
-    this.home = false;
-  }
-
 
   ngOnInit() {
 

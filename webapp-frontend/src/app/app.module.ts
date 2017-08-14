@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './auth/login/login.component';
-import {HttpModule, Jsonp, JsonpModule} from '@angular/http';
+import {HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from './app.routes';
 import {LoginService} from "./auth/login/login.service";
@@ -23,7 +23,6 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     BrowserAnimationsModule,
     HttpModule,
     FormsModule,
-    JsonpModule,
     HomeModule,
     RouterModule.forRoot(appRoutes)
   ],
