@@ -10,9 +10,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
 public class WebApplication {
+
+    @Bean
+    public WebMvcConfigurerAdapter corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/*").allowedOrigins("*");
+            }
+        };
+    }
 
     @Bean
     public RedisCacheManager redisCacheManager(RedisTemplate redisTemplate) {
@@ -32,6 +44,7 @@ public class WebApplication {
         DefaultShiroFilterChainDefinition inst = new DefaultShiroFilterChainDefinition();
         inst.addPathDefinition("/css/**", "anon");
         inst.addPathDefinition("/js/**", "anon");
+        inst.addPathDefinition("/login", "anon");
         inst.addPathDefinition("/**", "authc");
         return inst;
     }

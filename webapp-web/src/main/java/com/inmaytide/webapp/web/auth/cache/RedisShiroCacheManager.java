@@ -3,7 +3,6 @@ package com.inmaytide.webapp.web.auth.cache;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.cache.CacheManager;
-import org.apache.shiro.util.Destroyable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -37,4 +36,11 @@ public class RedisShiroCacheManager implements CacheManager {
         return cache;
     }
 
+    public String getKeyPrefix() {
+        return keyPrefix;
+    }
+
+    public void setKeyPrefix(String keyPrefix) {
+        this.keyPrefix = keyPrefix;
+    }
 }

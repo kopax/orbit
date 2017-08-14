@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     type: 'danger',
     dismissible: false,
     message: 'Username or password cannot be empty.'
-  }
+  };
 
   btn_login = "Login";
 
@@ -33,6 +33,10 @@ export class LoginComponent implements OnInit {
   public login(form) {
     if (form.valid) {
       this.loginService.login(this.user);
+      console.log(this.loginService.getCurrentUser());
+      if (this.loginService.getCurrentUser() != null) {
+        this.router.navigateByUrl("home");
+      }
     }
   }
 

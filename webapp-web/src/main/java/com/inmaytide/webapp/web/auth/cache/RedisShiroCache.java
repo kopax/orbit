@@ -88,17 +88,13 @@ public class RedisShiroCache<K, V> implements Cache<K, V> {
 
     @Override
     public Set<K> keys() {
-        Set<?> keys = redisOperations.keys(this.keyPrefix + "*");
-        if (CollectionUtils.isEmpty(keys)) {
-            return Collections.emptySet();
-        }
-        return null;
+        return redisOperations.keys(this.keyPrefix + "*");
     }
 
     @Override
     public Collection<V> values() {
         Set<K> key = keys();
-        List list = new ArrayList<V>(key.size());
+        List<V> list = new ArrayList<V>(key.size());
         key.forEach(k -> list.add(get(k)));
         return list;
     }

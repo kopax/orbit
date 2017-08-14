@@ -23,11 +23,8 @@ public class LoginController implements LogAdapter {
     @Resource
     private UserService userService;
 
-    @RequestMapping("login")
-    public Object login(UsernamePasswordCaptchaToken token, HttpServletResponse response) {
-        response.addHeader( "Access-Control-Allow-Origin", "*" );
-        response.addHeader( "Access-Control-Allow-Methods", "POST" );
-        response.addHeader( "Access-Control-Max-Age", "1000" );
+    @PostMapping("login")
+    public Object login(@RequestBody UsernamePasswordCaptchaToken token, HttpServletResponse response) {
 
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);

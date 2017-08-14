@@ -12,23 +12,20 @@ export class LoginService {
   constructor(public http: Http) {
   }
 
-  public get currentUser(): Observable<User> {
-    return null;
+  public getCurrentUser(): Observable<User> {
+    Observable.create()
+    return JSON.parse(localStorage.getItem(GlobalVariable.currentUser));
   }
 
   public login(user: User) {
     return this.http
       .post(this.loginURL, user)
-      .map(response => {
-        const user = response.json();
-        console.log('user object > ' + user);
-        if (user && user.token) {
-          localStorage.setItem("currentUser", JSON.stringify(user));
-        }
-      })
+      .map(response => response.json())
       .subscribe(
         data =>  {
-          console.log("login => success" + data);
+          if (data && data.token) {
+            localStorage.setItem(GlobalVariable.currentUser, JSON.stringify(data));
+          }
         },
         error => {
           console.log(error);
