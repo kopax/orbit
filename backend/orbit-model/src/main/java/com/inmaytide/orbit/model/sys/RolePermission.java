@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.sys.model;
+package com.inmaytide.orbit.model.sys;
 
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;

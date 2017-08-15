@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.web.controller.sys;
 
-import com.inmaytide.orbit.sys.model.User;
-import com.inmaytide.orbit.sys.service.UserService;
+import com.inmaytide.orbit.model.sys.User;
+import com.inmaytide.orbit.service.sys.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;

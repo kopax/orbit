@@ -1,6 +1,6 @@
-package com.inmaytide.orbit.sys.service;
+package com.inmaytide.orbit.service.sys;
 
-import com.inmaytide.orbit.sys.model.User;
+import com.inmaytide.orbit.model.sys.User;
 
 import java.util.Optional;
 

@@ -1,7 +1,7 @@
-package com.inmaytide.orbit.sys.service;
+package com.inmaytide.orbit.service.sys;
 
-import com.inmaytide.orbit.sys.dao.UserRepository;
-import com.inmaytide.orbit.sys.model.User;
+import com.inmaytide.orbit.dao.sys.UserRepository;
+import com.inmaytide.orbit.model.sys.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

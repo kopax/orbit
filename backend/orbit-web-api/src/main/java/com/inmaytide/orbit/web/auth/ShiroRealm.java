@@ -1,9 +1,9 @@
 package com.inmaytide.orbit.web.auth;
 
-import com.inmaytide.orbit.sys.model.User;
-import com.inmaytide.orbit.sys.service.PermissionService;
-import com.inmaytide.orbit.sys.service.RoleService;
-import com.inmaytide.orbit.sys.service.UserService;
+import com.inmaytide.orbit.model.sys.User;
+import com.inmaytide.orbit.service.sys.PermissionService;
+import com.inmaytide.orbit.service.sys.RoleService;
+import com.inmaytide.orbit.service.sys.UserService;
 import com.inmaytide.orbit.utils.CommonUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;

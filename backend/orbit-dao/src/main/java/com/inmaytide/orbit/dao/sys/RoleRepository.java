@@ -1,6 +1,6 @@
-package com.inmaytide.orbit.sys.dao;
+package com.inmaytide.orbit.dao.sys;
 
-import com.inmaytide.orbit.sys.model.Role;
+import com.inmaytide.orbit.model.sys.Role;
 import org.springframework.data.mybatis.repository.annotation.Query;
 import org.springframework.data.mybatis.repository.support.MybatisRepository;
 

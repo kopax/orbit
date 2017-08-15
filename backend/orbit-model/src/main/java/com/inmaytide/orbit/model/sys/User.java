@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.sys.model;
+package com.inmaytide.orbit.model.sys;
 
 import com.inmaytide.orbit.sys.model.basic.Basic;
 import org.springframework.data.annotation.Transient;

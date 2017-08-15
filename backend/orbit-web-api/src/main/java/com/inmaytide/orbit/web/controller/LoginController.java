@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.web.controller;
 
-import com.inmaytide.orbit.sys.model.User;
-import com.inmaytide.orbit.sys.service.UserService;
+import com.inmaytide.orbit.model.sys.User;
+import com.inmaytide.orbit.service.sys.UserService;
 import com.inmaytide.orbit.utils.CommonUtils;
 import com.inmaytide.orbit.utils.LogAdapter;
 import com.inmaytide.orbit.utils.TokenUtil;

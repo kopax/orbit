@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.sys.dao;
+package com.inmaytide.orbit.dao.sys;
 
 import com.inmaytide.orbit.sys.model.sys.Permission;
 import org.springframework.data.mybatis.repository.annotation.Query;

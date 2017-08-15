@@ -1,6 +1,6 @@
-package com.inmaytide.orbit.sys.service;
+package com.inmaytide.orbit.service.sys;
 
-import com.inmaytide.orbit.sys.dao.PermissionRepository;
+import com.inmaytide.orbit.dao.sys.PermissionRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
