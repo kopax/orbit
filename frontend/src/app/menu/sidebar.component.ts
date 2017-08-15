@@ -7,7 +7,7 @@ import * as GlobalVariable from "../globals";
 })
 
 export class SidebarComponent implements OnInit{
-  public images: string = GlobalVariable.images;
+  public images: string = GlobalVariable.PATH_IMAGES;
   ngOnInit(): void {
 
   }

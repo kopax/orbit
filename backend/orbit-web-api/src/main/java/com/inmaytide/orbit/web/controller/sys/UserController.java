@@ -22,7 +22,7 @@ public class UserController {
     @GetMapping
     public User get(Long id) {
         logger.info("id {}", id);
-        return userService.get(id).orElseGet(User::new);
+        return userService.get(id);
     }
 
 }

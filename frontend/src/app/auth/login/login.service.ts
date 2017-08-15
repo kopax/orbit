@@ -2,19 +2,20 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Http, Headers, Response} from '@angular/http';
 import {User} from '../../models/user-model';
+import {Subject} from "rxjs/Subject";
 import 'rxjs/add/operator/map';
 import * as GlobalVariable from "../../globals";
 
 @Injectable()
 export class LoginService {
-  public loginURL = GlobalVariable.baseApiUrl + 'login';
+  public loginURL = GlobalVariable.BASE_API_URL + 'login';
+  public subject: Subject<User> = new Subject<User>();
 
   constructor(public http: Http) {
   }
 
   public getCurrentUser(): Observable<User> {
-    Observable.create()
-    return JSON.parse(localStorage.getItem(GlobalVariable.currentUser));
+    return this.subject.asObservable();
   }
 
   public login(user: User) {
@@ -22,15 +23,26 @@ export class LoginService {
       .post(this.loginURL, user)
       .map(response => response.json())
       .subscribe(
-        data =>  {
-          if (data && data.token) {
-            localStorage.setItem(GlobalVariable.currentUser, JSON.stringify(data));
+        result => {
+          if (result == GlobalVariable.RESULT_SUCCESS) {
+            const data = result.data;
+            if (data && data.token) {
+              localStorage.setItem(GlobalVariable.CURRENT_USER, JSON.stringify(data));
+              this.subject.next(Object.assign({}, data));
+            }
+          } else {
+            this.subject.error(result.message);
           }
         },
         error => {
           console.log(error);
         }
       )
+  }
+
+  public logout(): void {
+    localStorage.removeItem(GlobalVariable.CURRENT_USER);
+    this.subject.next(Object.assign({}));
   }
 
 }

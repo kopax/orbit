@@ -22,10 +22,5 @@
             <artifactId>orbit-model</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.inmaytide.orbit.utils</groupId>
-            <artifactId>orbit-utils</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 </project>

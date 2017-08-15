@@ -15,8 +15,7 @@ import java.util.concurrent.ConcurrentMap;
 @Component
 public class RedisShiroCacheManager implements CacheManager {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(RedisCacheManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(RedisCacheManager.class);
 
     private final ConcurrentMap<String, Cache> caches = new ConcurrentHashMap<>();
 

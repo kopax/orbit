@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.model.sys;
 
-import com.inmaytide.orbit.sys.model.basic.Basic;
+import com.inmaytide.orbit.model.basic.Basic;
 import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.annotations.Id;
 

@@ -13,13 +13,14 @@ import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 export class LoginComponent implements OnInit {
 
   public user: User = new User();
+  public btn_login = "Login";
+  public hasMessage = false;
+  public failCount = 0;
   public ngbAlert = {
     type: 'danger',
     dismissible: false,
     message: 'Username or password cannot be empty.'
   };
-
-  btn_login = "Login";
 
   constructor(public router: Router,
               public loginService: LoginService) {
@@ -33,10 +34,19 @@ export class LoginComponent implements OnInit {
   public login(form) {
     if (form.valid) {
       this.loginService.login(this.user);
-      console.log(this.loginService.getCurrentUser());
-      if (this.loginService.getCurrentUser() != null) {
-        this.router.navigateByUrl("home");
+      if (this.loginService.getCurrentUser().subscribe(
+          data => {
+            this.failCount = 0;
+            this.router.navigateByUrl("home");
+          },
+          error => {
+            this.failCount ++;
+            console.log(error);
+          }
+        )) {
       }
+    } else {
+      this.hasMessage = true;
     }
   }
 

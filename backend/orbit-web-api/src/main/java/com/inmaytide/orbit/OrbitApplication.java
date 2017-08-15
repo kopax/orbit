@@ -1,10 +1,13 @@
 package com.inmaytide.orbit;
 
 import com.inmaytide.orbit.web.auth.ShiroRealm;
+import com.inmaytide.orbit.web.auth.cache.RedisSessionDao;
 import com.inmaytide.orbit.web.auth.cache.RedisShiroCacheManager;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
-public class WebApplication {
+public class OrbitApplication {
 
     @Bean
     public WebMvcConfigurerAdapter corsConfigurer() {
@@ -32,10 +35,18 @@ public class WebApplication {
     }
 
     @Bean
-    public DefaultWebSecurityManager securityManager(ShiroRealm realm, RedisShiroCacheManager cacheManager) {
+    public SessionManager sessionManager(RedisSessionDao sessionDao) {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        sessionManager.setSessionDAO(sessionDao);
+        return sessionManager;
+    }
+
+    @Bean
+    public DefaultWebSecurityManager securityManager(ShiroRealm realm, RedisShiroCacheManager cacheManager, SessionManager sessionManager) {
         DefaultWebSecurityManager bean = new DefaultWebSecurityManager();
         bean.setRealm(realm);
         bean.setCacheManager(cacheManager);
+        bean.setSessionManager(sessionManager);
         return bean;
     }
 
@@ -50,6 +61,6 @@ public class WebApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(WebApplication.class, args);
+        SpringApplication.run(OrbitApplication.class, args);
     }
 }

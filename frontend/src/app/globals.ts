@@ -1,5 +1,7 @@
 'use strict';
 
-export const baseApiUrl = "http://127.0.0.1:8080/api/";
-export const images = "/assets/images/";
-export const currentUser = "currentUser";
+export const BASE_API_URL = "http://127.0.0.1:8080/orbit/";
+export const PATH_IMAGES = "/assets/images/";
+export const CURRENT_USER = "currentUser";
+export const RESULT_SUCCESS = "SUCCESS";
+export const RESULT_FAIL = "FAIL";

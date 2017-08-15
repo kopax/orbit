@@ -5,6 +5,7 @@ import com.inmaytide.orbit.service.sys.UserService;
 import com.inmaytide.orbit.utils.CommonUtils;
 import com.inmaytide.orbit.utils.LogAdapter;
 import com.inmaytide.orbit.utils.TokenUtil;
+import com.inmaytide.orbit.web.Result;
 import com.inmaytide.orbit.web.auth.UsernamePasswordCaptchaToken;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -16,7 +17,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-public class LoginController implements LogAdapter {
+public class LoginController extends BasicController implements LogAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 
@@ -28,11 +29,10 @@ public class LoginController implements LogAdapter {
 
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
-
         User user = userService.findByUsername(token.getUsername()).orElseGet(User::new);
         user.setToken(TokenUtil.generate(CommonUtils.uuid(), user.getUsername()));
 
-        return user;
+        return Result.ofSuccess(user, "login succeed.");
     }
 
     @Override
