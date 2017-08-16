@@ -1,10 +1,8 @@
-package com.inmaytide.orbit.web;
+package com.inmaytide.orbit.model.basic;
+
+import com.inmaytide.orbit.consts.Constants;
 
 public class Result implements java.io.Serializable {
-
-    public static final String REQUEST_STATUS_SUCCESS = "SUCCESS";
-
-    public static final String REQUEST_STATUS_FAIL = "FAIL";
 
     private String status;
 
@@ -25,11 +23,11 @@ public class Result implements java.io.Serializable {
 
 
     public static Result ofSuccess(Object data, String message) {
-        return new Result(REQUEST_STATUS_SUCCESS, data, message);
+        return new Result(Constants.REQUEST_STATUS_SUCCESS, data, message);
     }
 
     public static Result ofFail(Object data, String message) {
-        return new Result(REQUEST_STATUS_FAIL, data, message);
+        return new Result(Constants.REQUEST_STATUS_FAIL, data, message);
     }
 
     public String getStatus() {

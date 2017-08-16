@@ -16,4 +16,11 @@
     <name>webapp-model</name>
     <url>http://maven.apache.org</url>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.inmaytide.orbit.utils</groupId>
+            <artifactId>orbit-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>

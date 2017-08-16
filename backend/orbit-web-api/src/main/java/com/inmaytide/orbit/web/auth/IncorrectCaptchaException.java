@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.web.auth;
 
-import javax.naming.AuthenticationException;
+
+import org.apache.shiro.authc.AuthenticationException;
 
 public class IncorrectCaptchaException extends AuthenticationException {
 

@@ -1,10 +1,12 @@
 package com.inmaytide.orbit.web.auth;
 
+import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.PermissionService;
 import com.inmaytide.orbit.service.sys.RoleService;
 import com.inmaytide.orbit.service.sys.UserService;
 import com.inmaytide.orbit.utils.CommonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -15,9 +17,9 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.Optional;
 
 @Component
 public class ShiroRealm extends AuthorizingRealm {
@@ -57,6 +59,14 @@ public class ShiroRealm extends AuthorizingRealm {
         if (StringUtils.isEmpty(username)) {
             throw new AccountException("Null usernames are not allowed by this realm");
         }
+
+        Optional<String> optional = SessionHelper.getSessionAttribute(Constants.SESSION_CAPTCHA_KEY);
+        optional.ifPresent(captcha -> {
+            if (!StringUtils.equalsIgnoreCase(captcha, token.getCaptcha())) {
+                throw new IncorrectCaptchaException();
+            }
+        });
+
         User user = userService.findByUsername(username).orElseThrow(UnknownAccountException::new);
         if (user.isLocked()) {
             throw new LockedAccountException();

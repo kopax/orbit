@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.utils;
 
+import com.inmaytide.orbit.consts.Constants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -12,8 +13,6 @@ import java.util.Date;
 
 public class TokenUtil {
 
-    private static final String APP_KEY = "orbit";
-
     private static final String DEFAULT_ISSUER = "issuer";
 
     private static final long DEFAULT_VAILD_PERIOD = 30 * 60 * 1000;
@@ -24,7 +23,7 @@ public class TokenUtil {
 
     public static String generate(String id, String subject, String issuer, long ttlMillis) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
-        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(APP_KEY);
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(Constants.APP_KEY);
         Key key = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 
         long nowMillis = System.currentTimeMillis();
@@ -47,7 +46,7 @@ public class TokenUtil {
 
     public static Claims getClaims(String jwt) {
         return Jwts.parser()
-                .setSigningKey(DatatypeConverter.parseBase64Binary(APP_KEY))
+                .setSigningKey(DatatypeConverter.parseBase64Binary(Constants.APP_KEY))
                 .parseClaimsJws(jwt)
                 .getBody();
     }

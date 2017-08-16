@@ -4,6 +4,7 @@ import {LoginService} from "./login.service";
 import {Observable} from "rxjs/Observable";
 import {User} from '../../models/user-model';
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
+import * as GlobalVariable from "../../globals";
 
 
 @Component({
@@ -16,8 +17,9 @@ export class LoginComponent implements OnInit {
   public btn_login = "Login";
   public hasMessage = false;
   public failCount = 0;
+  public captchaSrc = GlobalVariable.BASE_API_URL + "captcha";
   public ngbAlert = {
-    type: 'danger',
+    type: 'warning',
     dismissible: false,
     message: 'Username or password cannot be empty.'
   };
@@ -31,6 +33,10 @@ export class LoginComponent implements OnInit {
 
   }
 
+  public refreshCaptcha() {
+    this.captchaSrc = GlobalVariable.BASE_API_URL + "captcha" + "?v=" + Date.now();
+  }
+
   public login(form) {
     if (form.valid) {
       this.loginService.login(this.user);
@@ -41,7 +47,8 @@ export class LoginComponent implements OnInit {
           },
           error => {
             this.failCount ++;
-            console.log(error);
+            this.ngbAlert.message = error;
+            this.hasMessage = true;
           }
         )) {
       }
