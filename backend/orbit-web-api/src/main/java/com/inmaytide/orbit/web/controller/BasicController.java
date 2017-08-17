@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.web.controller;
 
 import com.inmaytide.orbit.model.basic.Result;
-import com.inmaytide.orbit.web.auth.IncorrectCaptchaException;
+import com.inmaytide.orbit.web.auth.exception.IncorrectCaptchaException;
 import org.apache.shiro.authc.*;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -24,7 +24,7 @@ public abstract class BasicController {
     @ExceptionHandler
     @ResponseBody
     public Object exception(Exception e) {
-
+        e.printStackTrace();
         if (e instanceof AuthenticationException) {
             return loginExceptionHandler(e);
         }

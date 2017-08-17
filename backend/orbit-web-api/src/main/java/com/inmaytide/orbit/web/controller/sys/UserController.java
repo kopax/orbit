@@ -2,9 +2,11 @@ package com.inmaytide.orbit.web.controller.sys;
 
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.UserService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,8 +21,9 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @GetMapping
-    public User get(Long id) {
+    @GetMapping("get/{id}")
+    @RequiresPermissions("user:get")
+    public User get(@PathVariable Long id) {
         logger.info("id {}", id);
         return userService.get(id);
     }

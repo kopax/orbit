@@ -1,9 +1,12 @@
 package com.inmaytide.orbit;
 
-import com.inmaytide.orbit.web.auth.ShiroRealm;
+import com.inmaytide.orbit.web.auth.JWTOrAuthenticationFilter;
 import com.inmaytide.orbit.web.auth.cache.RedisSessionDao;
 import com.inmaytide.orbit.web.auth.cache.RedisShiroCacheManager;
+import com.inmaytide.orbit.web.auth.realm.FormRealm;
+import com.inmaytide.orbit.web.auth.realm.JWTRealm;
 import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -23,8 +26,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import javax.servlet.Filter;
 import java.awt.*;
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
 public class OrbitApplication {
@@ -34,6 +41,16 @@ public class OrbitApplication {
 
     @Value("${spring.messages.cache-seconds}")
     private String cacheSeconds;
+
+    @Value("#{ @environment['shiro.loginUrl'] ?: '/login.jsp' }")
+    protected String loginUrl;
+
+    @Value("#{ @environment['shiro.successUrl'] ?: '/' }")
+    protected String successUrl;
+
+    @Value("#{ @environment['shiro.unauthorizedUrl'] ?: null }")
+    protected String unauthorizedUrl;
+
 
     @Bean
     public WebMvcConfigurerAdapter corsConfigurer() {
@@ -58,23 +75,41 @@ public class OrbitApplication {
     }
 
     @Bean
-    public DefaultWebSecurityManager securityManager(ShiroRealm realm, RedisShiroCacheManager cacheManager, SessionManager sessionManager) {
+    public DefaultWebSecurityManager securityManager(RedisShiroCacheManager cacheManager, SessionManager sessionManager,
+                                                     JWTRealm jwtRealm, FormRealm formRealm) {
         DefaultWebSecurityManager bean = new DefaultWebSecurityManager();
-        bean.setRealm(realm);
         bean.setCacheManager(cacheManager);
         bean.setSessionManager(sessionManager);
+        bean.setRealms(Arrays.asList(jwtRealm, formRealm));
         return bean;
     }
 
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition inst = new DefaultShiroFilterChainDefinition();
-        inst.addPathDefinition("/css/**", "anon");
-        inst.addPathDefinition("/js/**", "anon");
-        inst.addPathDefinition("/login", "anon");
+        //inst.addPathDefinition("/login", "joa");
         inst.addPathDefinition("/captcha", "anon");
         inst.addPathDefinition("/**", "authc");
         return inst;
+    }
+
+    @Bean
+    protected ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager,
+                                                            ShiroFilterChainDefinition shiroFilterChainDefinition,
+                                                            JWTOrAuthenticationFilter filter) {
+        ShiroFilterFactoryBean filterFactoryBean = new ShiroFilterFactoryBean();
+
+        filterFactoryBean.setLoginUrl(loginUrl);
+        filterFactoryBean.setSuccessUrl(successUrl);
+        filterFactoryBean.setUnauthorizedUrl(unauthorizedUrl);
+
+        filterFactoryBean.setSecurityManager(securityManager);
+        filterFactoryBean.setFilterChainDefinitionMap(shiroFilterChainDefinition.getFilterChainMap());
+
+        Map<String, Filter> filters = new HashMap<>();
+        filters.put("joa", filter);
+        filterFactoryBean.setFilters(filters);
+        return filterFactoryBean;
     }
 
     @Bean

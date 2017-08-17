@@ -8,7 +8,7 @@ import com.inmaytide.orbit.utils.LogAdapter;
 import com.inmaytide.orbit.utils.TokenUtil;
 import com.inmaytide.orbit.model.basic.Result;
 import com.inmaytide.orbit.web.auth.SessionHelper;
-import com.inmaytide.orbit.web.auth.UsernamePasswordCaptchaToken;
+import com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.patchca.service.ConfigurableCaptchaService;
@@ -33,16 +33,16 @@ public class LoginController extends BasicController implements LogAdapter {
     @Resource
     private ConfigurableCaptchaService configurableCaptchaService;
 
-    @PostMapping("login")
-    public Object login(@RequestBody UsernamePasswordCaptchaToken token, HttpServletResponse response) {
-
-        Subject subject = SecurityUtils.getSubject();
-        subject.login(token);
-        User user = userService.findByUsername(token.getUsername()).orElseGet(User::new);
-        user.setToken(TokenUtil.generate(CommonUtils.uuid(), user.getUsername()));
-
-        return Result.ofSuccess(user, "login succeed.");
-    }
+//    @PostMapping("login")
+//    public Object login(@RequestBody UsernamePasswordCaptchaToken token, HttpServletResponse response) {
+//
+//        Subject subject = SecurityUtils.getSubject();
+//        subject.login(token);
+//        User user = userService.findByUsername(token.getUsername()).orElseGet(User::new);
+//        user.setToken(TokenUtil.generate(CommonUtils.uuid(), user.getUsername()));
+//
+//        return Result.ofSuccess(user, "login succeed.");
+//    }
 
     @RequestMapping("captcha")
     public void captcha(HttpServletResponse response) throws IOException {

@@ -51,4 +51,14 @@ public class TokenUtil {
                 .getBody();
     }
 
+    public static boolean validateToken(String token) {
+        try {
+            Claims claims = getClaims(token);
+            Long exp = (Long) claims.get(Claims.EXPIRATION);
+            return exp - System.currentTimeMillis() > 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.web.auth;
+package com.inmaytide.orbit.web.auth.token;
 
 import org.apache.shiro.authc.UsernamePasswordToken;
 
@@ -8,6 +8,11 @@ public class UsernamePasswordCaptchaToken extends UsernamePasswordToken {
 
     public UsernamePasswordCaptchaToken() {
 
+    }
+
+    public UsernamePasswordCaptchaToken(String username, String password, String captcha) {
+        super(username, password);
+        this.captcha = captcha;
     }
 
     public UsernamePasswordCaptchaToken(String username, char[] password, boolean rememberMe, String host, String captcha) {
