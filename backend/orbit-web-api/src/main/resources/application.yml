@@ -13,7 +13,12 @@ spring:
   messages:
     basename: i18n/messages
     cache-seconds: -1
+  mvc:
+    dispatch-options-request: true
 
 shiro:
   loginUrl: /login
+
+cors:
+  origin: http://127.0.0.1:4200
 

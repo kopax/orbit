@@ -13,18 +13,19 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.Charset;
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 
-@Component
 public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
 
     protected static final String AUTHORIZATION_HEADER = "Authorization";
@@ -33,9 +34,28 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
     public static final String PASSWORD = "password";
     public static final String CAPTCHA = "captcha";
 
-    public JWTOrAuthenticationFilter() {
+    private String origin;
+
+    public JWTOrAuthenticationFilter(String origin) {
         setLoginUrl(DEFAULT_LOGIN_URL);
+        this.origin = origin;
     }
+
+    @Override
+    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+        HttpServletRequest httpRequest = WebUtils.toHttp(request);
+        HttpServletResponse httpResponse = WebUtils.toHttp(response);
+        if (httpRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
+            httpResponse.setHeader("Access-control-Allow-Origin", origin);
+            httpResponse.setHeader("Access-Control-Allow-Methods", httpRequest.getMethod());
+            httpResponse.setHeader("Access-Control-Allow-Headers", httpRequest.getHeader("Access-Control-Request-Headers"));
+            httpResponse.setStatus(HttpStatus.OK.value());
+            return false;
+        }
+        return super.preHandle(request, response);
+    }
+
+
 
     @Override
     public void setLoginUrl(String loginUrl) {
@@ -50,7 +70,7 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         boolean loggedIn = false;
-        System.out.println(request.getAttribute("username"));
+
         if (isLoginRequest(request, response) || isLoggedAttempt(request, response)) {
             loggedIn = executeLogin(request, response);
         }
@@ -65,7 +85,7 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
     @Override
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) throws Exception {
         if (isLoginRequest(request, response)) {
-            String json = IOUtils.toString(request.getInputStream());
+            String json = IOUtils.toString(request.getInputStream(), Charset.forName("utf-8"));
             if (StringUtils.isNotEmpty(json)) {
                 ObjectMapper mapper = new ObjectMapper();
                 Map m = mapper.readValue(json, Map.class);

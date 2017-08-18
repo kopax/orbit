@@ -13,4 +13,5 @@ public abstract class Constants {
     public static final String SESSION_CAPTCHA_KEY = "default_captcha";
 
     public static final String AUTHORIZATION_CACHE_NAME = "auth_cache";
+
 }

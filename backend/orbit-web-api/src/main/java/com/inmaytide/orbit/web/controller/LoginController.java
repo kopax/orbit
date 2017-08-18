@@ -33,18 +33,18 @@ public class LoginController extends BasicController implements LogAdapter {
     @Resource
     private ConfigurableCaptchaService configurableCaptchaService;
 
-//    @PostMapping("login")
-//    public Object login(@RequestBody UsernamePasswordCaptchaToken token, HttpServletResponse response) {
-//
-//        Subject subject = SecurityUtils.getSubject();
-//        subject.login(token);
-//        User user = userService.findByUsername(token.getUsername()).orElseGet(User::new);
-//        user.setToken(TokenUtil.generate(CommonUtils.uuid(), user.getUsername()));
-//
-//        return Result.ofSuccess(user, "login succeed.");
-//    }
+    @PostMapping("login")
+    public Object login(@RequestBody UsernamePasswordCaptchaToken token, HttpServletResponse response) {
 
-    @RequestMapping("captcha")
+        Subject subject = SecurityUtils.getSubject();
+        subject.login(token);
+        User user = userService.findByUsername(token.getUsername()).orElseGet(User::new);
+        user.setToken(TokenUtil.generate(CommonUtils.uuid(), user.getUsername()));
+
+        return Result.ofSuccess(user, "login succeed.");
+    }
+
+    @GetMapping("captcha")
     public void captcha(HttpServletResponse response) throws IOException {
         CommonUtils.disableResponseCache(response);
         response.setContentType("image/png");

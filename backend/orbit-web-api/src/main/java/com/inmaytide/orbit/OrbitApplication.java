@@ -42,6 +42,9 @@ public class OrbitApplication {
     @Value("${spring.messages.cache-seconds}")
     private String cacheSeconds;
 
+    @Value("${cors.origin}")
+    private String origin;
+
     @Value("#{ @environment['shiro.loginUrl'] ?: '/login.jsp' }")
     protected String loginUrl;
 
@@ -50,17 +53,6 @@ public class OrbitApplication {
 
     @Value("#{ @environment['shiro.unauthorizedUrl'] ?: null }")
     protected String unauthorizedUrl;
-
-
-    @Bean
-    public WebMvcConfigurerAdapter corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/*").allowedOrigins("*");
-            }
-        };
-    }
 
     @Bean
     public RedisCacheManager redisCacheManager(RedisTemplate redisTemplate) {
@@ -87,7 +79,7 @@ public class OrbitApplication {
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition inst = new DefaultShiroFilterChainDefinition();
-        //inst.addPathDefinition("/login", "joa");
+        inst.addPathDefinition("/login", "anon");
         inst.addPathDefinition("/captcha", "anon");
         inst.addPathDefinition("/**", "authc");
         return inst;
@@ -95,8 +87,7 @@ public class OrbitApplication {
 
     @Bean
     protected ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager,
-                                                            ShiroFilterChainDefinition shiroFilterChainDefinition,
-                                                            JWTOrAuthenticationFilter filter) {
+                                                            ShiroFilterChainDefinition shiroFilterChainDefinition) {
         ShiroFilterFactoryBean filterFactoryBean = new ShiroFilterFactoryBean();
 
         filterFactoryBean.setLoginUrl(loginUrl);
@@ -107,7 +98,7 @@ public class OrbitApplication {
         filterFactoryBean.setFilterChainDefinitionMap(shiroFilterChainDefinition.getFilterChainMap());
 
         Map<String, Filter> filters = new HashMap<>();
-        filters.put("joa", filter);
+        filters.put("authc", new JWTOrAuthenticationFilter(origin));
         filterFactoryBean.setFilters(filters);
         return filterFactoryBean;
     }

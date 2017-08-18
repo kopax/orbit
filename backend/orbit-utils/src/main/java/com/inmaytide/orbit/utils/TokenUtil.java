@@ -54,8 +54,8 @@ public class TokenUtil {
     public static boolean validateToken(String token) {
         try {
             Claims claims = getClaims(token);
-            Long exp = (Long) claims.get(Claims.EXPIRATION);
-            return exp - System.currentTimeMillis() > 0;
+            Date date = claims.getExpiration();
+            return date.compareTo(new Date()) >= 0;
         } catch (Exception e) {
             return false;
         }

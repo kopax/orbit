@@ -24,7 +24,7 @@ export class LoginService {
       .map(response => response.json())
       .subscribe(
         result => {
-          if (result == GlobalVariable.RESULT_SUCCESS) {
+          if (result.status == GlobalVariable.RESULT_SUCCESS) {
             const data = result.data;
             if (data && data.token) {
               localStorage.setItem(GlobalVariable.CURRENT_USER, JSON.stringify(data));

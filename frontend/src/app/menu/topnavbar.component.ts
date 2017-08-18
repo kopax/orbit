@@ -1,11 +1,12 @@
 import {Component, Injectable, OnInit} from "@angular/core";
 import * as GlobalVariable from "../globals";
 import {HomeComponent} from "../home/home.component";
-import {Http, Headers, Response} from '@angular/http';
+import {Http, Headers, Response, RequestOptionsArgs, RequestOptions} from '@angular/http';
 import {LoginService} from "../auth/login/login.service";
 import {Router} from "@angular/router";
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import {User} from "../models/user-model";
 
 @Component({
   selector: "top-navbar",
@@ -50,7 +51,8 @@ export class TopnavbarComponent implements OnInit {
   }
 
   public getUser() {
-    this.http.get(GlobalVariable.BASE_API_URL + "sys/user/get/1")
+
+    return this.http.get(GlobalVariable.BASE_API_URL + "sys/user/get/1")
       .map(response => response.json())
       .subscribe(
         result => {
@@ -59,7 +61,7 @@ export class TopnavbarComponent implements OnInit {
         error => {
           console.log(error);
         }
-      )
+      );
   }
 
 }

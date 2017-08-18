@@ -8,6 +8,8 @@ import com.inmaytide.orbit.web.auth.SessionHelper;
 import com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -19,6 +21,7 @@ public class FormRealm extends BasicRealm {
 
     public FormRealm() {
         super();
+        setCredentialsMatcher(new HashedCredentialsMatcher(Md5Hash.ALGORITHM_NAME));
     }
 
     @Override

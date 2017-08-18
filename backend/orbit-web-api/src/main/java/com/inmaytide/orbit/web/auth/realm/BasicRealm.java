@@ -27,17 +27,17 @@ public abstract class BasicRealm extends AuthorizingRealm {
 
     public BasicRealm() {
         setCachingEnabled(true);
-        setCredentialsMatcher(new HashedCredentialsMatcher(Md5Hash.ALGORITHM_NAME));
         setAuthenticationCacheName(Constants.AUTHORIZATION_CACHE_NAME);
     }
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         Assert.notNull(principals, "PrincipalCollection method argument cannot be null.");
-        String username = (String) getAvailablePrincipal(principals);
+        //String username = (String) getAvailablePrincipal(principals);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.setRoles(roleService.findCodesByUsername(username));
-        info.setStringPermissions(permissionService.findCodesByUsername(username));
+        info.addStringPermission("user:get");
+//        info.setRoles(roleService.findCodesByUsername(username));
+//        info.setStringPermissions(permissionService.findCodesByUsername(username));
         return info;
     }
 

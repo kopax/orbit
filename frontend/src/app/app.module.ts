@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './auth/login/login.component';
-import {HttpModule} from '@angular/http';
+import {Http, HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from './app.routes';
 import {LoginService} from "./auth/login/login.service";
@@ -11,6 +11,7 @@ import {FormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {HomeModule} from "./home/home.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {BaseHttp} from "./base.http";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     HomeModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService],
+  providers: [LoginService, {provide: Http, useClass: BaseHttp}],
   bootstrap: [AppComponent]
 })
 export class AppModule {
