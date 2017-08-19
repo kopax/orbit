@@ -32,9 +32,6 @@ public class JWTRealm extends BasicRealm {
         User u = user.orElseThrow(InvalidTokenException::new);
         if (TokenUtil.validateToken(token.getToken())) {
             SimpleAccount account = new SimpleAccount(u, token.getToken(), getName());
-            //account.addRole(getRoleService().findCodesByUsername(u.getUsername()));
-            //account.addStringPermissions(getPermissionService().findCodesByUsername(u.getUsername()));
-            account.addStringPermission("user:get");
             return account;
         }
         throw new InvalidTokenException();

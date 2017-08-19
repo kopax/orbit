@@ -30,4 +30,9 @@ public class CommonUtils {
         response.addHeader("Cache-Control", "post-check=0, pre-check=0");
         response.addHeader("Pragma", "no-cache");
     }
+
+    public static String generateCacheCaptchaKey(String v) {
+        return new StringBuilder().append(Constants.CACHE_CAPTCHA_KEY)
+                           .append("-").append(v).toString();
+    }
 }

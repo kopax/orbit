@@ -5,6 +5,7 @@ import {User} from '../../models/user-model';
 import {Subject} from "rxjs/Subject";
 import 'rxjs/add/operator/map';
 import * as GlobalVariable from "../../globals";
+import {Token} from "../../models/token-model";
 
 @Injectable()
 export class LoginService {
@@ -18,7 +19,7 @@ export class LoginService {
     return this.subject.asObservable();
   }
 
-  public login(user: User) {
+  public login(user: Token) {
     return this.http
       .post(this.loginURL, user)
       .map(response => response.json())

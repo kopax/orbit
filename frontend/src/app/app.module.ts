@@ -12,6 +12,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {HomeModule} from "./home/home.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BaseHttp} from "./base.http";
+import {CookieService} from "ngx-cookie-service";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import {BaseHttp} from "./base.http";
     HomeModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService, {provide: Http, useClass: BaseHttp}],
+  providers: [LoginService, {provide: Http, useClass: BaseHttp}, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

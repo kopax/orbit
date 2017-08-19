@@ -18,5 +18,4 @@ export class User {
   updater: number;
   version: number;
   token: string;
-  captcha: string;
 }

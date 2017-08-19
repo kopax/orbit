@@ -26,11 +26,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("get/{id}")
-    @RequiresPermissions("user:get")
+    @RequiresPermissions("user:one")
     public Object get(@PathVariable Long id, HttpServletResponse response, HttpServletRequest request) {
-        //response.setHeader("Access-control-Allow-Origin", "*");
-        //response.setHeader("Access-Control-Allow-Methods", request.getMethod());
-        //response.setHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
         logger.info("id {}", id);
         return Result.ofSuccess(userService.get(id), null);
     }

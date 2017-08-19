@@ -1,10 +1,10 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {ActivatedRoute, Router, ActivatedRouteSnapshot, RouterState, RouterStateSnapshot} from '@angular/router';
 import {LoginService} from "./login.service";
-import {Observable} from "rxjs/Observable";
 import {User} from '../../models/user-model';
-import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 import * as GlobalVariable from "../../globals";
+import {Subject} from "rxjs/Subject";
+import {Token} from "../../models/token-model";
 
 
 @Component({
@@ -13,11 +13,12 @@ import * as GlobalVariable from "../../globals";
 })
 export class LoginComponent implements OnInit {
 
-  public user: User = new User();
+  public user: Token = new Token();
   public btn_login = "Login";
   public hasMessage = false;
   public failCount = 0;
-  public captchaSrc = GlobalVariable.BASE_API_URL + "captcha";
+  public captchaKey = Date.now();
+  public captchaSrc = "";
   public ngbAlert = {
     type: 'warning',
     dismissible: false,
@@ -34,25 +35,36 @@ export class LoginComponent implements OnInit {
   }
 
   public refreshCaptcha() {
-    this.captchaSrc = GlobalVariable.BASE_API_URL + "captcha" + "?v=" + Date.now();
+    this.captchaKey = Date.now();
+    this.captchaSrc = GlobalVariable.BASE_API_URL + "captcha?v=" + this.captchaKey;
   }
 
   public login(form) {
     if (form.valid) {
+      this.user.captchaKey = this.captchaKey;
       this.loginService.login(this.user);
       if (this.loginService.getCurrentUser().subscribe(
           data => {
-            this.failCount = 0;
+            this.failCount = 1;
             this.router.navigateByUrl("home");
           },
           error => {
             this.failCount ++;
             this.ngbAlert.message = error;
             this.hasMessage = true;
+            this.loginService.subject = new Subject<User>();
+            if (this.failCount >= 3) {
+              this.refreshCaptcha();
+            }
           }
         )) {
       }
     } else {
+      if (this.failCount >= 3) {
+        this.ngbAlert.message = "Username、password and captcha cannot be empty"
+      } else {
+        this.ngbAlert.message = "Username or password cannot be empty";
+      }
       this.hasMessage = true;
     }
   }

@@ -5,6 +5,9 @@ import com.inmaytide.orbit.web.auth.cache.RedisSessionDao;
 import com.inmaytide.orbit.web.auth.cache.RedisShiroCacheManager;
 import com.inmaytide.orbit.web.auth.realm.FormRealm;
 import com.inmaytide.orbit.web.auth.realm.JWTRealm;
+import com.inmaytide.orbit.web.auth.strategy.FirstExceptionStrategy;
+import org.apache.shiro.authc.Authenticator;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
@@ -17,18 +20,12 @@ import org.patchca.service.ConfigurableCaptchaService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.servlet.Filter;
 import java.awt.*;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +51,7 @@ public class OrbitApplication {
     @Value("#{ @environment['shiro.unauthorizedUrl'] ?: null }")
     protected String unauthorizedUrl;
 
+
     @Bean
     public RedisCacheManager redisCacheManager(RedisTemplate redisTemplate) {
         return new RedisCacheManager(redisTemplate);
@@ -67,11 +65,19 @@ public class OrbitApplication {
     }
 
     @Bean
+    protected Authenticator authenticator(FirstExceptionStrategy strategy) {
+        ModularRealmAuthenticator authenticator = new ModularRealmAuthenticator();
+        authenticator.setAuthenticationStrategy(strategy);
+        return authenticator;
+    }
+
+    @Bean
     public DefaultWebSecurityManager securityManager(RedisShiroCacheManager cacheManager, SessionManager sessionManager,
-                                                     JWTRealm jwtRealm, FormRealm formRealm) {
+                                                     JWTRealm jwtRealm, FormRealm formRealm, Authenticator authenticator) {
         DefaultWebSecurityManager bean = new DefaultWebSecurityManager();
         bean.setCacheManager(cacheManager);
         bean.setSessionManager(sessionManager);
+        bean.setAuthenticator(authenticator);
         bean.setRealms(Arrays.asList(jwtRealm, formRealm));
         return bean;
     }
@@ -101,20 +107,6 @@ public class OrbitApplication {
         filters.put("authc", new JWTOrAuthenticationFilter(origin));
         filterFactoryBean.setFilters(filters);
         return filterFactoryBean;
-    }
-
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        if (StringUtils.hasText(this.basename)) {
-            messageSource.setBasenames(StringUtils.commaDelimitedListToStringArray(
-                    StringUtils.trimAllWhitespace(this.basename)));
-        }
-        messageSource.setDefaultEncoding(Charset.forName("UTF-8").name());
-        messageSource.setFallbackToSystemLocale(true);
-        messageSource.setCacheSeconds(-1);
-        messageSource.setAlwaysUseMessageFormat(false);
-        return messageSource;
     }
 
     @Bean

@@ -33,6 +33,7 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String CAPTCHA = "captcha";
+    public static final String CAPTCHA_KEY = "captchaKey";
 
     private String origin;
 
@@ -49,6 +50,7 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
             httpResponse.setHeader("Access-control-Allow-Origin", origin);
             httpResponse.setHeader("Access-Control-Allow-Methods", httpRequest.getMethod());
             httpResponse.setHeader("Access-Control-Allow-Headers", httpRequest.getHeader("Access-Control-Request-Headers"));
+            httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
             httpResponse.setStatus(HttpStatus.OK.value());
             return false;
         }
@@ -92,7 +94,8 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
                 String username = Objects.toString(m.get(USERNAME), null);
                 String password = Objects.toString(m.get(PASSWORD), null);
                 String captcha = Objects.toString(m.get(CAPTCHA), null);
-                return new UsernamePasswordCaptchaToken(username, password, captcha);
+                String captchaKey = Objects.toString(m.get(CAPTCHA_KEY), null);
+                return new UsernamePasswordCaptchaToken(username, password, captcha, captchaKey);
             }
         }
         

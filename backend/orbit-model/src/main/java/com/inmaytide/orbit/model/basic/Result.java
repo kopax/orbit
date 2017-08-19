@@ -30,6 +30,10 @@ public class Result implements java.io.Serializable {
         return new Result(Constants.REQUEST_STATUS_FAIL, data, message);
     }
 
+    public static Result ofFail(String message) {
+        return new Result(Constants.REQUEST_STATUS_FAIL, null, message);
+    }
+
     public String getStatus() {
         return status;
     }

@@ -1,6 +1,7 @@
 server:
   context-path: /orbit
 
+
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/db_webapp?characterEncoding=UTF-8&useSSL=false
@@ -21,4 +22,9 @@ shiro:
 
 cors:
   origin: http://127.0.0.1:4200
+
+logging:
+  level: info
+
+
 

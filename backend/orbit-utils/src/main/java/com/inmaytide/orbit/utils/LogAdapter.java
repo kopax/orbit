@@ -12,4 +12,16 @@ public interface LogAdapter {
         }
     }
 
+    default void info(String message, Object... args) {
+        if (getLogger().isInfoEnabled()) {
+            getLogger().info(message, args);
+        }
+    }
+
+    default void info(String message, Throwable throwable) {
+        if (getLogger().isInfoEnabled()) {
+            getLogger().info(message, throwable);
+        }
+    }
+
 }

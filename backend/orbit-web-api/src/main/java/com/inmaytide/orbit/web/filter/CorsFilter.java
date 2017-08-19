@@ -27,6 +27,7 @@ public class CorsFilter implements Filter {
         httpResponse.setHeader("Access-Control-Allow-Methods", httpRequest.getMethod());
         httpResponse.setHeader("Access-Control-Max-Age", "3600");
         httpResponse.setHeader("Access-Control-Allow-Headers", httpRequest.getHeader("Access-Control-Request-Headers"));
+        httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
         chain.doFilter(request, response);
     }
 

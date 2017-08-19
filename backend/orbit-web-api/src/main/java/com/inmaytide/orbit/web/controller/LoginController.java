@@ -9,6 +9,7 @@ import com.inmaytide.orbit.utils.TokenUtil;
 import com.inmaytide.orbit.model.basic.Result;
 import com.inmaytide.orbit.web.auth.SessionHelper;
 import com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.patchca.service.ConfigurableCaptchaService;
@@ -21,6 +22,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Objects;
 
 @RestController
 public class LoginController extends BasicController implements LogAdapter {
@@ -45,12 +47,12 @@ public class LoginController extends BasicController implements LogAdapter {
     }
 
     @GetMapping("captcha")
-    public void captcha(HttpServletResponse response) throws IOException {
+    public void captcha(HttpServletResponse response, String v) throws IOException {
         CommonUtils.disableResponseCache(response);
         response.setContentType("image/png");
         try (OutputStream os = response.getOutputStream()) {
             String words = EncoderHelper.getChallangeAndWriteImage(configurableCaptchaService, "png", os);
-            SessionHelper.setAttribute(Constants.SESSION_CAPTCHA_KEY, words);
+            stringRedisTemplate.opsForValue().set(CommonUtils.generateCacheCaptchaKey(v), words);
         }
     }
 
