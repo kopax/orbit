@@ -36,6 +36,7 @@ create table sys_role (
 drop table if exists sys_permission;
 create table sys_permission (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  parent BIGINT not null default -1,
   code varchar(32) not null UNIQUE ,
   name varchar(64) not null,
   action varchar(256),
@@ -66,6 +67,22 @@ create table sys_role_permission (
 
 insert into sys_user(id, username, name, password, super_admin, create_time, creator)
     values(1, 'admin', 'Administrator', '431759ab506d1e4af78e7fe08b818edb', 1, now(), 1);
+
+insert into sys_role(id, code, name, create_time, creator)
+    values(1, 'admin', 'Administrator', now(), 1);
+
+insert into sys_user_role(id, u_id, r_id)
+    values(id, 1, 1);
+
+insert into sys_permission(id, code, name, action, create_time, creator, parent, category)
+    values(1, 'authc', '', 'home/content', now(), 1, -1, 1);
+insert into sys_permission(id, code, name, action, create_time, creator, parent, category)
+    values(2, 'sysmanagement', 'System Managment', null, now(), 1, -1, 1);
+insert into sys_permission(id, code, name, action, create_time, creator, parent, category)
+    values(3, 'user:list', 'User Managment', 'home/user_list', now(), 1, 2, 1);
+
+insert into sys_role_permission(id, r_id, p_id)
+    values(1, 1, 1), (2, 1, 2), (3, 1, 3);
 
 
 

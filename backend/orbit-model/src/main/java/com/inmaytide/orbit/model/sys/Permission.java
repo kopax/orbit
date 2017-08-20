@@ -15,6 +15,7 @@ public class Permission extends Basic {
     private String icon;
     private Long category;
     private String description;
+    private Long parent;
 
     public Permission() {
     }
@@ -75,4 +76,11 @@ public class Permission extends Basic {
         this.description = description;
     }
 
+    public Long getParent() {
+        return parent;
+    }
+
+    public void setParent(Long parent) {
+        this.parent = parent;
+    }
 }

@@ -15,6 +15,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Set<String> findCodesByUsername(String username) {
-        return new HashSet<>(roleRepository.queryCodeByUsername(username));
+        return new HashSet<>(roleRepository.findCodesByUsername(username));
     }
 }

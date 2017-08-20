@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.web.auth.realm;
 
 import com.inmaytide.orbit.consts.Constants;
+import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.PermissionService;
 import com.inmaytide.orbit.service.sys.RoleService;
 import com.inmaytide.orbit.service.sys.UserService;
@@ -13,6 +14,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 public abstract class BasicRealm extends AuthorizingRealm {
 
@@ -33,11 +35,12 @@ public abstract class BasicRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         Assert.notNull(principals, "PrincipalCollection method argument cannot be null.");
-        //String username = (String) getAvailablePrincipal(principals);
+        Object availablePrincipal = getAvailablePrincipal(principals);
+        String username = availablePrincipal instanceof User ? ((User) availablePrincipal).getUsername()
+                : Objects.toString(getAvailablePrincipal(principals));
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.addStringPermission("user:get");
-//        info.setRoles(roleService.findCodesByUsername(username));
-//        info.setStringPermissions(permissionService.findCodesByUsername(username));
+        info.setRoles(getRoleService().findCodesByUsername(username));
+        info.setStringPermissions(getPermissionService().findCodesByUsername(username));
         return info;
     }
 

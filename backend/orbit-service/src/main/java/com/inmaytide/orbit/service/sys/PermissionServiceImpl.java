@@ -15,6 +15,6 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Set<String> findCodesByUsername(String username) {
-        return new HashSet<>(permissionRepository.queryCodesByUsername(username));
+        return new HashSet<>(permissionRepository.findCodesByUsername(username));
     }
 }
