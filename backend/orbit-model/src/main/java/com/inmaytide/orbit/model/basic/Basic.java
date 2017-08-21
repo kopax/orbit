@@ -1,22 +1,33 @@
 package com.inmaytide.orbit.model.basic;
 
 import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Id;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Basic implements Serializable {
 
+    @Id
+    private String id;
     @Column(name = "create_time")
     private LocalDateTime createTime;
     @Column(name = "update_time")
     private LocalDateTime updateTime;
-    private Long creator;
-    private Long updater;
+    private String creator;
+    private String updater;
     private Integer version;
 
     public Basic() {
 
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public LocalDateTime getCreateTime() {
@@ -35,19 +46,19 @@ public class Basic implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public Long getCreator() {
+    public String getCreator() {
         return creator;
     }
 
-    public void setCreator(Long creator) {
+    public void setCreator(String creator) {
         this.creator = creator;
     }
 
-    public Long getUpdater() {
+    public String getUpdater() {
         return updater;
     }
 
-    public void setUpdater(Long updater) {
+    public void setUpdater(String updater) {
         this.updater = updater;
     }
 

@@ -10,42 +10,42 @@ import java.io.Serializable;
 public class RolePermission implements Serializable {
 
     @Id
-    private Long id;
+    private String id;
     @Column(name = "r_id")
-    private Long rId;
+    private String rId;
     @Column(name = "p_id")
-    private Long pId;
+    private String pId;
 
     public RolePermission() {
     }
 
-    public RolePermission(Long id, Long rId, Long pId) {
+    public RolePermission(String id, String rId, String pId) {
         this.id = id;
         this.rId = rId;
         this.pId = pId;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getrId() {
+    public String getrId() {
         return rId;
     }
 
-    public void setrId(Long rId) {
+    public void setrId(String rId) {
         this.rId = rId;
     }
 
-    public Long getpId() {
+    public String getpId() {
         return pId;
     }
 
-    public void setpId(Long pId) {
+    public void setpId(String pId) {
         this.pId = pId;
     }
 }

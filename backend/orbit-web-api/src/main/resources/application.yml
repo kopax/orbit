@@ -29,7 +29,7 @@ cors:
 logging:
   level:
     root: info
-    com.inmaytide.orbit.dao: debug
+    com.inmaytide.orbit.dao: trace
 
 
 

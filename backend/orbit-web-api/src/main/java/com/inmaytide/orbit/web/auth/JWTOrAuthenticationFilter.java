@@ -1,7 +1,8 @@
 package com.inmaytide.orbit.web.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inmaytide.orbit.utils.TokenUtil;
+import com.inmaytide.orbit.utils.ResponseUtils;
+import com.inmaytide.orbit.utils.TokenUtils;
 import com.inmaytide.orbit.web.auth.exception.CannotCreateTokenException;
 import com.inmaytide.orbit.web.auth.exception.InvalidTokenException;
 import com.inmaytide.orbit.web.auth.token.JWTAuthenticationToken;
@@ -21,10 +22,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.Charset;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
 
@@ -47,10 +46,7 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
         HttpServletRequest httpRequest = WebUtils.toHttp(request);
         HttpServletResponse httpResponse = WebUtils.toHttp(response);
         if (httpRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
-            httpResponse.setHeader("Access-control-Allow-Origin", origin);
-            httpResponse.setHeader("Access-Control-Allow-Methods", httpRequest.getMethod());
-            httpResponse.setHeader("Access-Control-Allow-Headers", httpRequest.getHeader("Access-Control-Request-Headers"));
-            httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
+            ResponseUtils.enableCros(httpResponse, httpRequest, origin);
             httpResponse.setStatus(HttpStatus.OK.value());
             return false;
         }
@@ -116,19 +112,19 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
 
     private AuthenticationToken createToken(String token) {
         try {
-            Claims claims = TokenUtil.getClaims(token);
+            Claims claims = TokenUtils.getClaims(token);
             return new JWTAuthenticationToken(claims.getSubject(), token);
         } catch (Exception e) {
             throw new InvalidTokenException();
         }
     }
 
-    protected boolean isLoggedAttempt(ServletRequest request, ServletResponse response) {
+    private boolean isLoggedAttempt(ServletRequest request, ServletResponse response) {
         String authzHeader = getAuthzHeader(request);
         return authzHeader != null;
     }
 
-    protected  String getAuthzHeader(ServletRequest request) {
+    private  String getAuthzHeader(ServletRequest request) {
         HttpServletRequest httpRequest = WebUtils.toHttp(request);
         return httpRequest.getHeader(AUTHORIZATION_HEADER);
     }

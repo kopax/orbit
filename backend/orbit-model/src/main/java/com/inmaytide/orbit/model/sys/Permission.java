@@ -7,25 +7,15 @@ import org.springframework.data.mybatis.annotations.Id;
 @Entity(table = "sys_permission")
 public class Permission extends Basic {
 
-    @Id
-    private Long id;
     private String code;
     private String name;
     private String action;
     private String icon;
-    private Long category;
+    private Integer category;
     private String description;
-    private Long parent;
+    private String parent;
 
     public Permission() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCode() {
@@ -60,11 +50,11 @@ public class Permission extends Basic {
         this.icon = icon;
     }
 
-    public Long getCategory() {
+    public Integer getCategory() {
         return category;
     }
 
-    public void setCategory(Long category) {
+    public void setCategory(Integer category) {
         this.category = category;
     }
 
@@ -76,11 +66,11 @@ public class Permission extends Basic {
         this.description = description;
     }
 
-    public Long getParent() {
+    public String getParent() {
         return parent;
     }
 
-    public void setParent(Long parent) {
+    public void setParent(String parent) {
         this.parent = parent;
     }
 }

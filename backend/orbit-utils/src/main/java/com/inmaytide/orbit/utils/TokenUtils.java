@@ -11,11 +11,12 @@ import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
 
-public class TokenUtil {
+public class TokenUtils {
 
     private static final String DEFAULT_ISSUER = "issuer";
 
-    private static final long DEFAULT_VAILD_PERIOD = 30 * 60 * 1000;
+    //one day
+    private static final long DEFAULT_VAILD_PERIOD = 24 * 60 * 60 * 1000;
 
     public static String generate(String id, String subject) {
         return generate(id, subject, DEFAULT_ISSUER, DEFAULT_VAILD_PERIOD);

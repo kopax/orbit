@@ -5,7 +5,7 @@ import org.springframework.data.support.CrudService;
 
 import java.util.Optional;
 
-public interface UserService extends CrudService<User, Long> {
+public interface UserService extends CrudService<User, String> {
 
     Optional<User> findByUsername(String username);
 

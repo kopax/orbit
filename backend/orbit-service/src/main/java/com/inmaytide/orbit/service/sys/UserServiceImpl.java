@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl extends AbstractCrudService<UserRepository, User, Long> implements UserService {
+public class UserServiceImpl extends AbstractCrudService<UserRepository, User, String> implements UserService {
 
     public UserServiceImpl(UserRepository repository) {
         super(repository);

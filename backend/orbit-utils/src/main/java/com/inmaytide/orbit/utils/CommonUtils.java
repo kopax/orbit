@@ -5,7 +5,6 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 public class CommonUtils {
@@ -22,13 +21,6 @@ public class CommonUtils {
 
     public static String uuid() {
         return UUID.randomUUID().toString().replace("-", "");
-    }
-
-    public static void disableResponseCache(HttpServletResponse response) {
-        response.setDateHeader("Expires", 0L);
-        response.addHeader("Cache-Control", "no-store, no-cache, must-revalidate");
-        response.addHeader("Cache-Control", "post-check=0, pre-check=0");
-        response.addHeader("Pragma", "no-cache");
     }
 
     public static String generateCacheCaptchaKey(String v) {

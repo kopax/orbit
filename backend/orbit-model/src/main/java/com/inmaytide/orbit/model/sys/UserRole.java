@@ -10,42 +10,42 @@ import java.io.Serializable;
 public class UserRole implements Serializable {
 
     @Id
-    private Long id;
+    private String id;
     @Column(name = "u_id")
-    private Long uId;
+    private String uId;
     @Column(name = "r_id")
-    private Long rId;
+    private String rId;
 
     public UserRole() {
     }
 
-    public UserRole(Long id, Long uId, Long rId) {
+    public UserRole(String id, String uId, String rId) {
         this.id = id;
         this.uId = uId;
         this.rId = rId;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getuId() {
+    public String getuId() {
         return uId;
     }
 
-    public void setuId(Long uId) {
+    public void setuId(String uId) {
         this.uId = uId;
     }
 
-    public Long getrId() {
+    public String getrId() {
         return rId;
     }
 
-    public void setrId(Long rId) {
+    public void setrId(String rId) {
         this.rId = rId;
     }
 }

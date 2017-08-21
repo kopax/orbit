@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.web.auth.realm;
 
 import com.inmaytide.orbit.model.sys.User;
-import com.inmaytide.orbit.utils.TokenUtil;
+import com.inmaytide.orbit.utils.TokenUtils;
 import com.inmaytide.orbit.web.auth.exception.InvalidTokenException;
 import com.inmaytide.orbit.web.auth.token.JWTAuthenticationToken;
 import org.apache.shiro.authc.AuthenticationException;
@@ -30,7 +30,7 @@ public class JWTRealm extends BasicRealm {
         JWTAuthenticationToken token = (JWTAuthenticationToken) authenticationToken;
         Optional<User> user = getUserService().findByUsername(Objects.toString(token.getUserId()));
         User u = user.orElseThrow(InvalidTokenException::new);
-        if (TokenUtil.validateToken(token.getToken())) {
+        if (TokenUtils.validateToken(token.getToken())) {
             SimpleAccount account = new SimpleAccount(u, token.getToken(), getName());
             return account;
         }

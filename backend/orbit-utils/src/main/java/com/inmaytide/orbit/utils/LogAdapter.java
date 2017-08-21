@@ -24,4 +24,10 @@ public interface LogAdapter {
         }
     }
 
+    default void error(String message, Throwable throwable) {
+        if (getLogger().isErrorEnabled()) {
+            getLogger().error(message, throwable);
+        }
+    }
+
 }

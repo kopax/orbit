@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.web.filter;
 
+import com.inmaytide.orbit.utils.ResponseUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -23,11 +24,7 @@ public class CorsFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        httpResponse.setHeader("Access-Control-Allow-Origin", origin);
-        httpResponse.setHeader("Access-Control-Allow-Methods", httpRequest.getMethod());
-        httpResponse.setHeader("Access-Control-Max-Age", "3600");
-        httpResponse.setHeader("Access-Control-Allow-Headers", httpRequest.getHeader("Access-Control-Request-Headers"));
-        httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
+        ResponseUtils.enableCros(httpResponse, httpRequest, origin);
         chain.doFilter(request, response);
     }
 

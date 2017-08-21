@@ -1,7 +1,7 @@
 /.settings/
 /.classpath
 /.project
-/.DS_Store
+.DS_Store
 target/
 !.mvn/wrapper/maven-wrapper.jar
 

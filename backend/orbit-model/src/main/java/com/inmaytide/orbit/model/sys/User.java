@@ -9,8 +9,6 @@ import org.springframework.data.mybatis.annotations.Id;
 @Entity(table = "sys_user")
 public class User extends Basic {
 
-    @Id
-    private Long Id;
     private String username;
     private String name;
     private String password;
@@ -28,14 +26,6 @@ public class User extends Basic {
     private String token;
 
     public User() {
-    }
-
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
     }
 
     public String getUsername() {
