@@ -14,4 +14,7 @@ public interface PermissionRepository extends MybatisRepository<Permission, Stri
     @Query(namespace = DEFAULT_NAMESPACE, value = "findCodesByUsername")
     List<String> findCodesByUsername(@Param("username") String username);
 
+    @Query(namespace = DEFAULT_NAMESPACE, value = "findByUsername")
+    List<Permission> findByUsername(@Param("username") String username, @Param("category") String category);
+
 }

@@ -14,4 +14,6 @@ public abstract class Constants {
 
     public static final String AUTHORIZATION_CACHE_NAME = "auth_cache";
 
+    public static final Long MENU_ROOT_ID = -1L;
+
 }

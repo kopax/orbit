@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="orbit_tables" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+
+        <property name="endingDelimiter" value="`"/>
+
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/db_orbit"
+                        userId="root" password="123456"/>
+
+        <javaModelGenerator targetPackage="${targetModelPackage}" targetProject="${targetJavaProject}">
+            <property name="rootClass" value="com.inmaytide.orbit.model.basic.BasicEntity"/>
+        </javaModelGenerator>
+
+        <!--<sqlMapGenerator targetPackage="${targetXMLPackage}" targetProject="${targetResourcesProject}" />-->
+
+        <!--<javaClientGenerator type="XMLMAPPER" targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}" />-->
+
+        <table tableName="sys_permission" domainObjectName="Permission">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+
+    </context>
+</generatorConfiguration>

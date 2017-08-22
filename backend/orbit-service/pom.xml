@@ -14,7 +14,7 @@
         <relativePath>../orbit/pom.xml</relativePath>
     </parent>
 
-    <name>webapp-service</name>
+    <name>orbit-service</name>
     <url>http://maven.apache.org</url>
 
     <dependencies>

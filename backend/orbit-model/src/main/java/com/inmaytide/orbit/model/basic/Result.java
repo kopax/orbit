@@ -20,7 +20,9 @@ public class Result implements java.io.Serializable {
         this.message = message;
     }
 
-
+    public static Result ofSuccess(Object data) {
+        return new Result(Constants.REQUEST_STATUS_SUCCESS, data, null);
+    }
 
     public static Result ofSuccess(Object data, String message) {
         return new Result(Constants.REQUEST_STATUS_SUCCESS, data, message);

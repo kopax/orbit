@@ -1,13 +1,12 @@
 package com.inmaytide.orbit.model.sys;
 
-import com.inmaytide.orbit.model.basic.Basic;
+import com.inmaytide.orbit.model.basic.BasicEntity;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
-import org.springframework.data.mybatis.annotations.Id;
 
 @Entity(table = "sys_user")
-public class User extends Basic {
+public class User extends BasicEntity {
 
     private String username;
     private String name;

@@ -1,6 +1,8 @@
 package com.inmaytide.orbit.web.auth;
 
+import com.inmaytide.orbit.model.sys.User;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
@@ -22,6 +24,12 @@ public class SessionHelper {
 
     public static void setAttribute(String key, Object value) {
         getSession().setAttribute(key, value);
+    }
+
+    public static User getCurrentUser() {
+        //获取不到用户信息
+        Subject subject = getSubject().orElseThrow(AuthenticationException::new);
+        return (User) subject.getPrincipal();
     }
 
 }

@@ -1,92 +1,186 @@
-drop table IF EXISTS sys_user;
-create table sys_user (
-  id          char(32) PRIMARY KEY,
-  username    VARCHAR(32) NOT NULL UNIQUE,
-  name        VARCHAR(64) NOT NULL,
-  password    VARCHAR(32) NOT NULL,
-  status      INT         NOT NULL DEFAULT 1,
-  email       VARCHAR(256),
-  qq          VARCHAR(16),
-  wechat      VARCHAR(16),
-  telephone   VARCHAR(16),
-  cellphone   VARCHAR(16),
-  photo       VARCHAR(256),
-  super_admin  INT,
-  remark      VARCHAR(512),
-  create_time DATETIME,
-  update_time DATETIME,
-  creator     char(32),
-  updater     char(32),
-  version     INT         NOT NULL DEFAULT 0
-);
+-- MySQL dump 10.13  Distrib 5.7.18, for osx10.12 (x86_64)
+--
+-- Host: localhost    Database: db_orbit
+-- ------------------------------------------------------
+-- Server version	5.7.18
 
-drop table IF EXISTS sys_role;
-create table sys_role (
-  id char(32) PRIMARY KEY,
-  code varchar(32) not null UNIQUE ,
-  name varchar(64) not null,
-  description VARCHAR(256),
-  create_time DATETIME,
-  update_time DATETIME,
-  creator     char(32),
-  updater     char(32),
-  version     INT         NOT NULL DEFAULT 0
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-drop table if exists sys_permission;
-create table sys_permission (
-  id char(32) PRIMARY KEY,
-  parent char(32) not null default -1,
-  code varchar(32) not null UNIQUE ,
-  name varchar(64) not null,
-  action varchar(256),
-  icon varchar(256),
-  category INT not null,
-  description VARCHAR(256),
-  create_time DATETIME,
-  update_time DATETIME,
-  creator     char(32),
-  updater     char(32),
-  version     INT         NOT NULL DEFAULT 0
-);
+--
+-- Table structure for table `sys_permission`
+--
 
-drop table if exists sys_user_role;
-create table sys_user_role (
-  id char(32) primary key,
-  u_id char(32) not null,
-  r_id char(32) not null
-);
+DROP TABLE IF EXISTS `sys_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_permission` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `parent` bigint(20) NOT NULL DEFAULT '-1',
+  `code` varchar(32) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `action` varchar(256) DEFAULT NULL,
+  `icon` varchar(256) DEFAULT NULL,
+  `category` int(11) NOT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `creator` bigint(20) DEFAULT NULL,
+  `updater` bigint(20) DEFAULT NULL,
+  `version` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=10003 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-drop table if exists sys_role_permission;
-create table sys_role_permission (
-  id char(32) primary key,
-  r_id char(32) not null,
-  p_id char(32) not null
-);
+--
+-- Dumping data for table `sys_permission`
+--
 
+LOCK TABLES `sys_permission` WRITE;
+/*!40000 ALTER TABLE `sys_permission` DISABLE KEYS */;
+INSERT INTO `sys_permission` VALUES (10000,-1,'dashboard','Dashboard','home/dashboard',NULL,1,NULL,'2017-08-22 21:49:39',NULL,9999,NULL,0),(10001,-1,'systemmanagement','System Management',NULL,NULL,1,NULL,'2017-08-22 21:52:22',NULL,9999,NULL,0),(10002,10001,'perm:list','Menu Management','home/menulist',NULL,1,NULL,'2017-08-22 21:54:18',NULL,9999,NULL,0);
+/*!40000 ALTER TABLE `sys_permission` ENABLE KEYS */;
+UNLOCK TABLES;
 
-insert into sys_user(id, username, name, password, super_admin, create_time, creator)
-    values('999', 'admin', 'Administrator', '431759ab506d1e4af78e7fe08b818edb', 1, now(), '999');
+--
+-- Table structure for table `sys_role`
+--
 
-insert into sys_role(id, code, name, create_time, creator)
-    values('999', 'admin', 'Administrator', now(), '999');
+DROP TABLE IF EXISTS `sys_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_role` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `code` varchar(32) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `creator` bigint(20) DEFAULT NULL,
+  `updater` bigint(20) DEFAULT NULL,
+  `version` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-insert into sys_user_role(id, u_id, r_id)
-    values(uuid_short(), '999', '999');
+--
+-- Dumping data for table `sys_role`
+--
 
-set @id1 = uuid_short();
-set @id2 = uuid_short();
-set @id3 = uuid_short();
-insert into sys_permission(id, code, name, action, create_time, creator, parent, category)
-    values(@id1, 'authc', '', 'home/content', now(), 1, 'root', 1);
-insert into sys_permission(id, code, name, action, create_time, creator, parent, category)
-    values(@id2, 'sysmanagement', 'System Managment', null, now(), 1, 'root', 1);
-insert into sys_permission(id, code, name, action, create_time, creator, parent, category)
-    values(@id3, 'user:list', 'User Managment', 'home/user_list', now(), 1, @id1, 1);
+LOCK TABLES `sys_role` WRITE;
+/*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
+INSERT INTO `sys_role` VALUES (9999,'admin','Administrator',NULL,'2017-08-22 21:43:16',NULL,9999,NULL,0);
+/*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
+UNLOCK TABLES;
 
-insert into sys_role_permission(id, r_id, p_id)
-    values(uuid_short(), '999', @id1), (uuid_short(), '999', @id2), (uuid_short(), '999', @id3);
+--
+-- Table structure for table `sys_role_permission`
+--
 
+DROP TABLE IF EXISTS `sys_role_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_role_permission` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `r_id` bigint(20) NOT NULL,
+  `p_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10003 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `sys_role_permission`
+--
 
+LOCK TABLES `sys_role_permission` WRITE;
+/*!40000 ALTER TABLE `sys_role_permission` DISABLE KEYS */;
+INSERT INTO `sys_role_permission` VALUES (10000,9999,10000),(10001,9999,10001),(10002,9999,10002);
+/*!40000 ALTER TABLE `sys_role_permission` ENABLE KEYS */;
+UNLOCK TABLES;
 
+--
+-- Table structure for table `sys_user`
+--
+
+DROP TABLE IF EXISTS `sys_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `password` varchar(32) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '1',
+  `email` varchar(256) DEFAULT NULL,
+  `qq` varchar(16) DEFAULT NULL,
+  `wechat` varchar(16) DEFAULT NULL,
+  `telephone` varchar(16) DEFAULT NULL,
+  `cellphone` varchar(16) DEFAULT NULL,
+  `photo` varchar(256) DEFAULT NULL,
+  `super_admin` int(11) DEFAULT NULL,
+  `remark` varchar(512) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `creator` bigint(20) DEFAULT NULL,
+  `updater` bigint(20) DEFAULT NULL,
+  `version` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_user`
+--
+
+LOCK TABLES `sys_user` WRITE;
+/*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
+INSERT INTO `sys_user` VALUES (9999,'admin','Administrator','431759ab506d1e4af78e7fe08b818edb',1,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,'2017-08-22 21:43:16',NULL,9999,NULL,0);
+/*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sys_user_role`
+--
+
+DROP TABLE IF EXISTS `sys_user_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_user_role` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `u_id` bigint(20) NOT NULL,
+  `r_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10001 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_user_role`
+--
+
+LOCK TABLES `sys_user_role` WRITE;
+/*!40000 ALTER TABLE `sys_user_role` DISABLE KEYS */;
+INSERT INTO `sys_user_role` VALUES (10000,9999,9999);
+/*!40000 ALTER TABLE `sys_user_role` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-08-22 21:57:15

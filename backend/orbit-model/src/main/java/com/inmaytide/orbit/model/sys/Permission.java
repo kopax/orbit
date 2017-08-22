@@ -1,19 +1,18 @@
 package com.inmaytide.orbit.model.sys;
 
-import com.inmaytide.orbit.model.basic.Basic;
+import com.inmaytide.orbit.model.basic.BasicEntity;
 import org.springframework.data.mybatis.annotations.Entity;
-import org.springframework.data.mybatis.annotations.Id;
 
 @Entity(table = "sys_permission")
-public class Permission extends Basic {
+public class Permission extends BasicEntity {
 
     private String code;
     private String name;
     private String action;
     private String icon;
-    private Integer category;
+    private Long category;
     private String description;
-    private String parent;
+    private Long parent;
 
     public Permission() {
     }
@@ -50,11 +49,11 @@ public class Permission extends Basic {
         this.icon = icon;
     }
 
-    public Integer getCategory() {
+    public Long getCategory() {
         return category;
     }
 
-    public void setCategory(Integer category) {
+    public void setCategory(Long category) {
         this.category = category;
     }
 
@@ -66,11 +65,11 @@ public class Permission extends Basic {
         this.description = description;
     }
 
-    public String getParent() {
+    public Long getParent() {
         return parent;
     }
 
-    public void setParent(String parent) {
+    public void setParent(Long parent) {
         this.parent = parent;
     }
 }

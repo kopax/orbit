@@ -13,7 +13,7 @@
         <relativePath>../orbit/pom.xml</relativePath>
     </parent>
 
-    <name>webapp-model</name>
+    <name>orbit-model</name>
     <url>http://maven.apache.org</url>
 
     <dependencies>
@@ -21,6 +21,11 @@
             <groupId>com.inmaytide.orbit.utils</groupId>
             <artifactId>orbit-utils</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 </project>
