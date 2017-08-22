@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.web.auth.realm;
 
 import com.inmaytide.orbit.model.sys.User;
+import com.inmaytide.orbit.utils.CaptchaUtils;
 import com.inmaytide.orbit.utils.CommonUtils;
 import com.inmaytide.orbit.web.auth.exception.IncorrectCaptchaException;
 import com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken;
@@ -22,6 +23,9 @@ public class FormRealm extends BasicRealm {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
+    @Resource
+    private CaptchaUtils captchaUtils;
+
     public FormRealm() {
         super();
         setCredentialsMatcher(new HashedCredentialsMatcher(Md5Hash.ALGORITHM_NAME));
@@ -38,25 +42,17 @@ public class FormRealm extends BasicRealm {
         Assert.notNull(authenticationToken, "AuthenticationToken method argument cannot be null.");
         UsernamePasswordCaptchaToken token = (UsernamePasswordCaptchaToken) authenticationToken;
         String username = token.getUsername();
-        if (StringUtils.isEmpty(username)) {
-            throw new AccountException("Null usernames are not allowed by this realm");
-        }
-
-        String key = CommonUtils.generateCacheCaptchaKey(token.getCaptchaKey());
-        String captcha = stringRedisTemplate.opsForValue().get(key);
-        if (StringUtils.isNotEmpty(captcha)) {
-            stringRedisTemplate.delete(key);
-            if (!StringUtils.equalsIgnoreCase(captcha, token.getCaptcha())) {
-                throw new IncorrectCaptchaException();
-            }
-        }
-
+        Assert.hasText(username, "Null usernames are not allowed by this realm");
+        captchaUtils.validation(token.getCaptcha(), token.getCaptchaKey(), IncorrectCaptchaException::new);
         User user = getUserService().findByUsername(username).orElseThrow(UnknownAccountException::new);
         if (user.isLocked()) {
             throw new LockedAccountException();
         }
-        return new SimpleAuthenticationInfo(username, user.getPassword(),
-                ByteSource.Util.bytes(CommonUtils.salt(username)), getName());
+        return new SimpleAuthenticationInfo(user, user.getPassword(), credentialsSalt(username), getName());
+    }
+
+    private ByteSource credentialsSalt(String username) {
+        return ByteSource.Util.bytes(CommonUtils.salt(username));
     }
 
 }

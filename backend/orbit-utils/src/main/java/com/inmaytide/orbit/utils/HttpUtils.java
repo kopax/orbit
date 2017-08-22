@@ -3,7 +3,7 @@ package com.inmaytide.orbit.utils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ResponseUtils {
+public class HttpUtils {
 
     public static void enableCros(HttpServletResponse httpResponse,
                                HttpServletRequest httpRequest, String origin) {

@@ -1,20 +1,15 @@
 package com.inmaytide.orbit.web.controller;
 
+import com.inmaytide.orbit.adepter.LogAdapter;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.UserService;
-import com.inmaytide.orbit.utils.CommonUtils;
-import com.inmaytide.orbit.utils.LogAdapter;
+import com.inmaytide.orbit.utils.*;
 import com.inmaytide.orbit.model.basic.Result;
-import com.inmaytide.orbit.utils.ResponseUtils;
-import com.inmaytide.orbit.utils.TokenUtils;
 import com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.patchca.service.ConfigurableCaptchaService;
-import org.patchca.utils.encoder.EncoderHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -31,10 +26,7 @@ public class LoginController extends BasicController implements LogAdapter {
     private UserService userService;
 
     @Resource
-    private ConfigurableCaptchaService configurableCaptchaService;
-
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private CaptchaUtils captchaUtils;
 
     @PostMapping("login")
     public Object login(@RequestBody UsernamePasswordCaptchaToken token, HttpServletResponse response) {
@@ -49,11 +41,10 @@ public class LoginController extends BasicController implements LogAdapter {
 
     @GetMapping("captcha")
     public void captcha(HttpServletResponse response, String v) throws IOException {
-        ResponseUtils.disableResponseCache(response);
+        HttpUtils.disableResponseCache(response);
         response.setContentType("image/png");
         try (OutputStream os = response.getOutputStream()) {
-            String words = EncoderHelper.getChallangeAndWriteImage(configurableCaptchaService, "png", os);
-            stringRedisTemplate.opsForValue().set(CommonUtils.generateCacheCaptchaKey(v), words);
+            captchaUtils.generateCaptcha("png", os, v);
         }
     }
 

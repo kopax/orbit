@@ -35,12 +35,10 @@ public abstract class BasicRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         Assert.notNull(principals, "PrincipalCollection method argument cannot be null.");
-        Object availablePrincipal = getAvailablePrincipal(principals);
-        String username = availablePrincipal instanceof User ? ((User) availablePrincipal).getUsername()
-                : Objects.toString(getAvailablePrincipal(principals));
+        User user = (User) getAvailablePrincipal(principals);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.setRoles(getRoleService().findCodesByUsername(username));
-        info.setStringPermissions(getPermissionService().findCodesByUsername(username));
+        info.setRoles(getRoleService().findCodesByUsername(user.getUsername()));
+        info.setStringPermissions(getPermissionService().findCodesByUsername(user.getUsername()));
         return info;
     }
 

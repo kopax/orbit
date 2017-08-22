@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.web.filter;
 
-import com.inmaytide.orbit.utils.ResponseUtils;
+import com.inmaytide.orbit.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,7 @@ public class CorsFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        ResponseUtils.enableCros(httpResponse, httpRequest, origin);
+        HttpUtils.enableCros(httpResponse, httpRequest, origin);
         chain.doFilter(request, response);
     }
 

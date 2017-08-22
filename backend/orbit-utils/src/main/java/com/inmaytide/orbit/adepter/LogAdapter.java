@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.utils;
+package com.inmaytide.orbit.adepter;
 
 import org.slf4j.Logger;
 

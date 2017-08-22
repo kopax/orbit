@@ -23,8 +23,4 @@ public class CommonUtils {
         return UUID.randomUUID().toString().replace("-", "");
     }
 
-    public static String generateCacheCaptchaKey(String v) {
-        return new StringBuilder().append(Constants.CACHE_CAPTCHA_KEY)
-                           .append("-").append(v).toString();
-    }
 }

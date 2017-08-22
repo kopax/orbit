@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.utils;
 
+import com.inmaytide.orbit.adepter.LogAdapter;
 import io.jsonwebtoken.lang.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

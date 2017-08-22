@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.web.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inmaytide.orbit.utils.ResponseUtils;
+import com.inmaytide.orbit.utils.HttpUtils;
 import com.inmaytide.orbit.utils.TokenUtils;
 import com.inmaytide.orbit.web.auth.exception.CannotCreateTokenException;
 import com.inmaytide.orbit.web.auth.exception.InvalidTokenException;
@@ -46,7 +46,7 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
         HttpServletRequest httpRequest = WebUtils.toHttp(request);
         HttpServletResponse httpResponse = WebUtils.toHttp(response);
         if (httpRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
-            ResponseUtils.enableCros(httpResponse, httpRequest, origin);
+            HttpUtils.enableCros(httpResponse, httpRequest, origin);
             httpResponse.setStatus(HttpStatus.OK.value());
             return false;
         }

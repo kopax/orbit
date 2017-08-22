@@ -2,7 +2,7 @@ package com.inmaytide.orbit.web.handler;
 
 import com.inmaytide.orbit.model.basic.Result;
 import com.inmaytide.orbit.utils.I18nUtils;
-import com.inmaytide.orbit.utils.LogAdapter;
+import com.inmaytide.orbit.adepter.LogAdapter;
 import com.inmaytide.orbit.web.auth.exception.IncorrectCaptchaException;
 import com.inmaytide.orbit.web.auth.exception.InvalidTokenException;
 import com.inmaytide.orbit.web.controller.BasicController;
