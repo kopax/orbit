@@ -6,7 +6,7 @@ import org.springframework.data.mybatis.annotations.Id;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class BasicEntity implements Serializable {
+public class BasicEntity implements Serializable, Comparable<BasicEntity> {
 
     @Id
     private Long id;
@@ -68,5 +68,10 @@ public class BasicEntity implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    @Override
+    public int compareTo(BasicEntity o) {
+        return (int) (o.getId() - getId());
     }
 }

@@ -17,7 +17,7 @@ public class PermissionController {
     @Resource
     private PermissionService service;
 
-    @GetMapping("getMenusOfSomeone")
+    @GetMapping("get/someones/menus")
     public Result getMenusOfSomeone() {
         User user = SessionHelper.getCurrentUser();
         return Result.ofSuccess(service.findMenusByUsername(user.getUsername()));

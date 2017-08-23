@@ -24,13 +24,14 @@
     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
       <div class="menu_section active">
         <h3>General</h3>
-        <ul class="nav side-menu" style="">
-          <li><a><i class="fa fa-home"></i> Dashboard <span class="fa fa-chevron-down"></span></a></li>
-          <li class="active"><a><i class="fa fa-cogs"></i> System Management <span class="fa fa-chevron-down"></span></a>
-            <ul class="nav child_menu" style="display:block;">
-              <li><a href="fixed_sidebar.html"> User Management </a></li>
-              <li><a href="fixed_footer.html">Fixed Footer</a></li>
-            </ul>
+        <ul class="nav side-menu">
+          <li (click)="changeActive(menu)" *ngFor="let menu of menus" [ngClass]="{'active': menu.id == active.id}">
+              <a><i class="fa fa-{{menu.icon}}"></i> {{menu.name}} <span class="fa fa-chevron-down" *ngIf="menu.children.length > 0"></span></a>
+              <ul [@tiggerMenu]="menu.state" class="nav child_menu" *ngIf="menu.children.length > 0">
+                <li *ngFor="let _menu of menu.children">
+                  <a href="{{_menu.action}}">{{_menu.name}}</a>
+                </li>
+              </ul>
           </li>
         </ul>
       </div>

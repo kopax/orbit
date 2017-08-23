@@ -1,7 +1,10 @@
 package com.inmaytide.orbit.model.sys;
 
 import com.inmaytide.orbit.model.basic.BasicEntity;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Entity;
+
+import java.util.List;
 
 @Entity(table = "sys_permission")
 public class Permission extends BasicEntity {
@@ -13,8 +16,16 @@ public class Permission extends BasicEntity {
     private Long category;
     private String description;
     private Long parent;
+    @Transient
+    private List<Permission> children;
 
     public Permission() {
+    }
+
+    public static Permission of(Long id) {
+        Permission permission = new Permission();
+        permission.setId(id);
+        return permission;
     }
 
     public String getCode() {
@@ -71,5 +82,13 @@ public class Permission extends BasicEntity {
 
     public void setParent(Long parent) {
         this.parent = parent;
+    }
+
+    public List<Permission> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Permission> children) {
+        this.children = children;
     }
 }
