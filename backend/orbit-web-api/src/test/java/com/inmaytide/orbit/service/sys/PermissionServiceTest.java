@@ -22,11 +22,11 @@ public class PermissionServiceTest {
     @Test
     public void add() {
         Permission permission = new Permission();
-        permission.setCode("perm:list");
+        permission.setCode("workflow");
         permission.setCategory(PermissionCategory.MENU.getCode());
         permission.setAction(null);
-        permission.setParent(10001L);
-        permission.setName("Menu Management");
+        permission.setParent(-1L);
+        permission.setName("Workflow");
         permission.setCreator(9999L);
         permission = permissionService.add(permission);
         Assert.assertNotNull(permission.getId());

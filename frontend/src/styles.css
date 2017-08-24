@@ -732,7 +732,8 @@ a:focus {
     background: transparent
 }
 .nav.child_menu {
-    display: none
+  transform-origin: 50% 0;
+  display:none;
 }
 .nav.child_menu li:hover,
 .nav.child_menu li.active {
