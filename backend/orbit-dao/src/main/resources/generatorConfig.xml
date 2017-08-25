@@ -20,14 +20,14 @@
                         userId="root" password="123456"/>
 
         <javaModelGenerator targetPackage="${targetModelPackage}" targetProject="${targetJavaProject}">
-            <property name="rootClass" value="com.inmaytide.orbit.model.basic.BasicEntity"/>
+            <!--<property name="rootClass" value="com.inmaytide.orbit.model.basic.BasicEntity"/>-->
         </javaModelGenerator>
 
         <!--<sqlMapGenerator targetPackage="${targetXMLPackage}" targetProject="${targetResourcesProject}" />-->
 
         <!--<javaClientGenerator type="XMLMAPPER" targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}" />-->
 
-        <table tableName="sys_permission" domainObjectName="Permission">
+        <table tableName="sys_log" domainObjectName="Log">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
 

@@ -33,9 +33,10 @@ public class LoginController extends BasicController implements LogAdapter {
 
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
-        User user = userService.findByUsername(token.getUsername()).orElseGet(User::new);
+        User user = (User) subject.getPrincipal();
         user.setToken(TokenUtils.generate(CommonUtils.uuid(), user.getUsername()));
 
+        info("login succeed.");
         return Result.ofSuccess(user, "login succeed.");
     }
 

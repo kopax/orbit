@@ -6,6 +6,7 @@ import com.inmaytide.orbit.dao.sys.PermissionRepository;
 import com.inmaytide.orbit.model.sys.Permission;
 import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class PermissionServiceImpl extends AbstractCrudService<PermissionRepository, Permission, String> implements PermissionService {
+public class PermissionServiceImpl extends AbstractCrudService<PermissionRepository, Permission, Long> implements PermissionService {
     /**
      * 构造函数.
      *
@@ -31,6 +32,7 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     }
 
     @Override
+    @Transactional
     public Permission add(Permission inst) {
         inst.setVersion(0);
         inst.setCreateTime(LocalDateTime.now());

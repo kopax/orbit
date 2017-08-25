@@ -16,6 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `sys_log`
+--
+
+DROP TABLE IF EXISTS `sys_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_log` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `operator` bigint(20) DEFAULT NULL COMMENT '操作人',
+  `log_time` datetime DEFAULT NULL COMMENT '发生时间',
+  `category` int(11) DEFAULT NULL COMMENT '类型（1操作成功/2操作失败）',
+  `content` varchar(512) DEFAULT NULL COMMENT '日志内容',
+  `details` text COMMENT '明细',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_log`
+--
+
+LOCK TABLES `sys_log` WRITE;
+/*!40000 ALTER TABLE `sys_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sys_permission`
 --
 
@@ -38,7 +65,7 @@ CREATE TABLE `sys_permission` (
   `version` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=10003 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10007 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +74,7 @@ CREATE TABLE `sys_permission` (
 
 LOCK TABLES `sys_permission` WRITE;
 /*!40000 ALTER TABLE `sys_permission` DISABLE KEYS */;
-INSERT INTO `sys_permission` VALUES (10000,-1,'dashboard','Dashboard','home/dashboard',NULL,1,NULL,'2017-08-22 21:49:39',NULL,9999,NULL,0),(10001,-1,'systemmanagement','System Management',NULL,NULL,1,NULL,'2017-08-22 21:52:22',NULL,9999,NULL,0),(10002,10001,'perm:list','Menu Management','home/menulist',NULL,1,NULL,'2017-08-22 21:54:18',NULL,9999,NULL,0);
+INSERT INTO `sys_permission` VALUES (10000,-1,'dashboard','Dashboard','home/dashboard','home',1,NULL,'2017-08-22 21:49:39',NULL,9999,NULL,0),(10001,-1,'systemmanagement','System Management',NULL,'cog',1,NULL,'2017-08-22 21:52:22',NULL,9999,NULL,0),(10002,10001,'perm:list','Menu Management','home/menulist','',1,NULL,'2017-08-22 21:54:18',NULL,9999,NULL,0),(10004,10001,'user:list','User Management','home/userlist',NULL,1,NULL,'2017-08-24 22:01:40',NULL,9999,NULL,0),(10005,-1,'workflow','Workflow',NULL,'wrench',1,NULL,'2017-08-24 22:44:53',NULL,9999,NULL,0);
 /*!40000 ALTER TABLE `sys_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,7 +122,7 @@ CREATE TABLE `sys_role_permission` (
   `r_id` bigint(20) NOT NULL,
   `p_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10003 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10006 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +131,7 @@ CREATE TABLE `sys_role_permission` (
 
 LOCK TABLES `sys_role_permission` WRITE;
 /*!40000 ALTER TABLE `sys_role_permission` DISABLE KEYS */;
-INSERT INTO `sys_role_permission` VALUES (10000,9999,10000),(10001,9999,10001),(10002,9999,10002);
+INSERT INTO `sys_role_permission` VALUES (10000,9999,10000),(10001,9999,10001),(10002,9999,10002),(10003,9999,10004),(10005,9999,10005);
 /*!40000 ALTER TABLE `sys_role_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,4 +210,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-22 21:57:15
+-- Dump completed on 2017-08-25 23:36:51

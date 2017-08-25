@@ -7,7 +7,7 @@ import org.springframework.data.mybatis.repository.support.MybatisRepository;
 
 import java.util.List;
 
-public interface PermissionRepository extends MybatisRepository<Permission, String> {
+public interface PermissionRepository extends MybatisRepository<Permission, Long> {
 
     String DEFAULT_NAMESPACE = "com.inmaytide.orbit.dao.sys.PermissionRepository";
 

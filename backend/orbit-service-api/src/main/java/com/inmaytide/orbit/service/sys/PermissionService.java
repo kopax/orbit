@@ -6,7 +6,7 @@ import org.springframework.data.support.CrudService;
 import java.util.List;
 import java.util.Set;
 
-public interface PermissionService extends CrudService<Permission, String> {
+public interface PermissionService extends CrudService<Permission, Long> {
 
     Set<String> findCodesByUsername(String username);
 

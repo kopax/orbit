@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping("get/{id}")
     @RequiresPermissions("user:list")
-    public Object get(@PathVariable String id, HttpServletResponse response, HttpServletRequest request) {
+    public Object get(@PathVariable Long id, HttpServletResponse response, HttpServletRequest request) {
         logger.info("id {}", id);
         return Result.ofSuccess(userService.get(id), null);
     }

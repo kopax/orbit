@@ -16,13 +16,11 @@ import org.springframework.stereotype.Component;
 import java.util.Locale;
 
 @Component
-public class I18nUtils implements ApplicationContextAware, LogAdapter {
+public class I18nUtils implements LogAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(I18nUtils.class);
 
     private static I18nUtils instance;
-
-    private static ApplicationContext applicationContext;
 
     private MessageSource messageSource;
 
@@ -46,16 +44,10 @@ public class I18nUtils implements ApplicationContextAware, LogAdapter {
     }
 
     public static I18nUtils getInstance() {
-        Assert.notNull(applicationContext);
         if (instance == null) {
-            instance = applicationContext.getBean(I18nUtils.class);
+            instance = ApplicationContextProvider.getBean(I18nUtils.class);
         }
         return instance;
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        I18nUtils.applicationContext = applicationContext;
     }
 
     @Override
