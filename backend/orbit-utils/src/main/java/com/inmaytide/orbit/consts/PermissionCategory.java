@@ -22,14 +22,6 @@ public enum PermissionCategory {
         return null;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCode(long code) {
-        this.code = code;
-    }
-
     public String getName() {
         return name;
     }

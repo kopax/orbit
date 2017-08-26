@@ -7,6 +7,7 @@ import {HomeComponent} from "./home.component";
 import {SidebarComponent} from "../menu/sidebar.component";
 import {TopnavbarComponent} from "../menu/topnavbar.component";
 import {FooterComponent} from "./footer.component";
+import {PermissionComponent} from "./sys/permission.component";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {FooterComponent} from "./footer.component";
     SidebarComponent,
     TopnavbarComponent,
     FooterComponent,
-    ContentComponent
+    ContentComponent,
+    PermissionComponent
   ],
   imports: [
     CommonModule,

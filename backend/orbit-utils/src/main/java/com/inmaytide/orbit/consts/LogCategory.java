@@ -13,6 +13,15 @@ public enum  LogCategory {
         this.code = code;
     }
 
+    public String getName(int code) {
+        for(LogCategory category : LogCategory.values()) {
+            if (category.code == code) {
+                return category.name;
+            }
+        }
+        return null;
+    }
+
     public String getName() {
         return name;
     }

@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.web.controller;
 
-import com.inmaytide.orbit.model.basic.Result;
 import com.inmaytide.orbit.utils.HttpUtils;
 import com.inmaytide.orbit.web.handler.GlobalExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;

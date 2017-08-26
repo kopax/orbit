@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.model.sys;
 
+import com.inmaytide.orbit.consts.UserStatus;
 import com.inmaytide.orbit.model.basic.BasicEntity;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Column;
@@ -124,7 +125,7 @@ public class User extends BasicEntity {
     }
 
     public boolean isLocked() {
-        return status == 3;
+        return status == UserStatus.LOCKED.getCode();
     }
 
     public String getToken() {

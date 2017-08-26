@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {Http} from "@angular/http";
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import * as GlobalVariable from "../globals";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'side-bar',
@@ -22,7 +23,8 @@ export class SidebarComponent implements OnInit {
   public active;
   public p_active;
 
-  public constructor(public http: Http) {
+  public constructor(public http: Http,
+                     public router: Router) {
     this.http.get(GlobalVariable.BASE_API_URL + "sys/permission/get/someones/menus")
       .map(response => response.json())
       .subscribe(
@@ -49,7 +51,7 @@ export class SidebarComponent implements OnInit {
 
   }
 
-  changeActive(menu) {
+  changeActive(menu, $event) {
     if (menu.id == this.active.id) {
       this.active.state = this.active.state == 'inactive' ? 'active' : 'inactive';
     } else {
@@ -58,6 +60,11 @@ export class SidebarComponent implements OnInit {
       menu.state = "active";
       this.active = menu;
     }
+  }
+
+  changeContent(menu, $event) {
+    $event.stopPropagation();
+    this.router.navigateByUrl(menu.action);
   }
 
   triggerMenuDone($event, menu) {
