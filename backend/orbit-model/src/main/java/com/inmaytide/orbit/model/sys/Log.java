@@ -22,6 +22,12 @@ public class Log {
 
     private String details;
 
+    public static Log of() {
+        Log log = new Log();
+        log.setLogTime(LocalDateTime.now());
+        return log;
+    }
+
     public Long getId() {
         return id;
     }

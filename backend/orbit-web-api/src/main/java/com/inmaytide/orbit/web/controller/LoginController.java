@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.web.controller;
 
 import com.inmaytide.orbit.adepter.LogAdapter;
+import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.UserService;
 import com.inmaytide.orbit.utils.*;
@@ -23,12 +24,10 @@ public class LoginController extends BasicController implements LogAdapter {
     private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 
     @Resource
-    private UserService userService;
-
-    @Resource
     private CaptchaUtils captchaUtils;
 
     @PostMapping("login")
+    @LogAnnotation(description = "系统登录", success = "登录成功", failure = "登录失败")
     public Object login(@RequestBody UsernamePasswordCaptchaToken token, HttpServletResponse response) {
 
         Subject subject = SecurityUtils.getSubject();
@@ -36,7 +35,7 @@ public class LoginController extends BasicController implements LogAdapter {
         User user = (User) subject.getPrincipal();
         user.setToken(TokenUtils.generate(CommonUtils.uuid(), user.getUsername()));
 
-        info("login succeed.");
+        debug("{} login succeed.", user.getUsername());
         return Result.ofSuccess(user, "login succeed.");
     }
 

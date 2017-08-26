@@ -15,8 +15,5 @@ public @interface LogAnnotation {
 
     String success() default "操作成功";
 
-    /**
-     * 默认读取Exception的Message
-     */
-    String failure() default "";
+    String failure() default "操作失败";
 }

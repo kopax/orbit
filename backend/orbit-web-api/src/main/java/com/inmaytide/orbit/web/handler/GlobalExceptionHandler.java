@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler extends BasicController implements LogAdapter {
+public class GlobalExceptionHandler implements LogAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
