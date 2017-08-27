@@ -16,6 +16,7 @@ public class Permission extends BasicEntity {
     private Long category;
     private String description;
     private Long parent;
+    private Integer sort;
     @Transient
     private List<Permission> children;
 
@@ -82,6 +83,14 @@ public class Permission extends BasicEntity {
 
     public void setParent(Long parent) {
         this.parent = parent;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 
     public List<Permission> getChildren() {

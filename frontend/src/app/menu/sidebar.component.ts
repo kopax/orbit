@@ -25,7 +25,7 @@ export class SidebarComponent implements OnInit {
 
   public constructor(public http: Http,
                      public router: Router) {
-    this.http.get(GlobalVariable.BASE_API_URL + "sys/permission/get/someones/menus")
+    this.http.get(GlobalVariable.BASE_API_URL + "sys/permission/someones/menus")
       .map(response => response.json())
       .subscribe(
         result => {

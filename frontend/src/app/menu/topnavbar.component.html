@@ -6,86 +6,86 @@
       </div>
 
       <ul class="nav navbar-nav navbar-right">
-        <li [ngClass]="{'open': isShowProfile}">
-          <a (click)="showProfile()" href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <li ngbDropdown>
+          <a href="javascript:void(0);" id="user-profile" ngbDropdownToggle class="user-profile">
             <img src="{{images}}img.jpg" alt="">John Doe
-            <span class=" fa fa-angle-down"></span>
+            <i class="fa fa-angle-down"></i>
           </a>
-          <ul class="dropdown-menu dropdown-usermenu pull-right">
-            <li><a href="javascript:;" (click)="getUser()"> Profile</a></li>
+          <ul aira-labelledby="user-profile" class="dropdown-menu dropdown-usermenu pull-right">
+            <li><a href="javascript:void(0);"> Profile</a></li>
             <li>
-              <a href="javascript:;">
+              <a href="javascript:void(0);">
                 <span class="badge bg-red pull-right">50%</span>
                 <span>Settings</span>
               </a>
             </li>
-            <li><a href="javascript:;">Help</a></li>
-            <li><a href="javascript:;" (click)="logout()"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+            <li><a href="javascript:void(0);">Help</a></li>
+            <li><a href="javascript:void(0);" (click)="logout()"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
           </ul>
         </li>
 
-        <li role="presentation" class="dropdown" [ngClass]="{'open':isShowMessages}">
-          <a href="javascript:;" (click)="showMessages()" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+        <li ngbDropdown>
+          <a href="javascript:void(0);" id="show-messages" class="info-number" ngbDropdownToggle>
             <i class="fa fa-envelope-o"></i>
             <span class="badge bg-green">6</span>
           </a>
-          <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-            <li>
-              <a>
-                <span class="image"><img src="{{images}}img.jpg" alt="Profile Image"></span>
-                <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-              </a>
-            </li>
-            <li>
-              <a>
-                <span class="image"><img src="{{images}}img.jpg" alt="Profile Image"></span>
-                <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-              </a>
-            </li>
-            <li>
-              <a>
-                <span class="image"><img src="{{images}}img.jpg" alt="Profile Image"></span>
-                <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-              </a>
-            </li>
-            <li>
-              <a>
-                <span class="image"><img src="{{images}}img.jpg" alt="Profile Image"></span>
-                <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-              </a>
-            </li>
-            <li>
-              <div class="text-center">
+          <ul aira-labelledby="show-messages" class="msg_list dropdown-menu list-unstyled">
+              <li>
                 <a>
-                  <strong>See All Alerts</strong>
-                  <i class="fa fa-angle-right"></i>
+                  <span class="image"><img src="{{images}}img.jpg" alt="Profile Image"></span>
+                  <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                  <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
                 </a>
-              </div>
-            </li>
+              </li>
+              <li>
+                <a>
+                  <span class="image"><img src="{{images}}img.jpg" alt="Profile Image"></span>
+                  <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                  <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="image"><img src="{{images}}img.jpg" alt="Profile Image"></span>
+                  <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                  <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="image"><img src="{{images}}img.jpg" alt="Profile Image"></span>
+                  <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                  <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                </a>
+              </li>
+              <li>
+                <div class="text-center">
+                  <a>
+                    <strong>See All Alerts</strong>
+                    <i class="fa fa-angle-right"></i>
+                  </a>
+                </div>
+              </li>
           </ul>
         </li>
       </ul>

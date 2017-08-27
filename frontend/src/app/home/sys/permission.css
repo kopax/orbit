@@ -1,0 +1,44 @@
+.table td:nth-child(2) {
+  position: relative;
+  padding-left: 30px;
+}
+.table td:nth-child(2):before {
+  top: 8px;
+  left: 6px;
+  height: 14px;
+  width: 14px;
+  display: block;
+  position: absolute;
+  color: white;
+  border: 2px solid white;
+  border-radius: 14px;
+  box-shadow: 0 0 3px #444;
+  box-sizing: content-box;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  line-height: 14px;
+}
+
+.collapsed:before {
+  background-color: #337ab7;
+  content: "+"
+}
+
+.expended:before {
+  background-color: #d33333;
+  content: "-"
+}
+
+.btn-toolbar {
+  padding: 5px;
+  justify-content: flex-end;
+}
+
+.btn>i {
+  margin-right: 3px;
+}
+
+h2 {
+  font-size: 20px;
+}
+

@@ -14,4 +14,5 @@ public interface PermissionService extends CrudService<Permission, Long> {
 
     List<Permission> findMenusByUsername(String username);
 
+    List<Permission> findList();
 }

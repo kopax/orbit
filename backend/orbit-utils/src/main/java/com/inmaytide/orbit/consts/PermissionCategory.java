@@ -2,8 +2,8 @@ package com.inmaytide.orbit.consts;
 
 public enum PermissionCategory {
 
-    MENU("menu", 1),
-    BUTTON("button", 2);
+    MENU("Menu", 1),
+    BUTTON("Button", 2);
 
     private String name;
     private long code;

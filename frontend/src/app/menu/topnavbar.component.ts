@@ -17,8 +17,6 @@ import {User} from "../models/user-model";
 export class TopnavbarComponent implements OnInit {
 
   public images = GlobalVariable.PATH_IMAGES;
-  public isShowMessages: boolean = false;
-  public isShowProfile: boolean = false;
 
   constructor(public homeComponent: HomeComponent,
               public loginService: LoginService,
@@ -31,37 +29,12 @@ export class TopnavbarComponent implements OnInit {
 
   }
 
-  showProfile() {
-    this.isShowMessages = false;
-    this.isShowProfile = !this.isShowProfile;
-  }
-
   menuToggle() {
     this.homeComponent.changeMenuStyle();
-  }
-
-  showMessages() {
-    this.isShowProfile = false;
-    this.isShowMessages = !this.isShowMessages;
   }
 
   public logout() {
     this.loginService.logout();
     this.router.navigateByUrl("login");
   }
-
-  public getUser() {
-
-    return this.http.get(GlobalVariable.BASE_API_URL + "sys/user/get/1")
-      .map(response => response.json())
-      .subscribe(
-        result => {
-          console.log(result);
-        },
-        error => {
-          console.log(error);
-        }
-      );
-  }
-
 }
