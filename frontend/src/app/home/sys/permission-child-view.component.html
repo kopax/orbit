@@ -1,0 +1,9 @@
+<div *ngFor="let inst of permissions">
+  <ul class="table-content level-{{level}}" [ngStyle]="level == 0 ? {display: 'block'} : {display: 'none'}">
+    <li style="text-align: center"><input type="checkbox"/></li>
+    <li class="collapsed" (click)="change($event, level)">{{inst.name}}</li>
+    <li>{{inst.code}}</li>
+    <li>{{category[inst.category]}}</li>
+  </ul>
+  <permission-child-view *ngIf="inst.children.length > 0" [level]="level + 1" [permissions]="inst.children" ></permission-child-view>
+</div>

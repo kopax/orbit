@@ -17,10 +17,14 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.patchca.color.SingleColorFactory;
 import org.patchca.filter.predefined.CurvesRippleFilterFactory;
 import org.patchca.service.ConfigurableCaptchaService;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.mybatis.repository.config.EnableMybatisRepositories;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -51,6 +55,14 @@ public class OrbitApplication {
 
     @Value("#{ @environment['shiro.unauthorizedUrl'] ?: null }")
     protected String unauthorizedUrl;
+
+    @Bean
+    @DependsOn("lifecycleBeanPostProcessor")
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator bean = new DefaultAdvisorAutoProxyCreator();
+        bean.setProxyTargetClass(true);
+        return bean;
+    }
 
 
     @Bean

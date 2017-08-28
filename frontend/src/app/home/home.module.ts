@@ -9,8 +9,8 @@ import {TopnavbarComponent} from "../menu/topnavbar.component";
 import {FooterComponent} from "./footer.component";
 import {PermissionComponent} from "./sys/permission.component";
 import {NgbDropdownModule, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
-import {DataTablesModule} from "angular-datatables";
 import {AutoHeightDirective} from "../directive/auto-height.directive";
+import {PermissionChildViewComponent} from "./sys/permission-child-view.component";
 
 
 @NgModule({
@@ -21,14 +21,14 @@ import {AutoHeightDirective} from "../directive/auto-height.directive";
     FooterComponent,
     ContentComponent,
     PermissionComponent,
-    AutoHeightDirective
+    AutoHeightDirective,
+    PermissionChildViewComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(appRoutes),
     NgbPaginationModule,
-    NgbDropdownModule,
-    DataTablesModule
+    NgbDropdownModule
   ]
 })
 

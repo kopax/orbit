@@ -4,17 +4,15 @@ import com.inmaytide.orbit.model.basic.Result;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.PermissionService;
 import com.inmaytide.orbit.service.sys.UserService;
+import com.inmaytide.orbit.web.controller.BasicController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-@RestController
 @RequestMapping("sys/permission")
-public class PermissionController {
+@RestController
+public class PermissionController extends BasicController {
 
     @Resource
     private PermissionService service;

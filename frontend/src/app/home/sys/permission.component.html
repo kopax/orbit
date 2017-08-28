@@ -17,36 +17,13 @@
         </div>
         <div class="x_content">
           <div class="col-12" style="padding: 5px;">
-            <table class="table table-bordered nowrap">
-              <colgroup>
-                <col style="width: 5%;">
-                <col style="width: 35%;">
-                <col style="width: 35%;">
-                <col style="width: 25%;">
-              </colgroup>
-              <thead>
-              <tr role="row">
-                <th style="text-align: center">&nbsp;</th>
-                <th>编码</th>
-                <th>名称</th>
-                <th>类型</th>
-              </tr>
-              </thead>
-              <tbody *ngFor="let inst of permissions">
-              <tr>
-                <td style="text-align: center"><input type="checkbox"/></td>
-                <td class="collapsed">{{inst.code}}</td>
-                <td>{{inst.name}}</td>
-                <td>{{category[inst.category]}}</td>
-              </tr>
-              <tr *ngFor="let _inst of inst.children" class="{{_inst.code}}" hidden>
-                <td style="text-align: center"><input type="checkbox"/></td>
-                <td class="expended">{{_inst.code}}</td>
-                <td>{{_inst.name}}</td>
-                <td>{{category[_inst.category]}}</td>
-              </tr>
-              </tbody>
-            </table>
+            <ul class="table-header">
+              <li>&nbsp;</li>
+              <li>名称</li>
+              <li>编码</li>
+              <li>类型</li>
+            </ul>
+            <permission-child-view *ngIf="permissions.length > 0" [level]="level" [permissions]="permissions"></permission-child-view>
           </div>
         </div>
       </div>

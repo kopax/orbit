@@ -17,6 +17,7 @@ export class PermissionComponent implements OnInit {
     "2" : "按钮"
   }
   permissions: Permission[] = [];
+  level = 0;
 
   public constructor(public http: Http) {
 
