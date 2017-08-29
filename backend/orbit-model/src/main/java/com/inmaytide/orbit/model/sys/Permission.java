@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.model.sys;
 
 import com.inmaytide.orbit.model.basic.BasicEntity;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Entity;
 
@@ -19,6 +20,8 @@ public class Permission extends BasicEntity {
     private Integer sort;
     @Transient
     private List<Permission> children;
+    @Transient
+    private Boolean spread;
 
     public Permission() {
     }
@@ -99,5 +102,16 @@ public class Permission extends BasicEntity {
 
     public void setChildren(List<Permission> children) {
         this.children = children;
+    }
+
+    public Boolean getSpread() {
+        if (spread == null) {
+            spread = false;
+        }
+        return spread;
+    }
+
+    public void setSpread(Boolean spread) {
+        this.spread = spread;
     }
 }

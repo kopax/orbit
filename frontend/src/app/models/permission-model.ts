@@ -13,4 +13,6 @@ export class Permission {
   creator: number;
   updater: number;
   version: number;
+  spread: boolean;
+  state: string;
 }

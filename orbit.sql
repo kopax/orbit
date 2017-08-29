@@ -30,7 +30,7 @@ CREATE TABLE `sys_log` (
   `content` varchar(512) DEFAULT NULL COMMENT '日志内容',
   `details` text COMMENT '明细',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +39,7 @@ CREATE TABLE `sys_log` (
 
 LOCK TABLES `sys_log` WRITE;
 /*!40000 ALTER TABLE `sys_log` DISABLE KEYS */;
+INSERT INTO `sys_log` VALUES (1,NULL,'2017-08-26 15:54:58',2,'系统登录 => 登录失败, username => adfasfdasdf','org.apache.shiro.authc.UnknownAccountException => null'),(2,NULL,'2017-08-26 15:55:15',2,'系统登录 => 登录失败, username => admin','org.apache.shiro.authc.IncorrectCredentialsException => Submitted credentials for token [com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken - admin, rememberMe=false] did not match the expected credentials.'),(3,9999,NULL,1,'系统登录 => 登录成功',NULL),(4,9999,'2017-08-26 16:06:06',1,'系统登录 => 登录成功',NULL),(5,9999,'2017-08-26 16:29:51',1,'系统登录 => 登录成功',NULL),(6,9999,'2017-08-26 21:28:54',1,'系统登录 => 登录成功',NULL),(7,9999,'2017-08-26 21:29:15',1,'系统登录 => 登录成功',NULL),(8,9999,'2017-08-26 22:16:50',1,'系统登录 => 登录成功',NULL),(9,9999,'2017-08-27 09:39:37',1,'系统登录 => 登录成功',NULL),(10,9999,'2017-08-27 09:42:12',1,'系统登录 => 登录成功',NULL),(11,9999,'2017-08-27 09:42:46',1,'系统登录 => 登录成功',NULL),(12,9999,'2017-08-27 09:43:04',1,'系统登录 => 登录成功',NULL),(13,9999,'2017-08-27 09:47:14',1,'系统登录 => 登录成功',NULL),(14,9999,'2017-08-27 09:47:29',1,'系统登录 => 登录成功',NULL),(15,9999,'2017-08-27 09:52:26',1,'系统登录 => 登录成功',NULL),(16,9999,'2017-08-27 10:16:23',1,'系统登录 => 登录成功',NULL),(17,NULL,'2017-08-27 10:19:53',2,'系统登录 => 登录失败, username => admin','org.apache.shiro.authc.IncorrectCredentialsException => Submitted credentials for token [com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken - admin, rememberMe=false] did not match the expected credentials.'),(18,9999,'2017-08-27 10:19:59',1,'系统登录 => 登录成功',NULL),(19,NULL,'2017-08-27 10:21:38',2,'系统登录 => 登录失败, username => admin','org.apache.shiro.authc.IncorrectCredentialsException => Submitted credentials for token [com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken - admin, rememberMe=false] did not match the expected credentials.'),(20,NULL,'2017-08-27 10:21:39',2,'系统登录 => 登录失败, username => admin','org.apache.shiro.authc.IncorrectCredentialsException => Submitted credentials for token [com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken - admin, rememberMe=false] did not match the expected credentials.'),(21,NULL,'2017-08-27 10:21:39',2,'系统登录 => 登录失败, username => admin','org.apache.shiro.authc.IncorrectCredentialsException => Submitted credentials for token [com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken - admin, rememberMe=false] did not match the expected credentials.'),(22,NULL,'2017-08-27 10:21:59',2,'系统登录 => 登录失败, username => admin','com.inmaytide.orbit.web.auth.exception.IncorrectCaptchaException => Incorrect captcha.'),(23,NULL,'2017-08-27 10:22:13',2,'系统登录 => 登录失败, username => admin','com.inmaytide.orbit.web.auth.exception.IncorrectCaptchaException => Incorrect captcha.'),(24,9999,'2017-08-27 10:22:22',1,'系统登录 => 登录成功',NULL),(25,9999,'2017-08-27 10:22:30',1,'系统登录 => 登录成功',NULL),(26,9999,'2017-08-27 10:29:55',1,'系统登录 => 登录成功',NULL),(27,9999,'2017-08-27 10:54:32',1,'系统登录 => 登录成功',NULL),(28,9999,'2017-08-27 13:36:13',1,'系统登录 => 登录成功',NULL),(29,9999,'2017-08-27 13:47:31',1,'系统登录 => 登录成功',NULL),(30,9999,'2017-08-27 13:52:33',1,'系统登录 => 登录成功',NULL),(31,9999,'2017-08-27 13:54:22',1,'系统登录 => 登录成功',NULL),(32,9999,'2017-08-27 15:14:24',1,'系统登录 => 登录成功',NULL),(33,9999,'2017-08-27 15:28:37',1,'系统登录 => 登录成功',NULL),(34,9999,'2017-08-27 15:46:54',1,'系统登录 => 登录成功',NULL),(35,9999,'2017-08-27 17:54:15',1,'系统登录 => 登录成功',NULL),(36,9999,'2017-08-27 17:54:30',1,'系统登录 => 登录成功',NULL),(37,9999,'2017-08-27 19:15:54',1,'系统登录 => 登录成功',NULL),(38,9999,'2017-08-27 19:21:26',1,'系统登录 => 登录成功',NULL),(39,9999,'2017-08-27 19:25:19',1,'系统登录 => 登录成功',NULL),(40,9999,'2017-08-28 20:28:42',1,'系统登录 => 登录成功',NULL),(41,9999,'2017-08-28 20:29:08',1,'系统登录 => 登录成功',NULL),(42,9999,'2017-08-28 20:32:05',1,'系统登录 => 登录成功',NULL),(43,9999,'2017-08-29 20:17:04',1,'系统登录 => 登录成功',NULL),(44,9999,'2017-08-29 20:17:05',1,'系统登录 => 登录成功',NULL),(45,9999,'2017-08-29 22:04:24',1,'系统登录 => 登录成功',NULL);
 /*!40000 ALTER TABLE `sys_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,6 +64,7 @@ CREATE TABLE `sys_permission` (
   `creator` bigint(20) DEFAULT NULL,
   `updater` bigint(20) DEFAULT NULL,
   `version` int(11) NOT NULL DEFAULT '0',
+  `sort` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10007 DEFAULT CHARSET=utf8;
@@ -74,7 +76,7 @@ CREATE TABLE `sys_permission` (
 
 LOCK TABLES `sys_permission` WRITE;
 /*!40000 ALTER TABLE `sys_permission` DISABLE KEYS */;
-INSERT INTO `sys_permission` VALUES (10000,-1,'dashboard','Dashboard','home/dashboard','home',1,NULL,'2017-08-22 21:49:39',NULL,9999,NULL,0),(10001,-1,'systemmanagement','System Management',NULL,'cog',1,NULL,'2017-08-22 21:52:22',NULL,9999,NULL,0),(10002,10001,'perm:list','Menu Management','home/menulist','',1,NULL,'2017-08-22 21:54:18',NULL,9999,NULL,0),(10004,10001,'user:list','User Management','home/userlist',NULL,1,NULL,'2017-08-24 22:01:40',NULL,9999,NULL,0),(10005,-1,'workflow','Workflow',NULL,'wrench',1,NULL,'2017-08-24 22:44:53',NULL,9999,NULL,0);
+INSERT INTO `sys_permission` VALUES (10000,-1,'dashboard','首页','home/content','home',1,NULL,'2017-08-22 21:49:39',NULL,9999,NULL,0,1),(10001,-1,'systemmanagement','系统管理',NULL,'cog',1,NULL,'2017-08-22 21:52:22',NULL,9999,NULL,0,2),(10002,10001,'perm:list','菜单管理','home/permission','',1,NULL,'2017-08-22 21:54:18',NULL,9999,NULL,0,5),(10004,10001,'user:list','用户管理','home/userlist',NULL,1,NULL,'2017-08-24 22:01:40',NULL,9999,NULL,0,4),(10005,-1,'workflow','工作流',NULL,'wrench',1,NULL,'2017-08-24 22:44:53',NULL,9999,NULL,0,3);
 /*!40000 ALTER TABLE `sys_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,4 +212,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-25 23:36:51
+-- Dump completed on 2017-08-29 23:10:18

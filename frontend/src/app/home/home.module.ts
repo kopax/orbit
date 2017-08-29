@@ -7,10 +7,11 @@ import {HomeComponent} from "./home.component";
 import {SidebarComponent} from "../menu/sidebar.component";
 import {TopnavbarComponent} from "../menu/topnavbar.component";
 import {FooterComponent} from "./footer.component";
-import {PermissionComponent} from "./sys/permission.component";
-import {NgbDropdownModule, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
+import {PermissionComponent} from "./sys/permission/permission.component";
+import {NgbAlertModule, NgbDropdownModule, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import {AutoHeightDirective} from "../directive/auto-height.directive";
-import {PermissionChildViewComponent} from "./sys/permission-child-view.component";
+import {PermissionChildViewComponent} from "./sys/permission/permission-child-view.component";
+import {PermissionService} from "./sys/permission/permission.service";
 
 
 @NgModule({
@@ -28,7 +29,11 @@ import {PermissionChildViewComponent} from "./sys/permission-child-view.componen
     CommonModule,
     RouterModule.forChild(appRoutes),
     NgbPaginationModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    NgbAlertModule
+  ],
+  providers: [
+    PermissionService
   ]
 })
 

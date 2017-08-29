@@ -1,6 +1,6 @@
 import {ContentComponent} from "./content.component";
 import {HomeComponent} from "./home.component";
-import {PermissionComponent} from "./sys/permission.component";
+import {PermissionComponent} from "./sys/permission/permission.component";
 
 export const appRoutes = [{
   path: 'home',
