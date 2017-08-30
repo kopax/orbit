@@ -26,7 +26,7 @@ public class LoginController extends BasicController implements LogAdapter {
     private CaptchaUtils captchaUtils;
 
     @PostMapping("login")
-    @LogAnnotation(description = "系统登录", success = "登录成功", failure = "登录失败")
+    @LogAnnotation(value = "系统登录", success = "登录成功", failure = "登录失败")
     public Object login(@RequestBody UsernamePasswordCaptchaToken token, HttpServletResponse response) {
 
         Subject subject = SecurityUtils.getSubject();

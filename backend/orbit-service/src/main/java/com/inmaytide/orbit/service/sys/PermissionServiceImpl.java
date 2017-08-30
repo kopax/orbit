@@ -4,6 +4,7 @@ import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.consts.PermissionCategory;
 import com.inmaytide.orbit.dao.sys.PermissionRepository;
 import com.inmaytide.orbit.model.sys.Permission;
+import io.jsonwebtoken.lang.Assert;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
@@ -67,5 +68,9 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
         permission.setChildren(children);
     }
 
-
+    @Override
+    public void deleteBatch(Long[] ids) {
+        Assert.notEmpty(ids);
+        getRepository().delete(ids);
+    }
 }

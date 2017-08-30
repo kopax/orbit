@@ -33,7 +33,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
             loginFailedRecord(point, e);
         } else {
             Log inst = Log.of();
-            String content = String.format("%s => %s", annotation.description(), annotation.failure());
+            String content = String.format("%s => %s", annotation.value(), annotation.failure());
             inst.setCategory(LogCategory.FAILED.getCode());
             inst.setContent(content);
             inst.setOperator(userService.getCurrent().getId());
@@ -47,7 +47,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
     public void record(JoinPoint point) {
         Log inst = Log.of();
         LogAnnotation annotation = getLogAnnotation(point);
-        String content = String.format("%s => %s", annotation.description(), annotation.success());
+        String content = String.format("%s => %s", annotation.value(), annotation.success());
         inst.setCategory(LogCategory.SUCCED.getCode());
         inst.setContent(content);
         inst.setOperator(userService.getCurrent().getId());
@@ -61,7 +61,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         inst.setCategory(LogCategory.FAILED.getCode());
         UsernamePasswordToken token = (UsernamePasswordToken) point.getArgs()[0];
         String content = String.format("%s => %s, username => %s",
-                annotation.description(),
+                annotation.value(),
                 annotation.failure(),
                 token.getUsername());
         inst.setContent(content);

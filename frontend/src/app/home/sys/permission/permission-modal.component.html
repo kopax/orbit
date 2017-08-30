@@ -1,0 +1,13 @@
+<div class="modal-header">
+  <h6 class="modal-title">编辑菜单</h6>
+  <button type="button" class="close" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <input type="text" ([ngModel])="permission.name"/>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-sm btn-success" >保存</button>
+  <button type="button" class="btn btn-sm btn-secondary"  (click)="close()">取消</button>
+</div>

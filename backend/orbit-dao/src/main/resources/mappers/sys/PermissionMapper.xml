@@ -19,4 +19,11 @@
         where u.username = #{username} and p.category = #{category}
         order by sort
     </select>
+
+    <delete id="deleteBatch" parameterType="java.lang.Long">
+        delete from sys_permission where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

@@ -3,6 +3,7 @@ import {Http} from "@angular/http";
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import * as GlobalVariable from "../globals";
 import {Router} from "@angular/router";
+import {User} from "../models/user-model";
 
 @Component({
   selector: 'side-bar',
@@ -20,11 +21,14 @@ import {Router} from "@angular/router";
 export class SidebarComponent implements OnInit {
   public images: string = GlobalVariable.PATH_IMAGES;
   public menus = [];
+  public user:User;
   public active;
   public p_active;
 
   public constructor(public http: Http,
                      public router: Router) {
+    let objUser = localStorage.getItem(GlobalVariable.CURRENT_USER);
+    this.user = JSON.parse(objUser);
     this.http.get(GlobalVariable.BASE_API_URL + "sys/permission/someones/menus")
       .map(response => response.json())
       .subscribe(

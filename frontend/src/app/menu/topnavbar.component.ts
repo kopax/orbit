@@ -18,6 +18,8 @@ export class TopnavbarComponent implements OnInit {
 
   public images = GlobalVariable.PATH_IMAGES;
 
+  public user:User;
+
   constructor(public homeComponent: HomeComponent,
               public loginService: LoginService,
               public http: Http,
@@ -26,7 +28,8 @@ export class TopnavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    let objUser = localStorage.getItem(GlobalVariable.CURRENT_USER);
+    this.user = JSON.parse(objUser);
   }
 
   menuToggle() {

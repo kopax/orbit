@@ -17,4 +17,6 @@ public interface PermissionRepository extends MybatisRepository<Permission, Long
     @Query(namespace = DEFAULT_NAMESPACE, value = "findByUsername")
     List<Permission> findByUsername(@Param("username") String username, @Param("category") String category);
 
+    @Query(namespace = DEFAULT_NAMESPACE, value = "deleteBatch")
+    void delete(@Param("ids") Long[] ids);
 }

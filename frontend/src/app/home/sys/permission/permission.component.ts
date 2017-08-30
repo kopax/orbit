@@ -4,6 +4,8 @@ import 'rxjs/add/operator/map'
 import {Http} from "@angular/http";
 import {PermissionService} from "./permission.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {LayerAlert} from "../../../layers/layer.alert";
+import {PermissionModalComponent} from "./permission-modal.component";
 
 @Component({
   selector: "permission",
@@ -15,8 +17,6 @@ export class PermissionComponent implements OnInit {
 
   public permissions: Permission[] = [];
   public category;
-  @Input()
-  public message;
 
   public constructor(public http: Http,
                      public service: PermissionService,
@@ -30,9 +30,16 @@ export class PermissionComponent implements OnInit {
     this.category = this.service.category;
   }
 
-  remove(dialog) {
-    this.message = this.service.remove(this.permissions);
-    this.modalService.open(dialog);
+  remove() {
+    const modalRef = this.modalService.open(LayerAlert, {size: 'sm'});
+    modalRef.componentInstance.message = this.service.remove(this.permissions);
+    modalRef.componentInstance.icon = "frown-o";
+  }
+
+  add() {
+    const modalRef = this.modalService.open(PermissionModalComponent, {
+      backdrop: 'static'
+    });
   }
 
 }

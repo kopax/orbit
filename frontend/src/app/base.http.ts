@@ -1,5 +1,4 @@
 import {Http, RequestOptions, RequestOptionsArgs, XHRBackend, Response, Request} from "@angular/http";
-import {CookieService} from "ngx-cookie-service";
 import * as GlobalVariable from "./globals";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
@@ -7,7 +6,7 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class BaseHttp extends Http {
 
-  constructor(backend: XHRBackend, options: RequestOptions, private cookieService: CookieService) {
+  constructor(backend: XHRBackend, options: RequestOptions) {
     super(backend, options);
   }
 

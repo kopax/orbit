@@ -12,18 +12,20 @@ import {NgbAlertModule, NgbDropdownModule, NgbPaginationModule} from "@ng-bootst
 import {AutoHeightDirective} from "../directive/auto-height.directive";
 import {PermissionChildViewComponent} from "./sys/permission/permission-child-view.component";
 import {PermissionService} from "./sys/permission/permission.service";
+import {PermissionModalComponent} from "./sys/permission/permission-modal.component";
 
 
 @NgModule({
   declarations: [
+    AutoHeightDirective,
     HomeComponent,
     SidebarComponent,
     TopnavbarComponent,
     FooterComponent,
     ContentComponent,
     PermissionComponent,
-    AutoHeightDirective,
-    PermissionChildViewComponent
+    PermissionChildViewComponent,
+    PermissionModalComponent
   ],
   imports: [
     CommonModule,
@@ -31,6 +33,9 @@ import {PermissionService} from "./sys/permission/permission.service";
     NgbPaginationModule,
     NgbDropdownModule,
     NgbAlertModule
+  ],
+  entryComponents: [
+    PermissionModalComponent
   ],
   providers: [
     PermissionService
