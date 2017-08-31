@@ -2,6 +2,7 @@ package com.inmaytide.orbit.web.controller.sys;
 
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.basic.Result;
+import com.inmaytide.orbit.model.sys.Permission;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.PermissionService;
 import com.inmaytide.orbit.service.sys.UserService;
@@ -39,6 +40,13 @@ public class PermissionController extends BasicController {
     public Result delete(@RequestBody Long[] ids) {
         service.deleteBatch(ids);
         return Result.ofFail("1312312123");
+    }
+
+    @PutMapping("add")
+    @LogAnnotation("添加菜单")
+    public Result add(@RequestBody Permission permission) {
+        service.add(permission);
+        return Result.ofSuccess(permission);
     }
 
 }

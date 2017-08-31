@@ -10,6 +10,7 @@ import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,11 +21,10 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 public class PermissionServiceImpl extends AbstractCrudService<PermissionRepository, Permission, Long> implements PermissionService {
-    /**
-     * 构造函数.
-     *
-     * @param repository 注入的Repository
-     */
+
+    @Resource
+    private UserService userService;
+
     public PermissionServiceImpl(PermissionRepository repository) {
         super(repository);
     }
@@ -39,6 +39,8 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     public Permission add(Permission inst) {
         inst.setVersion(0);
         inst.setCreateTime(LocalDateTime.now());
+        inst.setCreator(userService.getCurrent().getId());
+        inst.setSort(getRepository().getSort());
         return getRepository().save(inst);
     }
 

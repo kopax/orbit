@@ -19,4 +19,7 @@ public interface PermissionRepository extends MybatisRepository<Permission, Long
 
     @Query(namespace = DEFAULT_NAMESPACE, value = "deleteBatch")
     void delete(@Param("ids") Long[] ids);
+
+    @Query(namespace = DEFAULT_NAMESPACE, value="getSort", returnType = Integer.class)
+    Integer getSort();
 }

@@ -37,9 +37,14 @@ export class PermissionComponent implements OnInit {
   }
 
   add() {
+    let actives = [];
+    this.service.getActives(actives, this.permissions);
+
     const modalRef = this.modalService.open(PermissionModalComponent, {
       backdrop: 'static'
     });
+    modalRef.componentInstance.parent = actives[0] || {id: "-1", name: "根菜单"};
+    modalRef.componentInstance.permission.parent = (actives[0] && actives[0].id) || "-1";
   }
 
 }

@@ -10,6 +10,7 @@ export class PermissionService {
 
   private url_list = GlobalVariable.BASE_API_URL + "sys/permission/list";
   private url_delete = GlobalVariable.BASE_API_URL + "sys/permission/delete";
+  private url_add = GlobalVariable.BASE_API_URL + "sys/permission/add";
   public category = {"1": "菜单", "2": "按钮"};
   public data: Subject<Permission[]> = new Subject<Permission[]>();
 
@@ -61,12 +62,12 @@ export class PermissionService {
           console.log(result);
         },
         error => {
-
+          console.log(error);
         });
 
   }
 
-  getActives(actives: Permission[], data: Permission[]) {
+  public getActives(actives: Permission[], data: Permission[]) {
     data.forEach(t => {
       if (t['state'] && t['state'] === "active") {
         actives.push(t);
@@ -75,4 +76,13 @@ export class PermissionService {
     });
   }
 
+  add(permission: Permission): any {
+    return this.http.put(this.url_add, permission)
+      .map(response => response.json())
+      .subscribe(result => {
+        return result.status;
+      }, error => {
+        console.log(error);
+      })
+  }
 }

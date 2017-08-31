@@ -26,4 +26,8 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="getSort" resultType="java.lang.Integer">
+        select max(sort) + 1 sort from sys_permission
+    </select>
 </mapper>

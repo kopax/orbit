@@ -13,6 +13,7 @@ import {AutoHeightDirective} from "../directive/auto-height.directive";
 import {PermissionChildViewComponent} from "./sys/permission/permission-child-view.component";
 import {PermissionService} from "./sys/permission/permission.service";
 import {PermissionModalComponent} from "./sys/permission/permission-modal.component";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import {PermissionModalComponent} from "./sys/permission/permission-modal.compon
     RouterModule.forChild(appRoutes),
     NgbPaginationModule,
     NgbDropdownModule,
-    NgbAlertModule
+    NgbAlertModule,
+    FormsModule
   ],
   entryComponents: [
     PermissionModalComponent

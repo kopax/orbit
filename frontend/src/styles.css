@@ -5089,3 +5089,8 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
 .table th, .table td {
   padding: 0.45rem;
 }
+
+.required {
+  background: url("/assets/images/must.png") no-repeat 0 center;
+  padding: 0 0 0 10px;
+}
