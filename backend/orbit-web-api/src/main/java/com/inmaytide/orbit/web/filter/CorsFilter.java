@@ -1,19 +1,19 @@
 package com.inmaytide.orbit.web.filter;
 
-import com.inmaytide.orbit.utils.HttpUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import com.inmaytide.orbit.http.HttpHelper;
+import com.inmaytide.orbit.props.CorsProperties;
 
 import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
 public class CorsFilter implements Filter {
 
-    @Value("${cors.origin}")
-    private String origin;
+    private CorsProperties corsProperties;
+
+    public CorsFilter(CorsProperties corsProperties) {
+        this.corsProperties = corsProperties;
+    }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -23,8 +23,7 @@ public class CorsFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpUtils.enableCros(httpResponse, httpRequest, origin);
+        HttpHelper.enableCors(httpResponse, corsProperties);
         chain.doFilter(request, response);
     }
 

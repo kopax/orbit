@@ -1,7 +1,8 @@
 package com.inmaytide.orbit.web.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inmaytide.orbit.utils.HttpUtils;
+import com.inmaytide.orbit.http.HttpHelper;
+import com.inmaytide.orbit.props.CorsProperties;
 import com.inmaytide.orbit.utils.TokenUtils;
 import com.inmaytide.orbit.web.auth.exception.CannotCreateTokenException;
 import com.inmaytide.orbit.web.auth.exception.InvalidTokenException;
@@ -27,18 +28,17 @@ import java.util.Objects;
 
 public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
 
-    protected static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
+    private static final String CAPTCHA = "captcha";
+    private static final String CAPTCHA_KEY = "captchaKey";
 
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
-    public static final String CAPTCHA = "captcha";
-    public static final String CAPTCHA_KEY = "captchaKey";
+    private CorsProperties corsProperties;
 
-    private String origin;
-
-    public JWTOrAuthenticationFilter(String origin) {
+    public JWTOrAuthenticationFilter(CorsProperties corsProperties) {
         setLoginUrl(DEFAULT_LOGIN_URL);
-        this.origin = origin;
+        this.corsProperties = corsProperties;
     }
 
     @Override
@@ -46,13 +46,12 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
         HttpServletRequest httpRequest = WebUtils.toHttp(request);
         HttpServletResponse httpResponse = WebUtils.toHttp(response);
         if (httpRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
-            HttpUtils.enableCros(httpResponse, httpRequest, origin);
+            HttpHelper.enableCors(httpResponse, corsProperties);
             httpResponse.setStatus(HttpStatus.OK.value());
             return false;
         }
         return super.preHandle(request, response);
     }
-
 
 
     @Override
@@ -69,7 +68,7 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         boolean loggedIn = false;
 
-        if (isLoginRequest(request, response) || isLoggedAttempt(request, response)) {
+        if (isLoginRequest(request, response) || isLoggedAttempt(request)) {
             loggedIn = executeLogin(request, response);
         }
 
@@ -94,10 +93,10 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
                 return new UsernamePasswordCaptchaToken(username, password, captcha, captchaKey);
             }
         }
-        
-        if (isLoggedAttempt(request, response)) {
+
+        if (isLoggedAttempt(request)) {
             String token = getAuthzHeader(request);
-            if(StringUtils.isNotEmpty(token)) {
+            if (StringUtils.isNotEmpty(token)) {
                 return createToken(token);
             }
         }
@@ -119,12 +118,12 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
         }
     }
 
-    private boolean isLoggedAttempt(ServletRequest request, ServletResponse response) {
+    private boolean isLoggedAttempt(ServletRequest request) {
         String authzHeader = getAuthzHeader(request);
         return authzHeader != null;
     }
 
-    private  String getAuthzHeader(ServletRequest request) {
+    private String getAuthzHeader(ServletRequest request) {
         HttpServletRequest httpRequest = WebUtils.toHttp(request);
         return httpRequest.getHeader(AUTHORIZATION_HEADER);
     }

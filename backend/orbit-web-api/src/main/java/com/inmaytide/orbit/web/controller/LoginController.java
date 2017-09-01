@@ -1,6 +1,8 @@
 package com.inmaytide.orbit.web.controller;
 
 import com.inmaytide.orbit.adepter.LogAdapter;
+import com.inmaytide.orbit.http.HttpHelper;
+import com.inmaytide.orbit.http.RestResponse;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.utils.*;
@@ -28,19 +30,17 @@ public class LoginController extends BasicController implements LogAdapter {
     @PostMapping("login")
     @LogAnnotation(value = "系统登录", success = "登录成功", failure = "登录失败")
     public Object login(@RequestBody UsernamePasswordCaptchaToken token, HttpServletResponse response) {
-
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
         User user = (User) subject.getPrincipal();
         user.setToken(TokenUtils.generate(CommonUtils.uuid(), user.getUsername()));
-
         debug("{} login succeed.", user.getUsername());
-        return Result.ofSuccess(user, "login succeed.");
+        return RestResponse.ofSuccess(user, "login succeed.");
     }
 
     @GetMapping("captcha")
     public void captcha(HttpServletResponse response, String v) throws IOException {
-        HttpUtils.disableResponseCache(response);
+        HttpHelper.disableResponseCache(response);
         response.setContentType("image/png");
         try (OutputStream os = response.getOutputStream()) {
             captchaUtils.generateCaptcha("png", os, v);

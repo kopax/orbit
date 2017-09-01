@@ -1,8 +1,11 @@
 package com.inmaytide.orbit.utils;
 
+import com.inmaytide.orbit.adepter.LogAdapter;
 import com.inmaytide.orbit.consts.Constants;
 import org.patchca.service.ConfigurableCaptchaService;
 import org.patchca.utils.encoder.EncoderHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -13,7 +16,9 @@ import java.io.OutputStream;
 import java.util.function.Supplier;
 
 @Component
-public class CaptchaUtils {
+public class CaptchaUtils implements LogAdapter {
+
+    private static final Logger log = LoggerFactory.getLogger(CaptchaUtils.class);
 
     @Resource
     private ConfigurableCaptchaService configurableCaptchaService;
@@ -31,6 +36,7 @@ public class CaptchaUtils {
      */
     public void generateCaptcha(String format, OutputStream os, String v) throws IOException {
         String words = EncoderHelper.getChallangeAndWriteImage(configurableCaptchaService, "png", os);
+        debug("生成验证码: {} => {}", v, words);
         stringRedisTemplate.opsForValue().set(generateCacheCaptchaKey(v), words);
     }
 
@@ -50,6 +56,11 @@ public class CaptchaUtils {
 
     private String generateCacheCaptchaKey(String v) {
         return StringUtils.arrayToDelimitedString(new String[]{Constants.CACHE_CAPTCHA_KEY, v}, "-");
+    }
+
+    @Override
+    public Logger getLogger() {
+        return log;
     }
 
 }

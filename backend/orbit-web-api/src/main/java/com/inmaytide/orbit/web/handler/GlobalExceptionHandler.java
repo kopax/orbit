@@ -12,11 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler implements LogAdapter {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements LogAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 

@@ -1,11 +1,13 @@
 package com.inmaytide.orbit;
 
+import com.inmaytide.orbit.props.CorsProperties;
 import com.inmaytide.orbit.web.auth.JWTOrAuthenticationFilter;
 import com.inmaytide.orbit.web.auth.cache.RedisSessionDao;
 import com.inmaytide.orbit.web.auth.cache.RedisShiroCacheManager;
 import com.inmaytide.orbit.web.auth.realm.FormRealm;
 import com.inmaytide.orbit.web.auth.realm.JWTRealm;
 import com.inmaytide.orbit.web.auth.strategy.FirstExceptionStrategy;
+import com.inmaytide.orbit.web.filter.CorsFilter;
 import org.apache.shiro.authc.Authenticator;
 import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -22,13 +24,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.mybatis.repository.config.EnableMybatisRepositories;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import javax.annotation.Resource;
 import javax.servlet.Filter;
 import java.awt.*;
 import java.util.Arrays;
@@ -38,15 +45,6 @@ import java.util.Map;
 @SpringBootApplication
 public class OrbitApplication {
 
-    @Value("${spring.messages.basename}")
-    private String basename;
-
-    @Value("${spring.messages.cache-seconds}")
-    private String cacheSeconds;
-
-    @Value("${cors.origin}")
-    private String origin;
-
     @Value("#{ @environment['shiro.loginUrl'] ?: '/login.jsp' }")
     protected String loginUrl;
 
@@ -55,6 +53,18 @@ public class OrbitApplication {
 
     @Value("#{ @environment['shiro.unauthorizedUrl'] ?: null }")
     protected String unauthorizedUrl;
+
+    @Resource
+    private CorsProperties corsProperties;
+
+    @Bean
+    public FilterRegistrationBean corsFilter() {
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        filterRegistrationBean.setFilter(new CorsFilter(corsProperties));
+        filterRegistrationBean.setUrlPatterns(Arrays.asList(corsProperties.getMapping()));
+        filterRegistrationBean.setOrder(1);
+        return filterRegistrationBean;
+    }
 
     @Bean
     @DependsOn("lifecycleBeanPostProcessor")
@@ -117,7 +127,7 @@ public class OrbitApplication {
         filterFactoryBean.setFilterChainDefinitionMap(shiroFilterChainDefinition.getFilterChainMap());
 
         Map<String, Filter> filters = new HashMap<>();
-        filters.put("authc", new JWTOrAuthenticationFilter(origin));
+        filters.put("authc", new JWTOrAuthenticationFilter(corsProperties));
         filterFactoryBean.setFilters(filters);
         return filterFactoryBean;
     }
