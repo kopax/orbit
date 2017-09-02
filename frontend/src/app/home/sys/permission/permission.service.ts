@@ -4,6 +4,8 @@ import * as GlobalVariable from "../../../globals";
 import {Injectable, OnInit} from "@angular/core";
 import {Subject} from "rxjs/Subject";
 import {Observable} from "rxjs/Observable";
+import {Router} from "@angular/router";
+import {Commons} from "../../../commons";
 
 @Injectable()
 export class PermissionService {
@@ -12,29 +14,14 @@ export class PermissionService {
   private url_delete = GlobalVariable.BASE_API_URL + "sys/permission/delete";
   private url_add = GlobalVariable.BASE_API_URL + "sys/permission/add";
   public category = {"1": "菜单", "2": "按钮"};
-  public data: Subject<Permission[]> = new Subject<Permission[]>();
+  public subject = new Subject<Permission[]>();
 
-  public constructor(public http: Http) {
+  public constructor(public http: Http,
+                     public router: Router) {
   }
 
-  public getData(isRefresh: boolean): Observable<Permission[]> {
-    if (isRefresh) {
-      this.loadData();
-    }
-    return this.data.asObservable();
-  }
-
-  public loadData() {
-    this.http.get(this.url_list)
-      .map(response => response.json())
-      .subscribe(
-        result => {
-          this.data.next(result.data);
-        },
-        error => {
-          console.log(error);
-        }
-      )
+  public getData(): Observable<any> {
+    return this.http.get(this.url_list).map(response => response.json());
   }
 
   remove(data: Permission[]): string {
@@ -76,13 +63,10 @@ export class PermissionService {
     });
   }
 
-  add(permission: Permission): any {
+  add(permission: Permission): Promise<Permission> {
     return this.http.put(this.url_add, permission)
-      .map(response => response.json())
-      .subscribe(result => {
-        return result.status;
-      }, error => {
-        console.log(error);
-      })
+      .toPromise()
+      .then(response => response.json().data as Permission)
+      .catch(reason => Promise.reject(reason));
   }
 }

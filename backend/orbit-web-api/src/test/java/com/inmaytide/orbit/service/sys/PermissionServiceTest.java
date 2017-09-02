@@ -23,7 +23,7 @@ public class PermissionServiceTest {
     public void add() {
         Permission permission = new Permission();
         permission.setCode("workflow");
-        permission.setCategory(PermissionCategory.MENU.getCode());
+        permission.setCategory(Long.toString(PermissionCategory.MENU.getCode()));
         permission.setAction(null);
         permission.setParent(-1L);
         permission.setName("Workflow");

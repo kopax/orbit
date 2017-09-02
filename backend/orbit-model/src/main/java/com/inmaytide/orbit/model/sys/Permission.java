@@ -1,25 +1,50 @@
 package com.inmaytide.orbit.model.sys;
 
 import com.inmaytide.orbit.model.basic.BasicEntity;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Entity;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity(table = "sys_permission")
 public class Permission extends BasicEntity {
 
+    private static final long serialVersionUID = -5401749095217234229L;
+
+    @NotBlank
+    @Length(max = 32)
     private String code;
+
+    @NotBlank
+    @Length(max = 64)
     private String name;
+
+    @Length(max = 256)
     private String action;
+
+    @Length(max = 256)
     private String icon;
-    private Long category;
+
+    @NotNull
+    @Pattern(regexp = "^[1|2]$")
+    private String category;
+
+    @Length(max = 256)
     private String description;
+
+    @NotNull
     private Long parent;
+
     private Integer sort;
+
     @Transient
     private List<Permission> children;
+
     @Transient
     private Boolean spread;
 
@@ -64,11 +89,11 @@ public class Permission extends BasicEntity {
         this.icon = icon;
     }
 
-    public Long getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Long category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

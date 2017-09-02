@@ -7,63 +7,78 @@
 <form class="form-horizontal" #form="ngForm" (ngSubmit)="save(form)">
   <div class="modal-body">
     <div class="form-group row">
-      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="parent">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="parent">
         <i class="required"></i>上级菜单
       </label>
-      <div class="col-md-8 col-sm-8 col-xs-12">
+      <div class="col-md-6 col-sm-6 col-xs-12">
         <input id="parent" disabled value="{{parent.name}}" required class="form-control form-control-sm"/>
         <input [(ngModel)]="this.permission.parent" name="parent" type="hidden"/>
       </div>
     </div>
     <div class="form-group row">
-      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="code">
         <i class="required"></i>菜单编码
       </label>
-      <div class="col-md-8 col-sm-8 col-xs-12">
-        <input [(ngModel)]="this.permission.code" name="code" id="code" maxlength="32" required class="form-control form-control-sm">
+      <div class="col-md-6 col-sm-6 col-xs-12">
+        <input [(ngModel)]="this.permission.code" name="code" id="code" maxlength="32" #code="ngModel"
+               class="form-control form-control-sm" required notRepeat="sys/permission/checkCode" [selfId]="this.permission.id">
       </div>
+      <label class="control-label error-label col-md-4 col-sm-4 col-xs-12" *ngIf="code.getError('required') && (code.touched || code.dirty)">
+        菜单编码不能为空
+      </label>
+      <label class="control-label error-label col-md-4 col-sm-4 col-xs-12" *ngIf="code.getError('notRepeat') && (code.touched || code.dirty)">
+        菜单编码已存在
+      </label>
     </div>
     <div class="form-group row">
-      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">
         <i class="required"></i>菜单名称
       </label>
-      <div class="col-md-8 col-sm-8 col-xs-12">
-        <input [(ngModel)]="this.permission.name" name="name" id="name" maxlength="32" required class="form-control form-control-sm">
+      <div class="col-md-6 col-sm-6 col-xs-12">
+        <input [(ngModel)]="this.permission.name" #name="ngModel" name="name" id="name"
+               maxlength="32" class="form-control form-control-sm" required>
       </div>
+      <label class="control-label error-label col-md-4 col-sm-4 col-xs-12" *ngIf="name.getError('required') && (name.touched || name.dirty)">
+        菜单名称不能为空
+      </label>
     </div>
     <div class="form-group row">
-      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="category">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="category">
         <i class="required"></i>菜单类别
       </label>
-      <div class="col-md-8 col-sm-8 col-xs-12">
-        <select id="category" name="category" [(ngModel)]="this.permission.category" class="form-control form-control-sm">
+      <div class="col-md-6 col-sm-6 col-xs-12">
+        <select id="category" name="category" [(ngModel)]="this.permission.category"
+                class="form-control form-control-sm" #category="ngModel" required>
           <option *ngFor="let category of categories" value="{{category.value}}">{{category.text}}</option>
         </select>
       </div>
+      <label class="control-label error-label col-md-4 col-sm-4 col-xs-12" *ngIf="category.getError('required') && (category.touched || category.dirty)">
+        菜单类别不能为空
+      </label>
     </div>
     <div class="form-group row" *ngIf="parent.id == -1">
-      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="icon">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="icon">
         图标
       </label>
-      <div class="col-md-8 col-sm-8 col-xs-12">
+      <div class="col-md-6 col-sm-6 col-xs-12">
         <select id="icon" [(ngModel)]="this.permission.icon" name="icon" class="form-control form-control-sm">
-          <option value="tree">tree</option>
+          <option *ngFor="let icon of icons" value="{{icon}}">{{icon}}</option>
         </select>
       </div>
     </div>
     <div class="form-group row" *ngIf="parent.id != -1">
-      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="action">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="action">
         URL
       </label>
-      <div class="col-md-8 col-sm-8 col-xs-12">
-        <input id="action" [(ngModel)]="this.permission.action" name="action" class="form-control form-control-sm">
+      <div class="col-md-6 col-sm-6 col-xs-12">
+        <input id="action" [(ngModel)]="this.permission.action" name="action" maxlength="255" class="form-control form-control-sm">
       </div>
     </div>
     <div class="form-group row">
-      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="description">
         描述
       </label>
-      <div class="col-md-8 col-sm-8 col-xs-12">
+      <div class="col-md-6 col-sm-6 col-xs-12">
         <textarea rows="4" type="text" id="description" name="description" [(ngModel)]="this.permission.description"
                   class="form-control form-control-sm"></textarea>
       </div>

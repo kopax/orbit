@@ -1,21 +1,21 @@
 package com.inmaytide.orbit.http;
 
-import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.utils.CommonUtils;
+import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 
-public class RestResponse<T> implements Serializable {
+public class RestResponse implements Serializable {
 
     private static final long serialVersionUID = -3039241497836831014L;
 
     private String id;
 
-    private ResponseState state;
+    private String code;
 
     private String message;
 
-    private T data;
+    private Object data;
 
     private ErrorResult error;
 
@@ -23,19 +23,30 @@ public class RestResponse<T> implements Serializable {
         this.id = CommonUtils.uuid();
     }
 
-    public static <T> RestResponse<T> ofSuccess(T data, String message) {
-        RestResponse<T> response = new RestResponse<T>();
-        response.setData(data);
-        response.setMessage(message);
-        response.setState(ResponseState.SUCCESS);
+    public static RestResponse of(Object data) {
+        return of(Integer.toString(HttpStatus.OK.value()), HttpStatus.OK.getReasonPhrase(), data);
+    }
+
+    public static RestResponse of(HttpStatus httpStatus, ErrorResult error) {
+        return of(Integer.toString(httpStatus.value()), httpStatus.getReasonPhrase(), error);
+    }
+
+    public static RestResponse of(String code, String message, ErrorResult error) {
+        RestResponse response = of(code, message);
+        response.setError(error);
         return response;
     }
 
-    public static <T> RestResponse<T> ofFail(String message, Throwable e) {
-        RestResponse<T> response = new RestResponse<T>();
+    public static RestResponse of(String code, String message) {
+        RestResponse response = new RestResponse();
+        response.setCode(code);
         response.setMessage(message);
-        response.setState(ResponseState.FAIL);
-        response.setError(new ErrorResult(e));
+        return response;
+    }
+
+    public static RestResponse of(String code, String message, Object data) {
+        RestResponse response = of(code, message);
+        response.setData(data);
         return response;
     }
 
@@ -47,12 +58,12 @@ public class RestResponse<T> implements Serializable {
         this.id = id;
     }
 
-    public ResponseState getState() {
-        return state;
+    public String getCode() {
+        return code;
     }
 
-    public void setState(ResponseState state) {
-        this.state = state;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getMessage() {
@@ -63,11 +74,11 @@ public class RestResponse<T> implements Serializable {
         this.message = message;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 

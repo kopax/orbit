@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.props;
+package com.inmaytide.orbit.http;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

@@ -4,6 +4,7 @@ import {trigger, state, style, animate, transition} from '@angular/animations';
 import * as GlobalVariable from "../globals";
 import {Router} from "@angular/router";
 import {User} from "../models/user-model";
+import {Commons} from "../commons";
 
 @Component({
   selector: 'side-bar',
@@ -19,6 +20,7 @@ import {User} from "../models/user-model";
 })
 
 export class SidebarComponent implements OnInit {
+  private URL_MENUS = GlobalVariable.BASE_API_URL + "sys/permission/someones/menus";
   public images: string = GlobalVariable.PATH_IMAGES;
   public menus = [];
   public user:User;
@@ -29,24 +31,22 @@ export class SidebarComponent implements OnInit {
                      public router: Router) {
     let objUser = localStorage.getItem(GlobalVariable.CURRENT_USER);
     this.user = JSON.parse(objUser);
-    this.http.get(GlobalVariable.BASE_API_URL + "sys/permission/someones/menus")
+    this.http.get(this.URL_MENUS)
       .map(response => response.json())
       .subscribe(
         result => {
-          if (result.status == GlobalVariable.RESULT_SUCCESS) {
-            this.menus = result.data;
-            if (this.menus.length > 0) {
-              for (let i = 0; i < this.menus.length; i++) {
-                this.menus[i].state = "inactive";
-              }
-              this.active = this.menus[0];
-              this.active.state = 'active';
-              this.p_active = this.active.id;
+          this.menus = result.data;
+          if (this.menus.length > 0) {
+            for (let i = 0; i < this.menus.length; i++) {
+              this.menus[i].state = "inactive";
             }
+            this.active = this.menus[0];
+            this.active.state = 'active';
+            this.p_active = this.active.id;
           }
         },
         error => {
-
+          Commons.errorHandler(error, this.router);
         }
       )
   }

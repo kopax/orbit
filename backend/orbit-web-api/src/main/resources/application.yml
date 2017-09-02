@@ -17,7 +17,7 @@ spring:
     dispatch-options-request: true
   data:
     mybatis:
-      mapper-Locations: classpath*:mappers/**/*.xml
+      beforeMapperLocations: classpath*:mappers/**/*.xml
 
 shiro:
   loginUrl: /login

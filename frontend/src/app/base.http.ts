@@ -11,18 +11,18 @@ export class BaseHttp extends Http {
   }
 
   request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-    const user = localStorage.getItem(GlobalVariable.CURRENT_USER);
-    const token = user ? JSON.parse(user).token : "unknown";
+    //const user = localStorage.getItem(GlobalVariable.CURRENT_USER);
+    //const token = user ? JSON.parse(user).token : "unknown";
 
 
     if (typeof url == "string") {
       if (!options) {
         options = new RequestOptions({});
       }
-      options.headers.set("Authorization", token);
+      //options.headers.set("Authorization", token);
       options.withCredentials = true;
     } else {
-      url.headers.set("Authorization", token);
+      //url.headers.set("Authorization", token);
       url.withCredentials = true;
     }
     return super.request(url, options);

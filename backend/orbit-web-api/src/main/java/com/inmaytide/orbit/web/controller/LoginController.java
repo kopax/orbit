@@ -6,7 +6,6 @@ import com.inmaytide.orbit.http.RestResponse;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.utils.*;
-import com.inmaytide.orbit.model.basic.Result;
 import com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -35,7 +34,7 @@ public class LoginController extends BasicController implements LogAdapter {
         User user = (User) subject.getPrincipal();
         user.setToken(TokenUtils.generate(CommonUtils.uuid(), user.getUsername()));
         debug("{} login succeed.", user.getUsername());
-        return RestResponse.ofSuccess(user, "login succeed.");
+        return RestResponse.of(user);
     }
 
     @GetMapping("captcha")

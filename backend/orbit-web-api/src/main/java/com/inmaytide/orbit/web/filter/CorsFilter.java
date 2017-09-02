@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.web.filter;
 
 import com.inmaytide.orbit.http.HttpHelper;
-import com.inmaytide.orbit.props.CorsProperties;
+import com.inmaytide.orbit.http.CorsProperties;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;

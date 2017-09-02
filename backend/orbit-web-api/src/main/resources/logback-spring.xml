@@ -6,8 +6,6 @@
         </encoder>
     </appender>
 
-
-    <logger name="com.inmaytide.orbit.dao" level="debug" />
     <logger name="com.inmaytide.orbit.model" level="debug" />
 
     <root level="info">

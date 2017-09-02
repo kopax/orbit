@@ -1,6 +1,6 @@
 package com.inmaytide.orbit;
 
-import com.inmaytide.orbit.props.CorsProperties;
+import com.inmaytide.orbit.http.CorsProperties;
 import com.inmaytide.orbit.web.auth.JWTOrAuthenticationFilter;
 import com.inmaytide.orbit.web.auth.cache.RedisSessionDao;
 import com.inmaytide.orbit.web.auth.cache.RedisShiroCacheManager;
@@ -23,17 +23,11 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.data.mybatis.repository.config.EnableMybatisRepositories;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;

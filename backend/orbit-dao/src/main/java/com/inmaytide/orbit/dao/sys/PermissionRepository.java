@@ -9,17 +9,17 @@ import java.util.List;
 
 public interface PermissionRepository extends MybatisRepository<Permission, Long> {
 
-    String DEFAULT_NAMESPACE = "com.inmaytide.orbit.dao.sys.PermissionRepository";
-
-    @Query(namespace = DEFAULT_NAMESPACE, value = "findCodesByUsername")
+    @Query(value = "findCodesByUsername")
     List<String> findCodesByUsername(@Param("username") String username);
 
-    @Query(namespace = DEFAULT_NAMESPACE, value = "findByUsername")
+    @Query(value = "findByUsername")
     List<Permission> findByUsername(@Param("username") String username, @Param("category") String category);
 
-    @Query(namespace = DEFAULT_NAMESPACE, value = "deleteBatch")
+    @Query(value = "deleteBatch")
     void delete(@Param("ids") Long[] ids);
 
-    @Query(namespace = DEFAULT_NAMESPACE, value="getSort", returnType = Integer.class)
+    @Query(value="getSort")
     Integer getSort();
+
+    Integer countByCodeAndIdNot(String code, Long id);
 }

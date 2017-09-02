@@ -17,4 +17,6 @@ public interface PermissionService extends CrudService<Permission, Long> {
     List<Permission> findList();
 
     void deleteBatch(Long[] ids);
+
+    Boolean checkCode(String code, Long id);
 }

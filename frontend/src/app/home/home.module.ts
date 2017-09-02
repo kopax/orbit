@@ -14,11 +14,13 @@ import {PermissionChildViewComponent} from "./sys/permission/permission-child-vi
 import {PermissionService} from "./sys/permission/permission.service";
 import {PermissionModalComponent} from "./sys/permission/permission-modal.component";
 import {FormsModule} from "@angular/forms";
+import {NotRepeatValidator} from "../directive/validators/not-repeat.validator";
 
 
 @NgModule({
   declarations: [
     AutoHeightDirective,
+    NotRepeatValidator,
     HomeComponent,
     SidebarComponent,
     TopnavbarComponent,

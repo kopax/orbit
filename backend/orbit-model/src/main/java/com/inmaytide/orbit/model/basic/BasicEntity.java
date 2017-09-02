@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 public class BasicEntity implements Serializable, Comparable<BasicEntity> {
 
+    private static final long serialVersionUID = 5784033340704847103L;
     @Id
     private Long id;
     @Column(name = "create_time")

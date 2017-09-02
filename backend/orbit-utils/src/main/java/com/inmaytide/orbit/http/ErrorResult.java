@@ -1,7 +1,10 @@
 package com.inmaytide.orbit.http;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class ErrorResult implements Serializable {
 
@@ -9,21 +12,29 @@ public class ErrorResult implements Serializable {
 
     private LocalDateTime time;
 
-    private Integer code;
-
     private String type;
 
     private String message;
 
-    public ErrorResult() {
+    private String stackTrace;
 
+    public ErrorResult() {
+        setTime(LocalDateTime.now());
     }
 
-    public ErrorResult(Throwable e) {
-        this.time = LocalDateTime.now();
-        this.type = e.getClass().getName();
-        this.message = e.getMessage();
-        this.code = 1;
+    public static ErrorResult of(Throwable e) {
+        return of(e, false);
+    }
+
+    public static ErrorResult of(Throwable e, boolean isOutputStrackTrace) {
+        Objects.requireNonNull(e);
+        ErrorResult error = new ErrorResult();
+        error.setType(e.getClass().getName());
+        error.setMessage(ExceptionUtils.getMessage(e));
+        if (isOutputStrackTrace) {
+            error.setStackTrace(ExceptionUtils.getStackTrace(e));
+        }
+        return error;
     }
 
     public LocalDateTime getTime() {
@@ -49,4 +60,13 @@ public class ErrorResult implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public String getStackTrace() {
+        return stackTrace;
+    }
+
+    public void setStackTrace(String stackTrace) {
+        this.stackTrace = stackTrace;
+    }
+
 }

@@ -9,9 +9,7 @@ import java.util.List;
 
 public interface RoleRepository extends MybatisRepository<Role, String> {
 
-    String DEFAULT_NAMESPACE = "com.inmaytide.orbit.dao.sys.RoleRepository";
-
-    @Query(namespace = DEFAULT_NAMESPACE, value = "findCodesByUsername")
+    @Query(value = "findCodesByUsername")
     List<String> findCodesByUsername(@Param("username") String username);
 
 }

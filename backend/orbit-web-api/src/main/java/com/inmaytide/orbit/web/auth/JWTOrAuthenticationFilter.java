@@ -2,7 +2,7 @@ package com.inmaytide.orbit.web.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.inmaytide.orbit.http.HttpHelper;
-import com.inmaytide.orbit.props.CorsProperties;
+import com.inmaytide.orbit.http.CorsProperties;
 import com.inmaytide.orbit.utils.TokenUtils;
 import com.inmaytide.orbit.web.auth.exception.CannotCreateTokenException;
 import com.inmaytide.orbit.web.auth.exception.InvalidTokenException;

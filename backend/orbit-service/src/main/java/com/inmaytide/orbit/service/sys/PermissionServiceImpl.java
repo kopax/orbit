@@ -75,4 +75,9 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
         Assert.notEmpty(ids);
         getRepository().delete(ids);
     }
+
+    @Override
+    public Boolean checkCode(String code, Long id) {
+        return getRepository().countByCodeAndIdNot(code, id) == 0;
+    }
 }

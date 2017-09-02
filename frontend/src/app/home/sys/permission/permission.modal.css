@@ -10,3 +10,9 @@
   padding-top: 4px;
   text-align: right;
 }
+
+.error-label {
+  text-align: left!important;
+  color: #ed1c24;
+}
+

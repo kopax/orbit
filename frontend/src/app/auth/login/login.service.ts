@@ -24,19 +24,15 @@ export class LoginService {
       .post(this.loginURL, user)
       .map(response => response.json())
       .subscribe(
-        result => {
-          if (result.state == GlobalVariable.RESULT_SUCCESS) {
-            const data = result.data;
+        response => {
+            const data = response.data;
             if (data && data.token) {
               localStorage.setItem(GlobalVariable.CURRENT_USER, JSON.stringify(data));
               this.subject.next(Object.assign({}, data));
             }
-          } else {
-            this.subject.error(result.message);
-          }
         },
         error => {
-          console.log(error);
+          this.subject.error((error._body && JSON.parse(error._body).message) || "网络连接超时");
         }
       )
   }

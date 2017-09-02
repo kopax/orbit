@@ -1,7 +1,5 @@
 package com.inmaytide.orbit.http;
 
-import com.inmaytide.orbit.props.CorsProperties;
-
 import javax.servlet.http.HttpServletResponse;
 
 public class HttpHelper {

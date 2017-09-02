@@ -1,11 +1,15 @@
 package com.inmaytide.orbit.web;
 
+import java.util.regex.Pattern;
+
 public class TestApplication {
 
     public static void main(String... args) {
-        System.out.println("select distinct(r.code) code from sys_role r " +
-                "left join sys_user_role ur on ur.r_id = r.id " +
-                        "left join sys_user u on u.id = ur.u_id " +
-                        "where u.username = ?1");
+        System.out.println(Pattern.matches("^[1|2]$", "1L"));
+        System.out.println(Pattern.matches("^[1|2]$", "2"));
+        System.out.println(Pattern.matches("^[1|2]$", "3"));
+        System.out.println(Pattern.matches("^[1|2]$", "0"));
+        System.out.println(Pattern.matches("^[1|2]$", "123123"));
+        System.out.println(Pattern.matches("^[1|2]$", "1.2"));
     }
 }
