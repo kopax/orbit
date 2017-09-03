@@ -13,11 +13,13 @@ import {HomeModule} from "./home/home.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BaseHttp} from "./base.http";
 import {LayerModule} from "./layers/layer.module";
+import {Error403Compontent} from "./errors/403.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    Error403Compontent
   ],
   imports: [
     NgbModule.forRoot(),

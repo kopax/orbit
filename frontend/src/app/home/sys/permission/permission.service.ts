@@ -1,20 +1,20 @@
 import {Permission} from "../../../models/permission-model";
-import {Http} from "@angular/http";
+import {Headers, Http} from "@angular/http";
 import * as GlobalVariable from "../../../globals";
-import {Injectable, OnInit} from "@angular/core";
-import {Subject} from "rxjs/Subject";
+import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {Router} from "@angular/router";
-import {Commons} from "../../../commons";
+import {toPromise} from "rxjs/operator/toPromise";
 
 @Injectable()
 export class PermissionService {
 
+  //remote urls
+  private url_add = GlobalVariable.BASE_API_URL + "sys/permission/add";
   private url_list = GlobalVariable.BASE_API_URL + "sys/permission/list";
   private url_delete = GlobalVariable.BASE_API_URL + "sys/permission/delete";
-  private url_add = GlobalVariable.BASE_API_URL + "sys/permission/add";
-  public category = {"1": "菜单", "2": "按钮"};
-  public subject = new Subject<Permission[]>();
+  private url_update = GlobalVariable.BASE_API_URL + "sys/permission/update";
+  private url_change_sort = GlobalVariable.BASE_API_URL + "sys/permission/exchangeSort";
 
   public constructor(public http: Http,
                      public router: Router) {
@@ -24,34 +24,30 @@ export class PermissionService {
     return this.http.get(this.url_list).map(response => response.json());
   }
 
-  remove(data: Permission[]): string {
-    let actives = [];
-    this.getActives(actives, data);
-    if (actives.length == 0) {
-      return "请选择要删除的数据";
-    }
-
-    for (let i = 0; i < actives.length; i++) {
-      if (actives[i].children.length != 0) {
-        return "请先删除子菜单"
-      }
-    }
-
+  public remove(actives: Permission[]): Promise<any> {
     let ids = [];
     actives.forEach(inst => {
       ids.push(inst.id);
     });
-
-    this.http
+    return this.http
       .delete(this.url_delete, {body: ids})
-      .map(response => response.json())
-      .subscribe(result => {
-          console.log(result);
-        },
-        error => {
-          console.log(error);
-        });
+      .toPromise()
+      .then(response => response.json().data)
+      .catch(error => Promise.reject(error));
+  }
 
+  public add(permission: Permission): Promise<Permission> {
+    return this.http.put(this.url_add, permission)
+      .toPromise()
+      .then(response => response.json().data as Permission)
+      .catch(reason => Promise.reject(reason));
+  }
+
+  public update(permission: Permission): Promise<Permission> {
+    return this.http.put(this.url_update, permission)
+      .toPromise()
+      .then(response => response.json().data as Permission)
+      .catch(reason => Promise.reject(reason));
   }
 
   public getActives(actives: Permission[], data: Permission[]) {
@@ -63,10 +59,14 @@ export class PermissionService {
     });
   }
 
-  add(permission: Permission): Promise<Permission> {
-    return this.http.put(this.url_add, permission)
+  public changeSort(data: Permission[]): Promise<any> {
+    let body = [];
+    data.forEach(inst => body.push({id: inst.id, sort: inst.sort}));
+    let headers = new Headers();
+    headers.set("content-type", "application/json");
+    return this.http.patch(this.url_change_sort, JSON.stringify(body), {headers: headers})
       .toPromise()
-      .then(response => response.json().data as Permission)
+      .then(response => response.json())
       .catch(reason => Promise.reject(reason));
   }
 }

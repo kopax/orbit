@@ -5,3 +5,6 @@ export const PATH_IMAGES = "/assets/images/";
 export const CURRENT_USER = "currentUser";
 export const RESULT_SUCCESS = "SUCCESS";
 export const RESULT_FAIL = "FAIL";
+
+
+export const MENU_CATEGORIES = {"1": "菜单", "2": "按钮"};

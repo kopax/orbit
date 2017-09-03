@@ -7,7 +7,8 @@ export class Permission {
   category: number;
   description: string;
   parent: number;
-  children: Permission[];
+  sort: number;
+  children: Permission[] = [];
   createTime: Date;
   updateTime: Date;
   creator: number;

@@ -15,11 +15,11 @@ public interface PermissionRepository extends MybatisRepository<Permission, Long
     @Query(value = "findByUsername")
     List<Permission> findByUsername(@Param("username") String username, @Param("category") String category);
 
-    @Query(value = "deleteBatch")
-    void delete(@Param("ids") Long[] ids);
+    void deleteByIdIn(@Param("ids") Long[] ids);
 
-    @Query(value="getSort")
+    @Query(value = "getSort")
     Integer getSort();
 
     Integer countByCodeAndIdNot(String code, Long id);
+
 }

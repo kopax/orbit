@@ -8,8 +8,8 @@
           <div class="btn-toolbar" role="toolbar">
             <div class="btn-group btn-group-sm">
               <button (click)="add()" type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>添加</button>
-              <button type="button" class="btn btn-sm btn-success"><i class="fa fa-arrow-up"></i>上移</button>
-              <button type="button" class="btn btn-sm btn-success"><i class="fa fa-arrow-down"></i>下移</button>
+              <button (click)="move('up')" type="button" class="btn btn-sm btn-success"><i class="fa fa-arrow-up"></i>上移</button>
+              <button (click)="move('down')" type="button" class="btn btn-sm btn-success"><i class="fa fa-arrow-down"></i>下移</button>
               <button (click)="remove()" type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>删除</button>
             </div>
           </div>

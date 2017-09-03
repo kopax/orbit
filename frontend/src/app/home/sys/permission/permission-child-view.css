@@ -63,7 +63,7 @@
 }
 
 .level-2:before {
-  left: 45px!important;
+  left: 55px!important;
 }
 
 .level-3:before {
@@ -83,4 +83,8 @@
 .disabled:before {
   background-color: rgb(237, 237, 237);
   content: '+';
+}
+
+.btn-edit {
+  cursor: pointer;
 }

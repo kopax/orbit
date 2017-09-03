@@ -51,6 +51,11 @@ public class Permission extends BasicEntity {
     public Permission() {
     }
 
+    public Permission(Long id, Integer sort) {
+        this.setId(id);
+        this.sort = sort;
+    }
+
     public static Permission of(Long id) {
         Permission permission = new Permission();
         permission.setId(id);

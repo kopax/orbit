@@ -5,6 +5,7 @@ import * as GlobalVariable from "../globals";
 import {Router} from "@angular/router";
 import {User} from "../models/user-model";
 import {Commons} from "../commons";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'side-bar',
@@ -28,7 +29,8 @@ export class SidebarComponent implements OnInit {
   public p_active;
 
   public constructor(public http: Http,
-                     public router: Router) {
+                     public router: Router,
+                     public modalSerivce: NgbModal) {
     let objUser = localStorage.getItem(GlobalVariable.CURRENT_USER);
     this.user = JSON.parse(objUser);
     this.http.get(this.URL_MENUS)
@@ -46,7 +48,7 @@ export class SidebarComponent implements OnInit {
           }
         },
         error => {
-          Commons.errorHandler(error, this.router);
+          Commons.errorHandler(error, this.router, this.modalSerivce);
         }
       )
   }

@@ -3,8 +3,10 @@ package com.inmaytide.orbit.service.sys;
 import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.consts.PermissionCategory;
 import com.inmaytide.orbit.dao.sys.PermissionRepository;
+import com.inmaytide.orbit.exceptions.VersionMatchedException;
 import com.inmaytide.orbit.model.sys.Permission;
 import io.jsonwebtoken.lang.Assert;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,13 +34,26 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Permission add(Permission inst) {
         inst.setVersion(0);
         inst.setCreateTime(LocalDateTime.now());
         inst.setCreator(userService.getCurrent().getId());
         inst.setSort(getRepository().getSort());
         return getRepository().save(inst);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Permission modify(Permission inst) {
+        Permission origin = this.get(inst.getId());
+        if (null == origin || Objects.equals(origin.getVersion(), inst.getVersion())) {
+            throw new VersionMatchedException(origin);
+        }
+        BeanUtils.copyProperties(inst, origin, FINAL_FIELDS);
+        setUpdateInformation(origin);
+        update(origin);
+        return origin;
     }
 
     @Override
@@ -56,6 +68,34 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
         return listToTree(list);
     }
 
+    @Override
+    public void deleteBatch(Long[] ids) {
+        Assert.notEmpty(ids);
+        getRepository().deleteByIdIn(ids);
+    }
+
+    @Override
+    public Boolean checkCode(String code, Long id) {
+        return getRepository().countByCodeAndIdNot(code, id) == 0;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void exchangeSort(Permission[] permissions) {
+        modifySort(permissions[0].getId(), permissions[1].getSort());
+        modifySort(permissions[1].getId(), permissions[0].getSort());
+    }
+
+
+    private void modifySort(Long id, Integer sort) {
+        updateIgnore(new Permission(id, sort));
+    }
+
+    private void setUpdateInformation(Permission permission) {
+        permission.setUpdateTime(LocalDateTime.now());
+        permission.setUpdater(userService.getCurrent().getId());
+    }
+
     private List<Permission> listToTree(List<Permission> list) {
         Permission root = Permission.of(Constants.MENU_ROOT_ID);
         setChildren(root, list);
@@ -68,16 +108,5 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
                 .collect(Collectors.toList());
         children.forEach(p -> setChildren(p, list));
         permission.setChildren(children);
-    }
-
-    @Override
-    public void deleteBatch(Long[] ids) {
-        Assert.notEmpty(ids);
-        getRepository().delete(ids);
-    }
-
-    @Override
-    public Boolean checkCode(String code, Long id) {
-        return getRepository().countByCodeAndIdNot(code, id) == 0;
     }
 }

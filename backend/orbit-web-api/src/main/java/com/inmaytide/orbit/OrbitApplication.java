@@ -20,6 +20,7 @@ import org.patchca.color.SingleColorFactory;
 import org.patchca.filter.predefined.CurvesRippleFilterFactory;
 import org.patchca.service.ConfigurableCaptchaService;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,15 +29,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;
+import javax.sql.DataSource;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 @SpringBootApplication
+@EnableTransactionManagement(proxyTargetClass = true)
 public class OrbitApplication {
 
     @Value("#{ @environment['shiro.loginUrl'] ?: '/login.jsp' }")
@@ -50,6 +55,11 @@ public class OrbitApplication {
 
     @Resource
     private CorsProperties corsProperties;
+
+    @Bean
+    public DataSourceTransactionManager transactionManager(@Qualifier("dataSource") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }
 
     @Bean
     public FilterRegistrationBean corsFilter() {
