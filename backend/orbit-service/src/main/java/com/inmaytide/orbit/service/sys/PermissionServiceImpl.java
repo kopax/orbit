@@ -64,7 +64,7 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
 
     @Override
     public List<Permission> findList() {
-        List<Permission> list = getRepository().findAll(new Sort(new Sort.Order(Sort.Direction.ASC, "sort")));
+        List<Permission> list = getRepository().findAll(new Sort(Sort.Direction.ASC, "sort"));
         return listToTree(list);
     }
 
@@ -88,12 +88,13 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
 
 
     private void modifySort(Long id, Integer sort) {
-        updateIgnore(new Permission(id, sort));
+        updateIgnore(setUpdateInformation(new Permission(id, sort)));
     }
 
-    private void setUpdateInformation(Permission permission) {
+    private Permission setUpdateInformation(Permission permission) {
         permission.setUpdateTime(LocalDateTime.now());
         permission.setUpdater(userService.getCurrent().getId());
+        return permission;
     }
 
     private List<Permission> listToTree(List<Permission> list) {

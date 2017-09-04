@@ -9,10 +9,15 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long> implements LogService, LogAdapter {
@@ -24,6 +29,13 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
 
     public LogServiceImpl(LogRepository repository) {
         super(repository);
+    }
+
+    @Override
+    public Page<Log> findList(Log conditions, Integer pageSize, Integer pageNo) {
+        Sort sort = new Sort(Sort.Direction.DESC, "logTime");
+        Pageable pageable = new PageRequest(pageNo - 1, pageSize, sort);
+        return this.findAll(pageable, conditions);
     }
 
     @Override

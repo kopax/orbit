@@ -15,6 +15,8 @@ import {PermissionService} from "./sys/permission/permission.service";
 import {PermissionModalComponent} from "./sys/permission/permission-modal.component";
 import {FormsModule} from "@angular/forms";
 import {NotRepeatValidator} from "../directive/validators/not-repeat.validator";
+import {LogComponent} from "./sys/log/log.component";
+import {LogService} from "./sys/log/log.service";
 
 
 @NgModule({
@@ -28,7 +30,8 @@ import {NotRepeatValidator} from "../directive/validators/not-repeat.validator";
     ContentComponent,
     PermissionComponent,
     PermissionChildViewComponent,
-    PermissionModalComponent
+    PermissionModalComponent,
+    LogComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +45,8 @@ import {NotRepeatValidator} from "../directive/validators/not-repeat.validator";
     PermissionModalComponent
   ],
   providers: [
-    PermissionService
+    PermissionService,
+    LogService
   ]
 })
 

@@ -1,0 +1,45 @@
+.btn-toolbar {
+  padding: 5px;
+  justify-content: flex-end;
+}
+
+.btn>i {
+  margin-right: 3px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+.table th {
+  font-weight: bold;
+}
+
+.table-bordered td, .table-bordered th {
+  border: 1px solid #ddd;
+  padding: 6px 8px;
+}
+
+.table th:nth-child(1),
+.table td:nth-child(1) {
+  text-align: center;
+  width: 60px;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  text-align: center;
+  width: 15%;
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3) {
+  text-align: center;
+  width: 15%;
+}
+
+.table th:nth-child(4),
+.table td:nth-child(4) {
+  text-align: center;
+  width: 15%;
+}
