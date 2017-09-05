@@ -18,7 +18,6 @@ import {NotRepeatValidator} from "../directive/validators/not-repeat.validator";
 import {LogComponent} from "./sys/log/log.component";
 import {LogService} from "./sys/log/log.service";
 import {LocalDateTimePipe} from "../pipe/LocalDateTimePipe";
-import {LogCategoryPipe} from "../pipe/LogCategoryPipe";
 
 
 @NgModule({
