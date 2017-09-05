@@ -69,6 +69,7 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteBatch(Long[] ids) {
         Assert.notEmpty(ids);
         getRepository().deleteByIdIn(ids);

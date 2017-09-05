@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.model.sys;
 
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.annotations.Id;
@@ -13,10 +14,11 @@ public class Log {
 
     private Long operator;
 
+    @Transient
+    private String operatorName;
+
     @Column(name = "log_time")
     private LocalDateTime logTime;
-
-    private Integer category;
 
     private String content;
 
@@ -52,14 +54,6 @@ public class Log {
         this.logTime = logTime;
     }
 
-    public Integer getCategory() {
-        return category;
-    }
-
-    public void setCategory(Integer category) {
-        this.category = category;
-    }
-
     public String getContent() {
         return content;
     }
@@ -74,5 +68,13 @@ public class Log {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public String getOperatorName() {
+        return operatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
     }
 }

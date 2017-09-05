@@ -1,10 +1,10 @@
 package com.inmaytide.orbit.service.sys;
 
 import com.inmaytide.orbit.adepter.LogAdapter;
-import com.inmaytide.orbit.consts.LogCategory;
 import com.inmaytide.orbit.dao.sys.LogRepository;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.sys.Log;
+import com.inmaytide.orbit.model.sys.User;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long> implements LogService, LogAdapter {
@@ -35,7 +36,10 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
     public Page<Log> findList(Log conditions, Integer pageSize, Integer pageNo) {
         Sort sort = new Sort(Sort.Direction.DESC, "logTime");
         Pageable pageable = new PageRequest(pageNo - 1, pageSize, sort);
-        return this.findAll(pageable, conditions);
+        Page<Log> page = this.findAll(pageable, conditions);
+        Map<Long, User> users = userService.getAllUser();
+        page.getContent().forEach(log -> log.setOperatorName(users.get(log.getOperator()).getName()));
+        return page;
     }
 
     @Override
@@ -46,7 +50,6 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         } else {
             Log inst = Log.of();
             String content = String.format("%s => %s", annotation.value(), annotation.failure());
-            inst.setCategory(LogCategory.FAILED.getCode());
             inst.setContent(content);
             inst.setOperator(userService.getCurrent().getId());
             inst.setDetails(e.getClass().getName() + " => " + e.getMessage());
@@ -60,7 +63,6 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         Log inst = Log.of();
         LogAnnotation annotation = getLogAnnotation(point);
         String content = String.format("%s => %s", annotation.value(), annotation.success());
-        inst.setCategory(LogCategory.SUCCED.getCode());
         inst.setContent(content);
         inst.setOperator(userService.getCurrent().getId());
         save(inst);
@@ -70,7 +72,6 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
     private void loginFailedRecord(JoinPoint point, Throwable e) {
         Log inst = Log.of();
         LogAnnotation annotation = getLogAnnotation(point);
-        inst.setCategory(LogCategory.FAILED.getCode());
         UsernamePasswordToken token = (UsernamePasswordToken) point.getArgs()[0];
         String content = String.format("%s => %s, username => %s",
                 annotation.value(),

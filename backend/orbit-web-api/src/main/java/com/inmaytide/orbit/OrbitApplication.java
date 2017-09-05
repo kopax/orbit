@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -41,6 +42,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SpringBootApplication
+@EnableCaching(proxyTargetClass = true)
 @EnableTransactionManagement(proxyTargetClass = true)
 public class OrbitApplication {
 
@@ -149,3 +151,4 @@ public class OrbitApplication {
         SpringApplication.run(OrbitApplication.class, args);
     }
 }
+

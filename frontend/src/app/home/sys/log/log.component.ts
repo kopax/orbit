@@ -1,9 +1,10 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, EventEmitter, OnInit, Output} from "@angular/core";
 import {LogService} from "./log.service";
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Commons} from "../../../commons";
 import {Log} from "../../../models/log-model";
+import {Page} from "../../../models/page-model";
 
 @Component({
   selector: 'log',
@@ -12,17 +13,30 @@ import {Log} from "../../../models/log-model";
 })
 export class LogComponent implements OnInit{
 
-  public data: Log[] = [];
+  public page: Page<Log> = new Page<Log>();
+  //@Output() pageChange: EventEmitter<any> = new EventEmitter();
 
   constructor(public logService:LogService,
               public router: Router,
               public modalService: NgbModal) {
+
+  }
+
+  public pageChange(event) {
+    if (!isFinite(event) && event != 'size') {
+      return;
+    }
+    this.query(event == 'size' ? 1 : event, this.page.size);
   }
 
   ngOnInit(): void {
+    this.query(1, 10);
+  }
+
+  query(pageNumber, pageSize) {
     this.logService
-      .list({}, 1, 10)
-      .then(data => this.data = data.content)
+      .list({}, pageNumber, pageSize)
+      .then(data => this.page = data as Page<Log>)
       .catch(reason => Commons.errorHandler(reason, this.router, this.modalService));
   }
 

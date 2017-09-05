@@ -11,6 +11,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
@@ -19,12 +20,15 @@ import java.util.Objects;
 public abstract class BasicRealm extends AuthorizingRealm {
 
     @Resource
+    @Lazy
     private UserService userService;
 
     @Resource
+    @Lazy
     private RoleService roleService;
 
     @Resource
+    @Lazy
     private PermissionService permissionService;
 
     public BasicRealm() {

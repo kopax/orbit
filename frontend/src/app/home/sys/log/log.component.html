@@ -20,27 +20,35 @@
                   <th>#</th>
                   <th>操作人</th>
                   <th>操作时间</th>
-                  <th>操作结果</th>
-                  <th>内容</th>
+                  <th>日志内容</th>
+                  <th>日志明细</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let inst of data; let i = index">
+                <tr *ngFor="let inst of page.content; let i = index">
                   <td>{{i + 1}}</td>
-                  <td>{{inst.operator}}</td>
-                  <td>{{inst.logTime}}</td>
-                  <td>{{inst.category}}</td>
+                  <td>{{inst.operatorName}}</td>
+                  <td>{{inst.logTime | localDateTime}}</td>
                   <td>{{inst.content}}</td>
+                  <td title="{{inst.details}}">{{inst.details}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="row">
             <div class="col-4 pagination-text">
-              <span>共 1 记录， 每页 <select><option>20</option></select> 记录，共 2 页</span>
+              <span>
+                共 {{page.totalElements}} 条记录，
+                每页 <select (change)="pageChange('size')" [(ngModel)]="page.size" name="size">
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                        <option>100</option>
+                    </select> 条记录，
+                共 {{page.totalPages}} 页</span>
             </div>
-            <div class="col-8 dataTables_paginate paging_simple_numbers">
-              <ngb-pagination [collectionSize]="50" [page]="1"></ngb-pagination>
+            <div class="col-8">
+              <ngb-pagination (pageChange)="pageChange($event)" [rotate]="true" [maxSize]="7" [pageSize]="page.size" [collectionSize]="page.totalElements" [page]="page.number + 1" size="sm" [ellipses]="false"></ngb-pagination>
             </div>
           </div>
         </div>

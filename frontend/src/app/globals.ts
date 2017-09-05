@@ -8,3 +8,4 @@ export const RESULT_FAIL = "FAIL";
 
 
 export const MENU_CATEGORIES = {"1": "菜单", "2": "按钮"};
+export const LOG_CATEGORIES = {"1": "操作成功", "2": "操作失败"}
