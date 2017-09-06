@@ -13,6 +13,11 @@ import {Page} from "../../../models/page-model";
 })
 export class LogComponent implements OnInit{
 
+  public conditions = {
+    keywords: '',
+    begin: Date.now(),
+    end: Date.now()
+  }
   public page: Page<Log> = new Page<Log>();
   //@Output() pageChange: EventEmitter<any> = new EventEmitter();
 
@@ -26,16 +31,21 @@ export class LogComponent implements OnInit{
     if (!isFinite(event) && event != 'size') {
       return;
     }
-    this.query(event == 'size' ? 1 : event, this.page.size);
+    this.query(event == 'size' ? 1 : event, this.page.size, {});
   }
 
   ngOnInit(): void {
-    this.query(1, 10);
+    this.query(1, 10, {});
   }
 
-  query(pageNumber, pageSize) {
+  search(event) {
+    console.log(this.conditions);
+    console.log(event);
+  }
+
+  query(pageNumber, pageSize, conditions) {
     this.logService
-      .list({}, pageNumber, pageSize)
+      .list(conditions, pageNumber, pageSize)
       .then(data => this.page = data as Page<Log>)
       .catch(reason => Commons.errorHandler(reason, this.router, this.modalService));
   }
