@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.service.sys;
 
 import com.inmaytide.orbit.adepter.LogAdapter;
+import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.dao.sys.LogRepository;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.sys.Log;
@@ -9,10 +10,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
 
@@ -32,14 +30,20 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         super(repository);
     }
 
-    @Override
-    public Page<Log> findList(Log conditions, Integer pageSize, Integer pageNo) {
-        Sort sort = new Sort(Sort.Direction.DESC, "logTime");
-        Pageable pageable = new PageRequest(pageNo - 1, pageSize, sort);
-        Page<Log> page = this.findAll(pageable, conditions);
+    public Page<Log> findList(Map<String, Object> conditions, Integer pageSize, Integer pageNo) {
+        Integer size = pageSize == null ? Constants.DEFAULT_PAGE_SIZE : pageSize;
+        conditions.put("size", size);
+        conditions.put("offset", pageNo == null ? 0 : (pageNo - 1) * size);
+        List<Log> content = getRepository().findList(conditions);
         Map<Long, User> users = userService.getAllUser();
-        page.getContent().forEach(log -> log.setOperatorName(users.get(log.getOperator()).getName()));
-        return page;
+        content.forEach(log -> {
+            if (log.getOperator() != null) {
+                log.setOperatorName(users.get(log.getOperator()).getName());
+            }
+        });
+        Sort sort = new Sort(Sort.Direction.DESC, "logTime");
+        Pageable pageable = new PageRequest(pageNo == null ? 0 : pageNo - 1, size, sort);
+        return new PageImpl<Log>(content, pageable, getRepository().findCount(conditions));
     }
 
     @Override

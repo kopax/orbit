@@ -8,7 +8,10 @@ import {SidebarComponent} from "../menu/sidebar.component";
 import {TopnavbarComponent} from "../menu/topnavbar.component";
 import {FooterComponent} from "./footer.component";
 import {PermissionComponent} from "./sys/permission/permission.component";
-import {NgbAlertModule, NgbDropdownModule, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbAlertModule, NgbDatepicker, NgbDatepickerModule, NgbDropdownModule,
+  NgbPaginationModule
+} from "@ng-bootstrap/ng-bootstrap";
 import {AutoHeightDirective} from "../directive/auto-height.directive";
 import {PermissionChildViewComponent} from "./sys/permission/permission-child-view.component";
 import {PermissionService} from "./sys/permission/permission.service";
@@ -41,7 +44,8 @@ import {LocalDateTimePipe} from "../pipe/LocalDateTimePipe";
     NgbPaginationModule,
     NgbDropdownModule,
     NgbAlertModule,
-    FormsModule
+    FormsModule,
+    NgbDatepickerModule
   ],
   entryComponents: [
     PermissionModalComponent

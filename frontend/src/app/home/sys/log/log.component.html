@@ -3,6 +3,37 @@
   <div class="row">
     <div class="col-12">
       <div class="x_panel">
+        <div class="form-group row">
+          <label class="control-label col-sm-1">
+            快速搜索
+          </label>
+          <div class="col-sm-5">
+            <div class="input-group">
+              <input [(ngModel)]="conditions.keywords" name="keywords" (blur)="search($event)" (keyup)="search($event)" class="form-control form-control-sm" placeholder="操作人、日志内容"/>
+              <div class="input-group-addon" (click)="search($event)"><i class="fa fa-search"></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-1">
+            操作时间
+          </label>
+          <div class="col-sm-2">
+            <div class="input-group">
+              <input readonly [(ngModel)]="conditions.begin" name="begin" (ngModelChange)="search($event)"  placeholder="yyyy-mm-dd" class="form-control form-control-sm" ngbDatepicker #begin="ngbDatepicker"/>
+              <div class="input-group-addon" (click)="begin.toggle()"><i class="fa fa-calendar"></i></div>
+            </div>
+          </div>
+          <label class="control-label label-to">至</label>
+          <div class="col-sm-2">
+            <div class="input-group">
+              <input readonly  [(ngModel)]="conditions.end" name="end" (ngModelChange)="search($event)" placeholder="yyyy-mm-dd" class="form-control form-control-sm" ngbDatepicker #end="ngbDatepicker"/>
+              <div class="input-group-addon" (click)="end.toggle()"><i class="fa fa-calendar"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="x_panel">
         <div class="x_title">
           <h2>日志管理</h2>
           <div class="btn-toolbar" role="toolbar">
@@ -36,7 +67,7 @@
             </table>
           </div>
           <div class="row">
-            <div class="col-4 pagination-text">
+            <div class="col-6 pagination-text">
               <span>
                 共 {{page.totalElements}} 条记录，
                 每页 <select (change)="pageChange('size')" [(ngModel)]="page.size" name="size">
@@ -47,7 +78,7 @@
                     </select> 条记录，
                 共 {{page.totalPages}} 页</span>
             </div>
-            <div class="col-8">
+            <div class="col-6">
               <ngb-pagination (pageChange)="pageChange($event)" [rotate]="true" [maxSize]="7" [pageSize]="page.size" [collectionSize]="page.totalElements" [page]="page.number + 1" size="sm" [ellipses]="false"></ngb-pagination>
             </div>
           </div>

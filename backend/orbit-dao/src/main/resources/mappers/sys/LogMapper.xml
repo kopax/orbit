@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inmaytide.orbit.model.sys.Log">
+
+
+    <select id="findCount" parameterType="java.util.Map" resultType="java.lang.Long">
+        select count(1) from sys_log
+        <where>
+            <if test="conditions.keywords != null and conditions.keywords != ''">
+                instr(content, #{conditions.keywords})
+                and operator in (select id from sys_user where instr(name, #{conditions.keyword}))
+            </if>
+            <if test="conditions.begin != null">
+                and log_time >= #{conditions.begin, jdbcType=DATETIME}
+            </if>
+            <if test="conditions.end != null">
+                and log_time &lt;= #{conditions.end, jdbcType=DATETIME}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="findList" parameterType="java.util.Map" resultType="com.inmaytide.orbit.model.sys.Log">
+        select id, operator, log_time logTime, content, details
+        from sys_log
+        <where>
+            <if test="conditions.keywords != null and conditions.keywords != ''">
+                instr(content, #{conditions.keywords})
+                and operator in (select id from sys_user where instr(name, #{conditions.keyword}))
+            </if>
+            <if test="conditions.begin != null">
+                and log_time >= #{conditions.begin, jdbcType=DATETIME}
+            </if>
+            <if test="conditions.end != null">
+                and log_time &lt;= #{conditions.end, jdbcType=DATETIME}
+            </if>
+        </where>
+        order by log_time desc
+        limit #{conditions.size} offset #{conditions.offset}
+    </select>
+
+</mapper>
