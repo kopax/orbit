@@ -9,7 +9,7 @@
           </label>
           <div class="col-sm-5">
             <div class="input-group">
-              <input [(ngModel)]="conditions.keywords" name="keywords" (blur)="search($event)" (keyup)="search($event)" class="form-control form-control-sm" placeholder="操作人、日志内容"/>
+              <input [(ngModel)]="conditions.keywords" name="keywords" (keyup)="search($event)" class="form-control form-control-sm" placeholder="操作人、日志内容"/>
               <div class="input-group-addon" (click)="search($event)"><i class="fa fa-search"></i></div>
             </div>
           </div>
@@ -30,6 +30,9 @@
               <input readonly  [(ngModel)]="conditions.end" name="end" (ngModelChange)="search($event)" placeholder="yyyy-mm-dd" class="form-control form-control-sm" ngbDatepicker #end="ngbDatepicker"/>
               <div class="input-group-addon" (click)="end.toggle()"><i class="fa fa-calendar"></i></div>
             </div>
+          </div>
+          <div class="col-sm-2">
+            <button (click)="resetConditions()" class="btn btn-sm btn-success btn-reset"><i class="fa fa-eraser"></i>清空</button>
           </div>
         </div>
       </div>

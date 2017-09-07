@@ -35,12 +35,6 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         conditions.put("size", size);
         conditions.put("offset", pageNo == null ? 0 : (pageNo - 1) * size);
         List<Log> content = getRepository().findList(conditions);
-        Map<Long, User> users = userService.getAllUser();
-        content.forEach(log -> {
-            if (log.getOperator() != null) {
-                log.setOperatorName(users.get(log.getOperator()).getName());
-            }
-        });
         Sort sort = new Sort(Sort.Direction.DESC, "logTime");
         Pageable pageable = new PageRequest(pageNo == null ? 0 : pageNo - 1, size, sort);
         return new PageImpl<Log>(content, pageable, getRepository().findCount(conditions));

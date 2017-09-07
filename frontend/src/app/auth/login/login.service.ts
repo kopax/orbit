@@ -1,18 +1,18 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Http, Headers, Response} from '@angular/http';
 import {User} from '../../models/user-model';
 import {Subject} from "rxjs/Subject";
 import 'rxjs/add/operator/map';
 import * as GlobalVariable from "../../globals";
 import {Token} from "../../models/token-model";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
 export class LoginService {
   public loginURL = GlobalVariable.BASE_API_URL + 'login';
   public subject: Subject<User> = new Subject<User>();
 
-  constructor(public http: Http) {
+  constructor(public http: HttpClient) {
   }
 
   public getCurrentUser(): Observable<User> {
@@ -22,10 +22,9 @@ export class LoginService {
   public login(user: Token) {
     return this.http
       .post(this.loginURL, user)
-      .map(response => response.json())
       .subscribe(
         response => {
-            const data = response.data;
+            const data = response["data"];
             if (data && data.token) {
               localStorage.setItem(GlobalVariable.CURRENT_USER, JSON.stringify(data));
               this.subject.next(Object.assign({}, data));

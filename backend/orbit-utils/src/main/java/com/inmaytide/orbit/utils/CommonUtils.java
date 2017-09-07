@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.utils;
 
 import com.inmaytide.orbit.consts.Constants;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -21,6 +22,18 @@ public class CommonUtils {
 
     public static String uuid() {
         return UUID.randomUUID().toString().replace("-", "");
+    }
+
+    /**
+     * Convert an object to int, the object must not be null.
+     * @param o
+     * @return
+     */
+    public static int toint(Object o) {
+        if (o == null || !NumberUtils.isCreatable(o.toString())) {
+            throw new IllegalArgumentException();
+        }
+        return Integer.valueOf(o.toString());
     }
 
 }

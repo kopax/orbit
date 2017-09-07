@@ -1,6 +1,5 @@
 import {AbstractControl, NG_VALIDATORS, Validator} from "@angular/forms";
 import {Attribute, Directive, forwardRef, Input} from "@angular/core";
-import {Http} from "@angular/http";
 import * as GlobalVariable from "../../globals";
 import "rxjs/add/operator/toPromise";
 
@@ -18,8 +17,7 @@ export class NotRepeatValidator implements Validator {
   public selfId: string;
 
 
-  constructor(@Attribute("notRepeat") public notRepeat: string,
-              public http: Http) {
+  constructor(@Attribute("notRepeat") public notRepeat: string) {
 
   }
 

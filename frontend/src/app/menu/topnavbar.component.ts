@@ -1,10 +1,8 @@
 import {Component, Injectable, OnInit} from "@angular/core";
 import * as GlobalVariable from "../globals";
 import {HomeComponent} from "../home/home.component";
-import {Http, Headers, Response, RequestOptionsArgs, RequestOptions} from '@angular/http';
 import {LoginService} from "../auth/login/login.service";
 import {Router} from "@angular/router";
-import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import {User} from "../models/user-model";
 
@@ -22,7 +20,6 @@ export class TopnavbarComponent implements OnInit {
 
   constructor(public homeComponent: HomeComponent,
               public loginService: LoginService,
-              public http: Http,
               public router: Router) {
 
   }

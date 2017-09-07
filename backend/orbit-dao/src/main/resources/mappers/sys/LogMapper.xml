@@ -7,32 +7,33 @@
         select count(1) from sys_log
         <where>
             <if test="conditions.keywords != null and conditions.keywords != ''">
-                instr(content, #{conditions.keywords})
-                and operator in (select id from sys_user where instr(name, #{conditions.keyword}))
+                (instr(content, #{conditions.keywords})
+                or operator in (select id from sys_user where instr(name, #{conditions.keywords})))
             </if>
             <if test="conditions.begin != null">
-                and log_time >= #{conditions.begin, jdbcType=DATETIME}
+                and log_time >= #{conditions.begin}
             </if>
             <if test="conditions.end != null">
-                and log_time &lt;= #{conditions.end, jdbcType=DATETIME}
+                and log_time &lt;= #{conditions.end}
             </if>
         </where>
     </select>
 
 
     <select id="findList" parameterType="java.util.Map" resultType="com.inmaytide.orbit.model.sys.Log">
-        select id, operator, log_time logTime, content, details
+        select id, operator, log_time logTime, content, details,
+               (select name from sys_user u where u.id = operator) operatorName
         from sys_log
         <where>
             <if test="conditions.keywords != null and conditions.keywords != ''">
-                instr(content, #{conditions.keywords})
-                and operator in (select id from sys_user where instr(name, #{conditions.keyword}))
+                (instr(content, #{conditions.keywords})
+                or operator in (select id from sys_user where instr(name, #{conditions.keywords})))
             </if>
             <if test="conditions.begin != null">
-                and log_time >= #{conditions.begin, jdbcType=DATETIME}
+                and log_time >= #{conditions.begin}
             </if>
             <if test="conditions.end != null">
-                and log_time &lt;= #{conditions.end, jdbcType=DATETIME}
+                and log_time &lt;= #{conditions.end}
             </if>
         </where>
         order by log_time desc

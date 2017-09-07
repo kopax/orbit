@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './auth/login/login.component';
-import {Http, HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from './app.routes';
 import {LoginService} from "./auth/login/login.service";
@@ -11,9 +10,10 @@ import {FormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {HomeModule} from "./home/home.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {BaseHttp} from "./base.http";
 import {LayerModule} from "./layers/layer.module";
 import {Error403Compontent} from "./errors/403.component";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
+import {CommonRequestInterceptor} from "./interceptors/common-request-interceptor";
 
 @NgModule({
   declarations: [
@@ -25,13 +25,17 @@ import {Error403Compontent} from "./errors/403.component";
     NgbModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     FormsModule,
     HomeModule,
     RouterModule.forRoot(appRoutes),
     LayerModule
   ],
-  providers: [LoginService, {provide: Http, useClass: BaseHttp}],
+  providers: [
+    LoginService,
+    HttpClient,
+    {provide: HTTP_INTERCEPTORS, useClass: CommonRequestInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

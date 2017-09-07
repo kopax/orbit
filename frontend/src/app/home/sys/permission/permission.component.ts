@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from "@angular/core"
 import {Permission} from "../../../models/permission-model";
 import 'rxjs/add/operator/map'
-import {Http} from "@angular/http";
 import {PermissionService} from "./permission.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {PermissionModalComponent} from "./permission-modal.component";
@@ -18,8 +17,7 @@ export class PermissionComponent implements OnInit {
 
   public permissions: Permission[] = [];
 
-  public constructor(public http: Http,
-                     public service: PermissionService,
+  public constructor(public service: PermissionService,
                      public modalService: NgbModal,
                      public router: Router) {
   }

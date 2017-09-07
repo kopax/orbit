@@ -5,6 +5,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Commons} from "../../../commons";
 import {Log} from "../../../models/log-model";
 import {Page} from "../../../models/page-model";
+import {unescape} from "querystring";
 
 @Component({
   selector: 'log',
@@ -15,11 +16,10 @@ export class LogComponent implements OnInit{
 
   public conditions = {
     keywords: '',
-    begin: Date.now(),
-    end: Date.now()
-  }
+    begin: undefined,
+    end: undefined
+  };
   public page: Page<Log> = new Page<Log>();
-  //@Output() pageChange: EventEmitter<any> = new EventEmitter();
 
   constructor(public logService:LogService,
               public router: Router,
@@ -27,11 +27,27 @@ export class LogComponent implements OnInit{
 
   }
 
+  private getConditions() {
+    let _conditions = {};
+    if (this.conditions.keywords != '') {
+      _conditions['keywords'] = this.conditions.keywords;
+    }
+    if (this.conditions.begin != undefined) {
+      let begin = this.conditions.begin;
+      _conditions['begin'] = [begin.year, begin.month, begin.day].join("-");
+    }
+    if (this.conditions.end != undefined) {
+      let end = this.conditions.end;
+      _conditions['end'] = [end.year, end.month, end.day].join("-");
+    }
+    return _conditions;
+  }
+
   public pageChange(event) {
     if (!isFinite(event) && event != 'size') {
       return;
     }
-    this.query(event == 'size' ? 1 : event, this.page.size, {});
+    this.query(event == 'size' ? 1 : event, this.page.size, this.getConditions());
   }
 
   ngOnInit(): void {
@@ -39,8 +55,10 @@ export class LogComponent implements OnInit{
   }
 
   search(event) {
-    console.log(this.conditions);
-    console.log(event);
+    if (event.key && event.key != 'Enter') {
+      return;
+    }
+    this.query(1, 10, this.getConditions());
   }
 
   query(pageNumber, pageSize, conditions) {
@@ -48,6 +66,14 @@ export class LogComponent implements OnInit{
       .list(conditions, pageNumber, pageSize)
       .then(data => this.page = data as Page<Log>)
       .catch(reason => Commons.errorHandler(reason, this.router, this.modalService));
+  }
+
+  resetConditions() {
+    this.conditions = {
+      keywords: '',
+      begin: undefined,
+      end: undefined
+    }
   }
 
 }

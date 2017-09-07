@@ -1,10 +1,10 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {ActivatedRoute, Router, ActivatedRouteSnapshot, RouterState, RouterStateSnapshot} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {LoginService} from "./login.service";
 import {User} from '../../models/user-model';
-import * as GlobalVariable from "../../globals";
 import {Subject} from "rxjs/Subject";
 import {Token} from "../../models/token-model";
+import * as GlobalVariable from "../../globals";
 
 
 @Component({
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
             this.router.navigateByUrl("home");
           },
           error => {
-            this.failCount ++;
+            this.failCount++;
             this.ngbAlert.message = error;
             this.hasMessage = true;
             this.loginService.subject = new Subject<User>();

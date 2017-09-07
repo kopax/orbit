@@ -1,11 +1,11 @@
 import {Component, OnInit} from "@angular/core";
-import {Http} from "@angular/http";
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import * as GlobalVariable from "../globals";
 import {Router} from "@angular/router";
 import {User} from "../models/user-model";
 import {Commons} from "../commons";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'side-bar',
@@ -28,16 +28,15 @@ export class SidebarComponent implements OnInit {
   public active;
   public p_active;
 
-  public constructor(public http: Http,
+  public constructor(public http: HttpClient,
                      public router: Router,
                      public modalSerivce: NgbModal) {
     let objUser = localStorage.getItem(GlobalVariable.CURRENT_USER);
     this.user = JSON.parse(objUser);
     this.http.get(this.URL_MENUS)
-      .map(response => response.json())
       .subscribe(
         result => {
-          this.menus = result.data;
+          this.menus = result['data'];
           if (this.menus.length > 0) {
             for (let i = 0; i < this.menus.length; i++) {
               this.menus[i].state = "inactive";
