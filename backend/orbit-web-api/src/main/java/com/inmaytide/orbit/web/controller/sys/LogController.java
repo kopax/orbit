@@ -9,10 +9,14 @@ import com.inmaytide.orbit.service.sys.LogService;
 import com.inmaytide.orbit.utils.CommonUtils;
 import com.inmaytide.orbit.utils.DateTimeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -23,8 +27,7 @@ public class LogController {
     @Resource
     private LogService service;
 
-    @GetMapping("list")
-    public RestResponse list(Integer pageNo, Integer pageSize, String keywords, String begin, String end) throws IOException {
+    private Map<String, Object> buildConditions(String keywords, String begin, String end) {
         Map<String, Object> conditions = Maps.newHashMap();
         if (StringUtils.isNotBlank(keywords)) {
             conditions.put("keywords", keywords);
@@ -39,7 +42,24 @@ public class LogController {
         } catch (Exception e) {
             throw new InvalidParameterException();
         }
-        return RestResponse.of(service.findList(conditions, pageSize, pageNo));
+        return conditions;
+    }
+
+    @GetMapping("list")
+    public RestResponse list(Integer pageNo, Integer pageSize, String keywords, String begin, String end) throws IOException {
+        return RestResponse.of(service.findList(buildConditions(keywords, begin, end), pageSize, pageNo));
+    }
+
+    @GetMapping("export")
+    public void export(HttpServletResponse response, Integer pageNo, Integer pageSize,
+                       String keywords, String begin, String end, Integer type) throws IOException, InvalidFormatException {
+        Map<String, Object> conditions = buildConditions(keywords, begin, end);
+        response.setContentType("application/octet-stream");
+
+        try (OutputStream os = response.getOutputStream()) {
+            service.export(os, type, conditions, pageSize, pageNo);
+        }
+
     }
 
 }

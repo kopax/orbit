@@ -6,6 +6,8 @@ import com.inmaytide.orbit.dao.sys.LogRepository;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.sys.Log;
 import com.inmaytide.orbit.model.sys.User;
+import com.inmaytide.orbit.office.excel.ExcelExportHelper;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
@@ -15,6 +17,8 @@ import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +42,15 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         Sort sort = new Sort(Sort.Direction.DESC, "logTime");
         Pageable pageable = new PageRequest(pageNo == null ? 0 : pageNo - 1, size, sort);
         return new PageImpl<Log>(content, pageable, getRepository().findCount(conditions));
+    }
+
+    @Override
+    public void export(OutputStream os, Integer type, Map<String, Object> conditions, Integer pageSize, Integer pageNo) throws IOException, InvalidFormatException {
+        Integer size = pageSize == null ? Constants.DEFAULT_PAGE_SIZE : pageSize;
+        conditions.put("size", size);
+        conditions.put("offset", pageNo == null ? 0 : (pageNo - 1) * size);
+        List<Log> content = getRepository().findList(conditions);
+        ExcelExportHelper.export(Log.class, content, os);
     }
 
     @Override

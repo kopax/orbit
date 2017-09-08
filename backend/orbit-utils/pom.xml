@@ -16,6 +16,10 @@
     <name>orbit-utils</name>
     <url>http://maven.apache.org</url>
 
+    <properties>
+        <poi.version>3.16</poi.version>
+    </properties>
+
     <!-- mvn官方库中patchca-0.5.0.jar不存在 引用他人的个人库下载jar包 -->
     <repositories>
         <repository>
@@ -41,6 +45,17 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.6</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

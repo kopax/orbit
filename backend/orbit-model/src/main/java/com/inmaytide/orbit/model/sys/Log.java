@@ -1,14 +1,16 @@
 package com.inmaytide.orbit.model.sys;
 
+import com.inmaytide.orbit.office.excel.ExcelTemplate;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.annotations.Id;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity(table = "sys_log")
-public class Log {
+public class Log implements Serializable{
     @Id
     private Long id;
 

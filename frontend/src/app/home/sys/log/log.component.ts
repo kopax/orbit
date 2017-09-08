@@ -68,6 +68,10 @@ export class LogComponent implements OnInit{
       .catch(reason => Commons.errorHandler(reason, this.router, this.modalService));
   }
 
+  export() {
+
+  }
+
   resetConditions() {
     this.conditions = {
       keywords: '',
