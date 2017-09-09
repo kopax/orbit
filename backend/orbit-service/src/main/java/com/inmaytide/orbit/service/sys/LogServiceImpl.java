@@ -5,7 +5,6 @@ import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.dao.sys.LogRepository;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.sys.Log;
-import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.office.excel.ExcelExportHelper;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -38,6 +37,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         Integer size = pageSize == null ? Constants.DEFAULT_PAGE_SIZE : pageSize;
         conditions.put("size", size);
         conditions.put("offset", pageNo == null ? 0 : (pageNo - 1) * size);
+        conditions.put("ispagation", 1);
         List<Log> content = getRepository().findList(conditions);
         Sort sort = new Sort(Sort.Direction.DESC, "logTime");
         Pageable pageable = new PageRequest(pageNo == null ? 0 : pageNo - 1, size, sort);
@@ -45,10 +45,8 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
     }
 
     @Override
-    public void export(OutputStream os, Integer type, Map<String, Object> conditions, Integer pageSize, Integer pageNo) throws IOException, InvalidFormatException {
-        Integer size = pageSize == null ? Constants.DEFAULT_PAGE_SIZE : pageSize;
-        conditions.put("size", size);
-        conditions.put("offset", pageNo == null ? 0 : (pageNo - 1) * size);
+    public void export(OutputStream os, Map<String, Object> conditions) throws IOException, InvalidFormatException {
+        conditions.put("ispagation", "0");
         List<Log> content = getRepository().findList(conditions);
         ExcelExportHelper.export(Log.class, content, os);
     }

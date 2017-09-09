@@ -5,14 +5,14 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Commons} from "../../../commons";
 import {Log} from "../../../models/log-model";
 import {Page} from "../../../models/page-model";
-import {unescape} from "querystring";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'log',
   templateUrl: './log.component.html',
   styleUrls: ['./log.css']
 })
-export class LogComponent implements OnInit{
+export class LogComponent implements OnInit {
 
   public conditions = {
     keywords: '',
@@ -21,7 +21,7 @@ export class LogComponent implements OnInit{
   };
   public page: Page<Log> = new Page<Log>();
 
-  constructor(public logService:LogService,
+  constructor(public logService: LogService,
               public router: Router,
               public modalService: NgbModal) {
 
@@ -69,7 +69,12 @@ export class LogComponent implements OnInit{
   }
 
   export() {
-
+    let _conditions = this.getConditions();
+    console.log(_conditions);
+    location.href = this.logService.url_export +
+                        "?keywords=" + (_conditions['keywords'] || '') +
+                        "&begin=" + (_conditions['begin'] || '') +
+                        "&end=" + (_conditions['end'] || '');
   }
 
   resetConditions() {

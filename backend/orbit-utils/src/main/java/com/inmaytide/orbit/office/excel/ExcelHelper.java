@@ -23,7 +23,7 @@ public class ExcelHelper {
     }
 
     public static Comment getComment(Field field) {
-        if (field.isAnnotationPresent(Comment.class)) {
+        if (!field.isAnnotationPresent(Comment.class)) {
             throw new RuntimeException();
         }
         return field.getAnnotation(Comment.class);

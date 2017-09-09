@@ -13,5 +13,5 @@ public interface LogService extends LogServiceAdapter {
 
     Page<Log> findList(Map<String, Object> conditions, Integer pageSize, Integer pageNo);
 
-    void export(OutputStream os, Integer type, Map<String, Object> conditions, Integer pageSize, Integer pageNo) throws IOException, InvalidFormatException;
+    void export(OutputStream os, Map<String, Object> conditions) throws IOException, InvalidFormatException;
 }

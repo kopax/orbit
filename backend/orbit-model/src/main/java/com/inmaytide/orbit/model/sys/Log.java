@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.model.sys;
 
+import com.inmaytide.orbit.office.excel.Comment;
 import com.inmaytide.orbit.office.excel.ExcelTemplate;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Column;
@@ -17,13 +18,17 @@ public class Log implements Serializable{
     private Long operator;
 
     @Transient
+    @Comment(column = 0, header = "操作人")
     private String operatorName;
 
     @Column(name = "log_time")
+    @Comment(column = 1, header = "操作时间")
     private LocalDateTime logTime;
 
+    @Comment(column = 2, header = "日志内容")
     private String content;
 
+    @Comment(column = 3, header = "日志详情")
     private String details;
 
     public static Log of() {

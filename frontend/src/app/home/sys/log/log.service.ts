@@ -6,6 +6,7 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 export class LogService {
 
   private url_list = GlobalVariable.BASE_API_URL + "sys/log/list";
+  public url_export = GlobalVariable.BASE_API_URL + "sys/log/export";
 
   constructor(public http: HttpClient) {
 

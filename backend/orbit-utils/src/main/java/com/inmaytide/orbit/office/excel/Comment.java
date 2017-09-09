@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * @author Moss
  * @since  September 8, 2017
  */
-@Target(ElementType.TYPE)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Comment {
     /**
