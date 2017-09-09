@@ -11,7 +11,7 @@
   + Spring mvc
   + Spring data mybatis
 * 前端框架
-  + Angular 4
+  + Angular 5.0.0-beta6
   + NG-Bootstrap
 * 样式来自项目 
   + https://github.com/puikinsh/gentelella
