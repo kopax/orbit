@@ -1,11 +1,9 @@
-import {Component, HostListener, ViewContainerRef} from '@angular/core';
-import {ActivatedRoute, Router, ActivatedRouteSnapshot, RouterState, RouterStateSnapshot} from '@angular/router';
+import {Component} from '@angular/core';
 import 'rxjs/add/operator/merge';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
   private globalClickCallbackFn: Function;

@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.web.controller.sys;
 
+import com.inmaytide.orbit.exceptions.InvalidParameterException;
 import com.inmaytide.orbit.http.RestResponse;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.sys.Permission;
@@ -7,7 +8,6 @@ import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.PermissionService;
 import com.inmaytide.orbit.service.sys.UserService;
 import com.inmaytide.orbit.web.controller.BasicController;
-import com.inmaytide.orbit.exceptions.InvalidParameterException;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindingResult;
@@ -15,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RequestMapping("sys/permission")
@@ -44,7 +43,7 @@ public class PermissionController extends BasicController {
     @DeleteMapping("delete")
     //@RequiresPermissions("perm:remove")
     @LogAnnotation("删除菜单")
-    public RestResponse delete(@RequestBody Long[] ids) {
+    public RestResponse delete(String ids) {
         service.deleteBatch(ids);
         return RestResponse.of("200", "菜单删除成功");
     }
@@ -70,7 +69,7 @@ public class PermissionController extends BasicController {
         return RestResponse.of(permission);
     }
 
-    @PatchMapping(value = "exchangeSort", produces = "application/json")
+    @PutMapping(value = "exchangeSort", produces = "application/json")
     @LogAnnotation("修改排序")
     public RestResponse exchangeSort(@RequestBody List<Permission> permissions) {
         if (permissions.size() != 2) {

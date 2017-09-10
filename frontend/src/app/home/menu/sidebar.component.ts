@@ -1,11 +1,12 @@
 import {Component, OnInit} from "@angular/core";
 import {trigger, state, style, animate, transition} from '@angular/animations';
-import * as GlobalVariable from "../globals";
+import * as GlobalVariable from "../../globals";
 import {Router} from "@angular/router";
-import {User} from "../models/user-model";
-import {Commons} from "../commons";
+import {User} from "../../models/user-model";
+import {Commons} from "../../commons";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {HttpClient} from "@angular/common/http";
+import {PermissionService} from "../sys/permission/permission.service";
 
 @Component({
   selector: 'side-bar',
@@ -21,39 +22,32 @@ import {HttpClient} from "@angular/common/http";
 })
 
 export class SidebarComponent implements OnInit {
-  private URL_MENUS = GlobalVariable.BASE_API_URL + "sys/permission/someones/menus";
   public images: string = GlobalVariable.PATH_IMAGES;
   public menus = [];
-  public user:User;
+  public user: User;
   public active;
   public p_active;
 
-  public constructor(public http: HttpClient,
-                     public router: Router,
-                     public modalSerivce: NgbModal) {
-    let objUser = localStorage.getItem(GlobalVariable.CURRENT_USER);
-    this.user = JSON.parse(objUser);
-    this.http.get(this.URL_MENUS)
-      .subscribe(
-        result => {
-          this.menus = result['data'];
-          if (this.menus.length > 0) {
-            for (let i = 0; i < this.menus.length; i++) {
-              this.menus[i].state = "inactive";
-            }
-            this.active = this.menus[0];
-            this.active.state = 'active';
-            this.p_active = this.active.id;
-          }
-        },
-        error => {
-          Commons.errorHandler(error, this.router, this.modalSerivce);
-        }
-      )
+  public constructor(private http: HttpClient,
+                     private router: Router,
+                     private modalSerivce: NgbModal,
+                     private menuSerivce: PermissionService) {
   }
 
   ngOnInit(): void {
-
+    let objUser = localStorage.getItem(GlobalVariable.CURRENT_USER);
+    this.user = JSON.parse(objUser);
+    this.menuSerivce.findUserMenus()
+      .then(menus => {
+        console.log(menus.length);
+        if (menus.length > 0) {
+          this.menus = menus;
+          this.menus.forEach(menu => menu.state = "inactive");
+          this.active = this.menus[0];
+          this.active.state = 'active';
+          this.p_active = this.active.id;
+        }
+      }).catch(reason => Commons.errorHandler(reason, this.router, this.modalSerivce));
   }
 
   changeActive(menu, $event) {
@@ -74,13 +68,13 @@ export class SidebarComponent implements OnInit {
 
   triggerMenuDone($event, menu) {
     if (menu.state == "inactive") {
-      $event.element.style.display='none';
+      $event.element.style.display = 'none';
     }
   }
 
   triggerMenuStart($event, menu) {
     if (menu.state == "active") {
-      $event.element.style.display='block';
+      $event.element.style.display = 'block';
     }
   }
 

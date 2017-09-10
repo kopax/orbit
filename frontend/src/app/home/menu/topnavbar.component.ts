@@ -1,10 +1,10 @@
 import {Component, Injectable, OnInit} from "@angular/core";
-import * as GlobalVariable from "../globals";
-import {HomeComponent} from "../home/home.component";
-import {LoginService} from "../auth/login/login.service";
+import * as GlobalVariable from "../../globals";
+import {HomeComponent} from "../home.component";
+import {LoginService} from "../../auth/login/login.service";
 import {Router} from "@angular/router";
 import 'rxjs/add/operator/map';
-import {User} from "../models/user-model";
+import {User} from "../../models/user-model";
 
 @Component({
   selector: "top-navbar",
@@ -16,7 +16,7 @@ export class TopnavbarComponent implements OnInit {
 
   public images = GlobalVariable.PATH_IMAGES;
 
-  public user:User;
+  public user: User;
 
   constructor(public homeComponent: HomeComponent,
               public loginService: LoginService,

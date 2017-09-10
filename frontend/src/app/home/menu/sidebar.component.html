@@ -26,8 +26,10 @@
         <h3>General</h3>
         <ul class="nav side-menu">
           <li (click)="changeActive(menu)" *ngFor="let menu of menus" [ngClass]="{'active': menu.id == p_active}">
-            <a><i class="fa fa-{{menu.icon}}"></i> {{menu.name}} <span class="fa fa-chevron-down" *ngIf="menu.children.length > 0"></span></a>
-            <ul [@tiggerMenu]="menu.state" *ngIf="menu.children.length > 0" class="nav child_menu" (@tiggerMenu.start)="triggerMenuStart($event, menu)" (@tiggerMenu.done)="triggerMenuDone($event, menu)">
+            <a><i class="fa fa-{{menu.icon}}"></i> {{menu.name}} <span class="fa fa-chevron-down"
+                                                                       *ngIf="menu.children.length > 0"></span></a>
+            <ul [@tiggerMenu]="menu.state" *ngIf="menu.children.length > 0" class="nav child_menu"
+                (@tiggerMenu.start)="triggerMenuStart($event, menu)" (@tiggerMenu.done)="triggerMenuDone($event, menu)">
               <li *ngFor="let _menu of menu.children">
                 <a (click)="changeContent(_menu, $event)" href="javascript:void(0);">{{_menu.name}}</a>
               </li>

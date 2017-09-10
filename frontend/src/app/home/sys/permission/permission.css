@@ -21,12 +21,15 @@
 .table-header li:nth-child(1) {
   width: 5%;
 }
+
 .table-header li:nth-child(2) {
   width: 45%;
 }
+
 .table-header li:nth-child(3) {
   width: 25%;
 }
+
 .table-header li:nth-child(4) {
   width: 25%;
   border-right: 1px solid #f3f3f3;
@@ -37,7 +40,7 @@
   justify-content: flex-end;
 }
 
-.btn>i {
+.btn > i {
   margin-right: 3px;
 }
 

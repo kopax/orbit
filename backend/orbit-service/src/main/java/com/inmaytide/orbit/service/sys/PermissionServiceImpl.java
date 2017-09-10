@@ -6,7 +6,9 @@ import com.inmaytide.orbit.dao.sys.PermissionRepository;
 import com.inmaytide.orbit.exceptions.VersionMatchedException;
 import com.inmaytide.orbit.model.sys.Permission;
 import io.jsonwebtoken.lang.Assert;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
@@ -47,7 +49,7 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     @Transactional(rollbackFor = Exception.class)
     public Permission modify(Permission inst) {
         Permission origin = this.get(inst.getId());
-        if (null == origin || Objects.equals(origin.getVersion(), inst.getVersion())) {
+        if (null == origin || !Objects.equals(origin.getVersion(), inst.getVersion())) {
             throw new VersionMatchedException(origin);
         }
         BeanUtils.copyProperties(inst, origin, FINAL_FIELDS);
@@ -57,6 +59,7 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     }
 
     @Override
+    @Cacheable(cacheNames = "user_menus", key = "#username + '_menus'")
     public List<Permission> findMenusByUsername(String username) {
         List<Permission> list = getRepository().findByUsername(username, String.valueOf(PermissionCategory.MENU.getCode()));
         return listToTree(list);
@@ -70,9 +73,11 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteBatch(Long[] ids) {
-        Assert.notEmpty(ids);
-        getRepository().deleteByIdIn(ids);
+    public void deleteBatch(String ids) {
+        Assert.hasText(ids);
+        String[] tmp = StringUtils.split(ids, ",");
+        Long[] idarr = Arrays.stream(tmp).map(Long::valueOf).toArray(Long[]::new);
+        getRepository().deleteByIdIn(idarr);
     }
 
     @Override

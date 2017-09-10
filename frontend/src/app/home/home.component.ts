@@ -9,7 +9,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 
 @Injectable()
 export class HomeComponent implements OnInit {
-  public menuStyle:string = "md";
+  public menuStyle: string = "md";
 
   public menuClassObject: Object = {
     'nav-sm': false,

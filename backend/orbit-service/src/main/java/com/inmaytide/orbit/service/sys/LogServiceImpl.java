@@ -1,9 +1,9 @@
 package com.inmaytide.orbit.service.sys;
 
 import com.inmaytide.orbit.adepter.LogAdapter;
-import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.dao.sys.LogRepository;
 import com.inmaytide.orbit.log.LogAnnotation;
+import com.inmaytide.orbit.model.basic.PageModel;
 import com.inmaytide.orbit.model.sys.Log;
 import com.inmaytide.orbit.office.excel.ExcelExportHelper;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -11,9 +11,13 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -22,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional(readOnly = true)
 public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long> implements LogService, LogAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(LogServiceImpl.class);
@@ -33,14 +38,12 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         super(repository);
     }
 
-    public Page<Log> findList(Map<String, Object> conditions, Integer pageSize, Integer pageNo) {
-        Integer size = pageSize == null ? Constants.DEFAULT_PAGE_SIZE : pageSize;
-        conditions.put("size", size);
-        conditions.put("offset", pageNo == null ? 0 : (pageNo - 1) * size);
+    public Page<Log> findList(Map<String, Object> conditions, PageModel pageModel) {
+        Pageable pageable = pageModel.toPageable(Sort.Direction.DESC, "logTime");
+        conditions.put("size", pageable.getPageSize());
+        conditions.put("offset", pageable.getOffset());
         conditions.put("ispagation", 1);
         List<Log> content = getRepository().findList(conditions);
-        Sort sort = new Sort(Sort.Direction.DESC, "logTime");
-        Pageable pageable = new PageRequest(pageNo == null ? 0 : pageNo - 1, size, sort);
         return new PageImpl<Log>(content, pageable, getRepository().findCount(conditions));
     }
 
@@ -52,6 +55,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void record(JoinPoint point, Throwable e) {
         LogAnnotation annotation = getLogAnnotation(point);
         if ("login".equals(point.getSignature().getName())) {
@@ -68,6 +72,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void record(JoinPoint point) {
         Log inst = Log.of();
         LogAnnotation annotation = getLogAnnotation(point);

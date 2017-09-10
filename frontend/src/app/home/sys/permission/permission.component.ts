@@ -53,7 +53,10 @@ export class PermissionComponent implements OnInit {
     Commons.confirm(this.modalService, "确认要删除当前选中的数据吗").then(result => {
       if (result == true) {
         this.service.remove(actives).then(data => {
-          this.setList();
+          actives.forEach(active => {
+            let _data = this.getSameLevel(this.permissions, active.parent);
+            _data.splice(_data.indexOf(active), 1);
+          });
         }).catch(reason => Commons.errorHandler(reason, this.router, this.modalService));
       }
     });
@@ -92,7 +95,7 @@ export class PermissionComponent implements OnInit {
 
     let index = sameLevelPermissions.indexOf(selected);
     let otherIndex = t === "up" ? this.getPrev(sameLevelPermissions, index)
-                           : this.getNext(sameLevelPermissions, index);
+      : this.getNext(sameLevelPermissions, index);
     let other = sameLevelPermissions[otherIndex];
     this.service.changeSort([selected, other])
       .then(result => {

@@ -16,7 +16,7 @@
 }
 
 .error-label {
-  text-align: left!important;
+  text-align: left !important;
   color: #ed1c24;
 }
 
@@ -33,7 +33,7 @@
 
 .btn-toolbar {
   position: absolute;
-  top : 60px;
+  top: 60px;
   right: 20px;
   justify-content: flex-end;
   z-index: 999;

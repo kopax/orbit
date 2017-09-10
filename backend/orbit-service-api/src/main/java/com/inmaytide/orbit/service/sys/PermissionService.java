@@ -1,7 +1,6 @@
 package com.inmaytide.orbit.service.sys;
 
 import com.inmaytide.orbit.model.sys.Permission;
-import org.springframework.data.support.CrudService;
 
 import java.util.List;
 import java.util.Set;
@@ -20,7 +19,7 @@ public interface PermissionService {
 
     List<Permission> findList();
 
-    void deleteBatch(Long[] ids);
+    void deleteBatch(String ids);
 
     Boolean checkCode(String code, Long id);
 

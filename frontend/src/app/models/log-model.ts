@@ -1,6 +1,6 @@
 export class Log {
   id: number;
-  logTime: Date;
+  logTime: number[];
   operator: string;
   content: string;
   operatorName: string;

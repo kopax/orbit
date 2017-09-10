@@ -5,8 +5,8 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
   selector: 'layer-alert',
   template: `
     <div class="modal-body">
-        <i class="fa fa-{{icon}} {{iconCss}}"></i>
-        <div class="alter-message">{{message}}</div>
+      <i class="fa fa-{{icon}} {{iconCss}}"></i>
+      <div class="alter-message">{{message}}</div>
     </div>
   `,
   styleUrls: ['./layer.css']
@@ -19,5 +19,6 @@ export class LayerAlert {
 
   @Input() iconCss = "green";
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(public activeModal: NgbActiveModal) {
+  }
 }

@@ -2,6 +2,7 @@ import {ContentComponent} from "./content.component";
 import {HomeComponent} from "./home.component";
 import {PermissionComponent} from "./sys/permission/permission.component";
 import {LogComponent} from "./sys/log/log.component";
+import {RoleComponent} from "./sys/role/role.component";
 
 export const appRoutes = [{
   path: 'home',
@@ -10,6 +11,7 @@ export const appRoutes = [{
     {path: '', component: ContentComponent},
     {path: 'content', component: ContentComponent},
     {path: 'permission', component: PermissionComponent},
-    {path: 'log', component: LogComponent}
+    {path: 'log', component: LogComponent},
+    {path: 'role', component: RoleComponent}
   ]
 }];

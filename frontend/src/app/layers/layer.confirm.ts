@@ -3,13 +3,13 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'layer-alert',
-  template: `    
+  template: `
     <div class="modal-body">
-        <i class="fa fa-{{icon}} {{iconCss}}" style="font-size: 36px;"></i>
-        <div class="alter-message">{{message}}</div>
+      <i class="fa fa-{{icon}} {{iconCss}}" style="font-size: 36px;"></i>
+      <div class="alter-message">{{message}}</div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-sm btn-success"  (click)="submit()">确定</button>
+      <button type="button" class="btn btn-sm btn-success" (click)="submit()">确定</button>
       <button type="button" class="btn btn-sm btn-secondary" (click)="close()">取消</button>
     </div>
   `,
@@ -23,7 +23,8 @@ export class LayerConfirm {
 
   @Input() iconCss = "green";
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(public activeModal: NgbActiveModal) {
+  }
 
   close() {
     this.activeModal.close(false);

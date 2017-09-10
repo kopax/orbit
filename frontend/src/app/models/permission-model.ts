@@ -1,5 +1,6 @@
-export class Permission {
-  id: number;
+import {BasicModel} from "./basic-model";
+
+export class Permission extends BasicModel {
   code: string;
   name: string;
   action: string;
@@ -9,11 +10,6 @@ export class Permission {
   parent: number;
   sort: number;
   children: Permission[] = [];
-  createTime: Date;
-  updateTime: Date;
-  creator: number;
-  updater: number;
-  version: number;
   spread: boolean;
   state: string;
 }

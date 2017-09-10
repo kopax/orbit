@@ -1,5 +1,6 @@
-export class User {
-  id: number;
+import {BasicModel} from "./basic-model";
+
+export class User extends BasicModel {
   username: string;
   name: string;
   password: string;
@@ -12,10 +13,5 @@ export class User {
   photo: string;
   superAdmin: number;
   remark: string;
-  createTime: string;
-  updateTime: string;
-  creator: number;
-  updater: number;
-  version: number;
   token: string;
 }

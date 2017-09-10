@@ -15,6 +15,7 @@ export class PermissionService {
   private url_delete = GlobalVariable.BASE_API_URL + "sys/permission/delete";
   private url_update = GlobalVariable.BASE_API_URL + "sys/permission/update";
   private url_change_sort = GlobalVariable.BASE_API_URL + "sys/permission/exchangeSort";
+  private url_user_menus = GlobalVariable.BASE_API_URL + "sys/permission/someones/menus";
 
   public constructor(public http: HttpClient,
                      public router: Router) {
@@ -24,13 +25,19 @@ export class PermissionService {
     return this.http.get(this.url_list).map(response => response);
   }
 
+  public findUserMenus(): Promise<Permission[]> {
+    return this.http.get(this.url_user_menus)
+      .toPromise()
+      .then(response => response['data'] as Permission[])
+      .catch(reason => Promise.reject(reason));
+  }
+
   public remove(actives: Permission[]): Promise<any> {
     let ids = [];
     actives.forEach(inst => {
       ids.push(inst.id);
     });
-    let params = new HttpParams();
-    params.set("ids", JSON.stringify(ids));
+    let params = new HttpParams({fromObject: {ids: ids.join(",")}});
     return this.http
       .delete(this.url_delete, {params: params})
       .toPromise()
@@ -64,9 +71,8 @@ export class PermissionService {
   public changeSort(data: Permission[]): Promise<any> {
     let body = [];
     data.forEach(inst => body.push({id: inst.id, sort: inst.sort}));
-    let headers = new HttpHeaders();
-    headers.set("content-type", "application/json");
-    return this.http.patch(this.url_change_sort, JSON.stringify(body), {headers: headers})
+    let headers = new HttpHeaders({"content-type": "application/json"});
+    return this.http.put(this.url_change_sort, JSON.stringify(body), {headers: headers})
       .toPromise()
       .then(response => response)
       .catch(reason => Promise.reject(reason));

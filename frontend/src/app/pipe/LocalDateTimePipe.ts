@@ -11,7 +11,6 @@ export class LocalDateTimePipe implements PipeTransform {
     date.setFullYear(arr[0], arr[1] - 1, arr[2]);
     date.setHours(arr[3], arr[4], arr[5]);
     return new DatePipe("en").transform(date, 'y-MM-dd HH:mm:ss');
-
   }
 
 }
