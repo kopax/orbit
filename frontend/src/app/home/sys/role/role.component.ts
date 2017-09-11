@@ -9,6 +9,8 @@ import {RoleService} from "./role.service";
 })
 export class RoleComponent implements OnInit {
 
+  public keywords: string;
+
   public page: Page<Role> = new Page<Role>();
 
   constructor(private service: RoleService) {

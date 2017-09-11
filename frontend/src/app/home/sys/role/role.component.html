@@ -9,39 +9,18 @@
           </label>
           <div class="col-sm-5">
             <div class="input-group">
-              <input [(ngModel)]="conditions.keywords" name="keywords" (keyup)="search($event)" class="form-control form-control-sm" placeholder="操作人、日志内容"/>
+              <input [(ngModel)]="keywords" name="keywords" (keyup)="search($event)" class="form-control form-control-sm" placeholder="操作人、日志内容"/>
               <div class="input-group-addon" (click)="search($event)"><i class="fa fa-search"></i></div>
             </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="control-label col-sm-1">
-            操作时间
-          </label>
-          <div class="col-sm-2">
-            <div class="input-group">
-              <input readonly [(ngModel)]="conditions.begin" name="begin" (ngModelChange)="search($event)"  placeholder="yyyy-mm-dd" class="form-control form-control-sm" ngbDatepicker #begin="ngbDatepicker"/>
-              <div class="input-group-addon" (click)="begin.toggle()"><i class="fa fa-calendar"></i></div>
-            </div>
-          </div>
-          <label class="control-label label-to">至</label>
-          <div class="col-sm-2">
-            <div class="input-group">
-              <input readonly  [(ngModel)]="conditions.end" name="end" (ngModelChange)="search($event)" placeholder="yyyy-mm-dd" class="form-control form-control-sm" ngbDatepicker #end="ngbDatepicker"/>
-              <div class="input-group-addon" (click)="end.toggle()"><i class="fa fa-calendar"></i></div>
-            </div>
-          </div>
-          <div class="col-sm-2">
-            <button (click)="resetConditions()" class="btn btn-sm btn-success btn-reset"><i class="fa fa-eraser"></i>清空</button>
           </div>
         </div>
       </div>
       <div class="x_panel">
         <div class="x_title">
-          <h2>日志管理</h2>
+          <h2>管理</h2>
           <div class="btn-toolbar" role="toolbar">
             <div class="btn-group btn-group-sm">
-              <button (click)="export()" type="button" class="btn btn-sm btn-success"><i class="fa fa-file-excel-o"></i>导出</button>
+              <button type="button" class="btn btn-sm btn-success"><i class="fa fa-file-excel-o"></i>导出</button>
             </div>
           </div>
           <div class="clearfix"></div>
