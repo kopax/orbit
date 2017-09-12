@@ -50,7 +50,7 @@ public class ErrorController extends AbstractErrorController implements LogAdapt
 
     public ErrorController(ErrorAttributes errorAttributes, ErrorProperties errorProperties) {
         this(errorAttributes, errorProperties,
-                Collections.<ErrorViewResolver>emptyList());
+                Collections.emptyList());
     }
 
     public ErrorController(ErrorAttributes errorAttributes,
@@ -68,8 +68,8 @@ public class ErrorController extends AbstractErrorController implements LogAdapt
     @RequestMapping(produces = "text/html")
     public ModelAndView errorHtml(HttpServletRequest request,  HttpServletResponse response) {
         HttpStatus status = getStatus(request);
-        Map<String, Object> model = Collections.unmodifiableMap(getErrorAttributes(
-                request, isIncludeStackTrace(request, MediaType.TEXT_HTML)));
+        Map<String, Object> model = getErrorAttributes(
+                request, isIncludeStackTrace(request, MediaType.TEXT_HTML));
         RestResponse restResponse = getRestResponse(request, status, model);
         model.put("restResponse", restResponse);
         model.put(KEY_EXCEPTION, restResponse.getError().getType());

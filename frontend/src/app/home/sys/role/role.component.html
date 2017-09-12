@@ -4,23 +4,24 @@
     <div class="col-12">
       <div class="x_panel">
         <div class="form-group row">
-          <label class="control-label col-sm-1">
-            快速搜索
+          <label class="control-label quick-search-label">
+            {{'role.quick.search' | translate}}
           </label>
           <div class="col-sm-5">
             <div class="input-group">
-              <input [(ngModel)]="keywords" name="keywords" (keyup)="search($event)" class="form-control form-control-sm" placeholder="操作人、日志内容"/>
-              <div class="input-group-addon" (click)="search($event)"><i class="fa fa-search"></i></div>
+              <input [(ngModel)]="keywords" name="keywords" class="form-control form-control-sm" placeholder="{{'role.keywords.placeholder' | translate}}"/>
+              <div class="input-group-addon" ><i class="fa fa-search"></i></div>
             </div>
           </div>
         </div>
       </div>
       <div class="x_panel">
         <div class="x_title">
-          <h2>管理</h2>
+          <h2>{{'role.list.title' | translate}}</h2>
           <div class="btn-toolbar" role="toolbar">
             <div class="btn-group btn-group-sm">
-              <button type="button" class="btn btn-sm btn-success"><i class="fa fa-file-excel-o"></i>导出</button>
+              <button type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>{{'role.btn.add' | translate}}</button>
+              <button type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>{{'role.btn.delete' | translate}}</button>
             </div>
           </div>
           <div class="clearfix"></div>
@@ -31,19 +32,17 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>操作人</th>
-                  <th>操作时间</th>
-                  <th>日志内容</th>
-                  <th>日志明细</th>
+                  <th>{{'role.column.code' | translate}}</th>
+                  <th>{{'role.column.name' | translate}}</th>
+                  <th>{{'role.column.description' | translate}}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let inst of page.content; let i = index">
                   <td>{{i + 1}}</td>
-                  <td>{{inst.operatorName}}</td>
-                  <td>{{inst.logTime | localDateTime}}</td>
-                  <td title="{{inst.content}}">{{inst.content}}</td>
-                  <td title="{{inst.details}}">{{inst.details}}</td>
+                  <td>{{inst.code}}</td>
+                  <td>{{inst.name}}</td>
+                  <td>{{inst.description}}</td>
                 </tr>
               </tbody>
             </table>
@@ -51,17 +50,19 @@
           <div class="row">
             <div class="col-6 pagination-text">
               <span>
-                共 {{page.totalElements}} 条记录，
-                每页 <select (change)="pageChange('size')" [(ngModel)]="page.size" name="size">
-                        <option>10</option>
-                        <option>20</option>
-                        <option>50</option>
-                        <option>100</option>
-                    </select> 条记录，
-                共 {{page.totalPages}} 页</span>
+                {{'pagation.page.total' | translate}} {{page.totalElements}} {{'pagation.page.records' | translate}}
+                {{'pagation.page.per.pages' | translate}}
+                  <select [(ngModel)]="page.size" name="size">
+                    <option>10</option>
+                    <option>20</option>
+                    <option>50</option>
+                    <option>100</option>
+                  </select>
+                {{'pagation.page.records' | translate}}
+                {{'pagation.page.total' | translate}} {{page.totalPages}} {{'pagation.page.page' | translate}}</span>
             </div>
             <div class="col-6">
-              <ngb-pagination (pageChange)="pageChange($event)" [rotate]="true" [maxSize]="7" [pageSize]="page.size" [collectionSize]="page.totalElements" [page]="page.number + 1" size="sm" [ellipses]="false"></ngb-pagination>
+              <ngb-pagination  [rotate]="true" [maxSize]="7" [pageSize]="page.size" [collectionSize]="page.totalElements" [page]="page.number + 1" size="sm" [ellipses]="false"></ngb-pagination>
             </div>
           </div>
         </div>

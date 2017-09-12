@@ -116,6 +116,7 @@ public class OrbitApplication {
         DefaultShiroFilterChainDefinition inst = new DefaultShiroFilterChainDefinition();
         inst.addPathDefinition("/login", "anon");
         inst.addPathDefinition("/captcha", "anon");
+        inst.addPathDefinition("/lang/*", "anon");
         inst.addPathDefinition("/**", "authc");
         return inst;
     }

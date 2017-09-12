@@ -14,7 +14,6 @@ import * as GlobalVariable from "../../globals";
 export class LoginComponent implements OnInit {
 
   public user: Token = new Token();
-  public btn_login = "Login";
   public hasMessage = false;
   public failCount = 0;
   public captchaKey = Date.now();

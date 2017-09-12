@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import 'rxjs/add/operator/merge';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-root',
@@ -9,8 +10,8 @@ export class AppComponent {
   private globalClickCallbackFn: Function;
   private loginSuccessCallbackFn: Function;
 
-  constructor() {
-
+  constructor(translate: TranslateService) {
+    translate.setDefaultLang("en");
   }
 
   ngOnInit() {

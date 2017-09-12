@@ -13,6 +13,7 @@ import {NgbDropdownModule, NgbPaginationModule, NgbAlertModule, NgbDatepickerMod
 import {AutoHeightDirective} from "../../directive/auto-height.directive";
 import {NotRepeatValidator} from "../../directive/validators/not-repeat.validator";
 import {LocalDateTimePipe} from "../../pipe/LocalDateTimePipe";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {LocalDateTimePipe} from "../../pipe/LocalDateTimePipe";
     NgbPaginationModule,
     NgbDropdownModule,
     NgbAlertModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    TranslateModule
   ],
   entryComponents: [
     PermissionModalComponent

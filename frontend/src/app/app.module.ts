@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './auth/login/login.component';
 import {RouterModule} from '@angular/router';
@@ -14,6 +14,8 @@ import {LayerModule} from "./layers/layer.module";
 import {Error403Compontent} from "./errors/403.component";
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {CommonRequestInterceptor} from "./interceptors/common-request-interceptor";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import * as GlobalVariable from "./globals";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,14 @@ import {CommonRequestInterceptor} from "./interceptors/common-request-intercepto
     FormsModule,
     HomeModule,
     RouterModule.forRoot(appRoutes),
-    LayerModule
+    LayerModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     LoginService,
@@ -40,4 +49,8 @@ import {CommonRequestInterceptor} from "./interceptors/common-request-intercepto
 })
 export class AppModule {
 
+}
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, GlobalVariable.BASE_API_URL + "lang/", "");
 }

@@ -1,12 +1,12 @@
 package com.inmaytide.orbit.web.exception.handler;
 
+import com.inmaytide.orbit.adepter.LogAdapter;
 import com.inmaytide.orbit.exceptions.InvalidParameterException;
 import com.inmaytide.orbit.exceptions.ResponseErrorCodes;
 import com.inmaytide.orbit.exceptions.VersionMatchedException;
 import com.inmaytide.orbit.http.ErrorResult;
 import com.inmaytide.orbit.http.RestResponse;
 import com.inmaytide.orbit.utils.I18nUtils;
-import com.inmaytide.orbit.adepter.LogAdapter;
 import com.inmaytide.orbit.web.auth.exception.IncorrectCaptchaException;
 import com.inmaytide.orbit.web.auth.exception.InvalidTokenException;
 import org.apache.shiro.authc.*;
@@ -63,7 +63,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         } else if (e instanceof IncorrectCredentialsException) {
             key = "login.error.password.wrong";
         } else if (e instanceof InvalidTokenException) {
-            key = "login.invalid.token";
+            key = "login.error.invalid.token";
         } else {
             key = "login.error";
         }
