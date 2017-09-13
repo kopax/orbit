@@ -100,6 +100,7 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     private Permission setUpdateInformation(Permission permission) {
         permission.setUpdateTime(LocalDateTime.now());
         permission.setUpdater(userService.getCurrent().getId());
+        permission.setVersion(permission.getVersion() + 1);
         return permission;
     }
 

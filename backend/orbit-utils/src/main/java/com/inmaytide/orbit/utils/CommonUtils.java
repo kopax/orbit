@@ -26,8 +26,6 @@ public class CommonUtils {
 
     /**
      * Convert an object to int, the object must not be null.
-     * @param o
-     * @return
      */
     public static int toint(Object o) {
         if (o == null || !NumberUtils.isCreatable(o.toString())) {

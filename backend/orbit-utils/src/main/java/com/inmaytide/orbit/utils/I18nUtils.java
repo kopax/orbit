@@ -22,14 +22,14 @@ public class I18nUtils implements LogAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(I18nUtils.class);
 
-    @Value("#{ @environment['spring.messages.basename'] ?: 'messages' }")
-    private String basename;
-
     private static I18nUtils instance;
 
-    private Map<String, Map<String, String>> cache = new ConcurrentHashMap<>(4);
+    private Map<Locale, Map<String, String>> cache = new ConcurrentHashMap<>(4);
 
     private MessageSource messageSource;
+
+    @Value("#{ @environment['spring.messages.basename'] ?: 'messages' }")
+    private String basename;
 
     @Autowired
     public I18nUtils(MessageSource messageSource) {
@@ -46,14 +46,14 @@ public class I18nUtils implements LogAdapter {
         Map<String, String> map = new HashMap<>(bundle.keySet().size());
         bundle.keySet().forEach(key -> map.put(key, bundle.getString(key)));
         if (!map.isEmpty()) {
-            cache.put(locale.toLanguageTag(), map);
+            cache.put(locale, map);
         }
         return map;
     }
 
     private Map<String, String> getI18nResources(Locale locale) {
-        return cache.containsKey(locale.toLanguageTag())
-                ? cache.get(locale.toLanguageTag())
+        return cache.containsKey(locale)
+                ? cache.get(locale)
                 : generateI18nResources(locale);
     }
 

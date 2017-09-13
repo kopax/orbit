@@ -9,15 +9,19 @@ import java.time.temporal.TemporalAccessor;
 public class DateTimeUtils {
 
     /**
-     * @param hour
-     * @param minute
-     * @param second
-     * @return
+     * Format a date string and a time object into a string。
      */
-    public static String format(String date, int hour, int minute, int second, String pattern) {
-        TemporalAccessor localDate = DateTimeFormatter.ofPattern("yyyy-M-d").parse(date);
-        LocalDateTime localDateTime = LocalDateTime.of(LocalDate.from(localDate), LocalTime.of(hour, minute, second));
-        return DateTimeFormatter.ofPattern(pattern).format(localDateTime);
+    public static String format(String date, LocalTime time, String inPattern, String outPattern) {
+        LocalDateTime localDateTime = LocalDateTime.of(parse(date, inPattern), time);
+        return format(localDateTime, outPattern);
     }
 
+    public static String format(TemporalAccessor datetime, String pattern) {
+        return DateTimeFormatter.ofPattern(pattern).format(datetime);
+    }
+
+    public static LocalDate parse(String date, String pattern) {
+        TemporalAccessor localDate = DateTimeFormatter.ofPattern(pattern).parse(date);
+        return LocalDate.from(localDate);
+    }
 }

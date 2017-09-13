@@ -18,11 +18,15 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalTime;
 import java.util.Map;
 
 @RequestMapping("sys/log")
 @Controller
 public class LogController {
+
+    private static final LocalTime SEARCH_DEFAULT_BEGIN_TIME = LocalTime.of(0, 0, 0);
+    private static final LocalTime SEARCH_DEFAULT_END_TIME = LocalTime.of(23, 59, 59);
 
     @Resource
     private LogService service;
@@ -34,10 +38,10 @@ public class LogController {
         }
         try {
             if (StringUtils.isNotBlank(begin)) {
-                conditions.put("begin", DateTimeUtils.format(begin, 0, 0, 0, "yyyy-MM-dd HH:mm:ss"));
+                conditions.put("begin", DateTimeUtils.format(begin, SEARCH_DEFAULT_BEGIN_TIME, "yyyy-M-d", "yyyy-MM-dd HH:mm:ss"));
             }
             if (StringUtils.isNotBlank(end)) {
-                conditions.put("end", DateTimeUtils.format(end, 23, 59, 59, "yyyy-MM-dd HH:mm:ss"));
+                conditions.put("end", DateTimeUtils.format(end, SEARCH_DEFAULT_END_TIME, "yyyy-M-d", "yyyy-MM-dd HH:mm:ss"));
             }
         } catch (Exception e) {
             throw new InvalidParameterException();
