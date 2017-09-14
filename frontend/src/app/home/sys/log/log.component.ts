@@ -58,7 +58,7 @@ export class LogComponent implements OnInit {
     if (event.key && event.key != 'Enter') {
       return;
     }
-    this.query(1, 10, this.getConditions());
+    this.query(1, this.page.size, this.getConditions());
   }
 
   query(pageNumber, pageSize, conditions) {

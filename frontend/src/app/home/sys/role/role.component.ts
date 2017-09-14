@@ -13,7 +13,7 @@ import {Commons} from "../../../commons";
 })
 export class RoleComponent implements OnInit {
 
-  public keywords: string;
+  public keywords: string = "";
 
   public page: Page<Role> = new Page<Role>();
 
@@ -23,13 +23,23 @@ export class RoleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.service.list({keywords: '', number: 1, size: 10})
+    this.refreshList();
+  }
+
+  private refreshList() {
+    this.service.list({keywords: this.keywords, number: 1, size: 10})
       .subscribe(response => {
         this.page = response['data'];
       }, error => {
         Commons.errorHandler(error, this.router, this.modalService);
       })
+  }
 
+  search(event) {
+    if (event.key && event.key != 'Enter') {
+      return;
+    }
+    this.refreshList();
   }
 
 }

@@ -9,8 +9,8 @@
           </label>
           <div class="col-sm-5">
             <div class="input-group">
-              <input [(ngModel)]="keywords" name="keywords" class="form-control form-control-sm" placeholder="{{'role.keywords.placeholder' | translate}}"/>
-              <div class="input-group-addon" ><i class="fa fa-search"></i></div>
+              <input (keyup)="search($event)" [(ngModel)]="keywords" name="keywords" class="form-control form-control-sm" placeholder="{{'role.keywords.placeholder' | translate}}"/>
+              <div (click)="search($event)" class="input-group-addon" ><i class="fa fa-search"></i></div>
             </div>
           </div>
         </div>

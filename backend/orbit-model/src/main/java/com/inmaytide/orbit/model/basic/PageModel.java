@@ -52,6 +52,9 @@ public class PageModel implements Serializable {
     }
 
     public String getKeywords() {
+        if (null != keywords && !"".equals(keywords.trim())) {
+            return String.format("%%%s%%", keywords);
+        }
         return keywords;
     }
 
