@@ -22,4 +22,5 @@ public interface PermissionRepository extends MybatisRepository<Permission, Long
 
     Integer countByCodeAndIdNot(String code, Long id);
 
+    List<Permission> findByRoleIds(Long[] roleIds);
 }

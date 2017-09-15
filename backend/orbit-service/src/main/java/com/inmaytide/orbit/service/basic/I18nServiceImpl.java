@@ -1,39 +1,61 @@
-package com.inmaytide.orbit.utils;
+package com.inmaytide.orbit.service.basic;
 
 import com.inmaytide.orbit.adepter.LogAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
-public class I18nUtils implements LogAdapter {
+@Service
+public class I18nServiceImpl implements I18nService, LogAdapter {
 
-    private static final Logger log = LoggerFactory.getLogger(I18nUtils.class);
-
-    private static I18nUtils instance;
+    private static final Logger log = LoggerFactory.getLogger(I18nServiceImpl.class);
 
     private Map<Locale, Map<String, String>> cache = new ConcurrentHashMap<>(4);
 
+    @Resource
     private MessageSource messageSource;
 
     @Value("#{ @environment['spring.messages.basename'] ?: 'messages' }")
     private String basename;
 
-    @Autowired
-    public I18nUtils(MessageSource messageSource) {
-        this.messageSource = messageSource;
+    @Override
+    public Map<String, String> getI18nResources() {
+        Locale locale = LocaleContextHolder.getLocale();
+        return getI18nResources(locale);
+    }
+
+    @Override
+    public Map<String, String> getI18nResources(String lang) {
+        Locale locale = resolveLocale(lang);
+        return getI18nResources(locale);
+    }
+
+    @Override
+    public String getValue(String key, Locale locale, Object... args) {
+        try {
+            return messageSource.getMessage(key, args, locale);
+        } catch (NoSuchMessageException e) {
+            info("No such message for code => {}", key);
+            return "unknown";
+        }
+    }
+
+    @Override
+    public String getValue(String key, Object... args) {
+        Locale locale = LocaleContextHolder.getLocale();
+        return getValue(key, locale, args);
     }
 
     private Locale resolveLocale(String lang) {
@@ -57,36 +79,6 @@ public class I18nUtils implements LogAdapter {
                 : generateI18nResources(locale);
     }
 
-    public Map<String, String> getI18nResources() {
-        Locale locale = LocaleContextHolder.getLocale();
-        return getI18nResources(locale);
-    }
-
-    public Map<String, String> getI18nResources(String lang) {
-        Locale locale = resolveLocale(lang);
-        return getI18nResources(locale);
-    }
-
-    public String getValue(String key, Locale locale, Object... args) {
-        try {
-            return messageSource.getMessage(key, args, locale);
-        } catch (NoSuchMessageException e) {
-            info("No such message for code => {}", key);
-            return "unknown";
-        }
-    }
-
-    public String getValue(String key, Object... args) {
-        Locale locale = LocaleContextHolder.getLocale();
-        return getValue(key, locale, args);
-    }
-
-    public static I18nUtils getInstance() {
-        if (instance == null) {
-            instance = ApplicationContextProvider.getBean(I18nUtils.class);
-        }
-        return instance;
-    }
 
     @Override
     public Logger getLogger() {

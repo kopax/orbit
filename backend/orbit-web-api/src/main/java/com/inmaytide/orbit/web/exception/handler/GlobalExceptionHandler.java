@@ -6,7 +6,7 @@ import com.inmaytide.orbit.exceptions.ResponseErrorCodes;
 import com.inmaytide.orbit.exceptions.VersionMatchedException;
 import com.inmaytide.orbit.http.ErrorResult;
 import com.inmaytide.orbit.http.RestResponse;
-import com.inmaytide.orbit.utils.I18nUtils;
+import com.inmaytide.orbit.service.basic.I18nService;
 import com.inmaytide.orbit.web.auth.exception.IncorrectCaptchaException;
 import com.inmaytide.orbit.web.auth.exception.InvalidTokenException;
 import org.apache.shiro.authc.*;
@@ -21,10 +21,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.annotation.Resource;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements LogAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @Resource
+    private I18nService i18n;
 
     @ExceptionHandler(value = Throwable.class)
     public ResponseEntity<Object> exception(Exception e, WebRequest request) {
@@ -51,7 +56,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
     }
 
     private RestResponse loginExceptionHandler(Throwable e) {
-        String key = "";
+        String key;
         if (e instanceof LockedAccountException) {
             key = "login.error.user.locked";
         } else if (e instanceof UnknownAccountException) {
@@ -67,7 +72,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         } else {
             key = "login.error";
         }
-        return RestResponse.of(Integer.toString(HttpStatus.UNAUTHORIZED.value()), I18nUtils.getInstance().getValue(key));
+        return RestResponse.of(Integer.toString(HttpStatus.UNAUTHORIZED.value()), i18n.getValue(key));
     }
 
 

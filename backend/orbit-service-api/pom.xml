@@ -16,11 +16,25 @@
     <name>orbit-service-api</name>
     <url>http://maven.apache.org</url>
 
+    <!-- mvn官方库中patchca-0.5.0.jar不存在 引用他人的个人库下载jar包 -->
+    <repositories>
+        <repository>
+            <id>gfs-maven-snapshot-repository</id>
+            <name>gfs-maven-snapshot-repository</name>
+            <url>https://raw.githubusercontent.com/gefangshuai/maven/master/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>com.inmaytide.orbit.model</groupId>
             <artifactId>orbit-model</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.pusuo</groupId>
+            <artifactId>patchca</artifactId>
+            <version>0.5.0</version>
         </dependency>
     </dependencies>
 </project>

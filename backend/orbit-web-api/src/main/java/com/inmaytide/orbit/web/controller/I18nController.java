@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.web.controller;
 
-import com.inmaytide.orbit.utils.I18nUtils;
+import com.inmaytide.orbit.service.basic.I18nService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class I18nController {
 
     @Resource
-    private I18nUtils i18n;
+    private I18nService i18n;
 
     @GetMapping("lang/{lang}")
     public Map<String, String> lang(@PathVariable String lang) {

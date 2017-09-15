@@ -3,28 +3,21 @@ package com.inmaytide.orbit.service.sys;
 import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.consts.PermissionCategory;
 import com.inmaytide.orbit.dao.sys.PermissionRepository;
-import com.inmaytide.orbit.exceptions.VersionMatchedException;
 import com.inmaytide.orbit.model.sys.Permission;
-import io.jsonwebtoken.lang.Assert;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
 public class PermissionServiceImpl extends AbstractCrudService<PermissionRepository, Permission, Long> implements PermissionService {
-
-    @Resource
-    private UserService userService;
 
     public PermissionServiceImpl(PermissionRepository repository) {
         super(repository);
@@ -36,11 +29,15 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     }
 
     @Override
+    public List<Permission> findByRoleIds(final Long[] roleIds) {
+        Assert.notEmpty(roleIds, "The parameter \"roleIds\" must not be empty: it must contain at least 1 element");
+        return getRepository().findByRoleIds(roleIds);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Permission add(Permission inst) {
-        inst.setVersion(0);
-        inst.setCreateTime(LocalDateTime.now());
-        inst.setCreator(userService.getCurrent().getId());
+        setAdjunctionInformation(inst);
         inst.setSort(getRepository().getSort());
         return getRepository().save(inst);
     }
@@ -49,35 +46,30 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     @Transactional(rollbackFor = Exception.class)
     public Permission modify(Permission inst) {
         Permission origin = this.get(inst.getId());
-        if (null == origin || !Objects.equals(origin.getVersion(), inst.getVersion())) {
-            throw new VersionMatchedException(origin);
-        }
+        matchVersion(inst, origin);
         BeanUtils.copyProperties(inst, origin, FINAL_FIELDS);
-        setUpdateInformation(origin);
+        setModificationInformation(origin);
         update(origin);
         return origin;
     }
 
     @Override
     @Cacheable(cacheNames = "user_menus", key = "#username + '_menus'")
-    public List<Permission> findMenusByUsername(String username) {
+    public List<Permission> findByUsername(String username) {
         List<Permission> list = getRepository().findByUsername(username, String.valueOf(PermissionCategory.MENU.getCode()));
         return listToTree(list);
     }
 
     @Override
-    public List<Permission> findList() {
+    public List<Permission> findAllListToTree() {
         List<Permission> list = getRepository().findAll(new Sort(Sort.Direction.ASC, "sort"));
         return listToTree(list);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteBatch(String ids) {
-        Assert.hasText(ids);
-        String[] tmp = StringUtils.split(ids, ",");
-        Long[] idarr = Arrays.stream(tmp).map(Long::valueOf).toArray(Long[]::new);
-        getRepository().deleteByIdIn(idarr);
+    public void remove(String ids) {
+        getRepository().deleteByIdIn(split(ids, Long::valueOf, Long[]::new));
     }
 
     @Override
@@ -94,14 +86,7 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
 
 
     private void modifySort(Long id, Integer sort) {
-        updateIgnore(setUpdateInformation(new Permission(id, sort)));
-    }
-
-    private Permission setUpdateInformation(Permission permission) {
-        permission.setUpdateTime(LocalDateTime.now());
-        permission.setUpdater(userService.getCurrent().getId());
-        permission.setVersion(permission.getVersion() + 1);
-        return permission;
+        updateIgnore(setModificationInformation(new Permission(id, sort)));
     }
 
     private List<Permission> listToTree(List<Permission> list) {

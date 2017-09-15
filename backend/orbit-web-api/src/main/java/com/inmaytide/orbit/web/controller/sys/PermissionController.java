@@ -6,10 +6,11 @@ import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.sys.Permission;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.PermissionService;
-import com.inmaytide.orbit.service.sys.UserService;
 import com.inmaytide.orbit.web.controller.BasicController;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,28 +25,26 @@ public class PermissionController extends BasicController {
     @Resource
     private PermissionService service;
 
-    @Resource
-    private UserService userService;
-
     @GetMapping("someones/menus")
     @RequiresAuthentication
     public RestResponse getMenusOfSomeone() {
-        User user = userService.getCurrent();
-        return RestResponse.of(service.findMenusByUsername(user.getUsername()));
+        User user = service.getCurrentUser();
+        return RestResponse.of(service.findByUsername(user.getUsername()));
     }
 
     @GetMapping("list")
     @RequiresPermissions("perm:list")
     public RestResponse list() {
-        return RestResponse.of(service.findList());
+        return RestResponse.of(service.findAllListToTree());
     }
 
     @DeleteMapping("delete")
     //@RequiresPermissions("perm:remove")
     @LogAnnotation("删除菜单")
-    public RestResponse delete(String ids) {
-        service.deleteBatch(ids);
-        return RestResponse.of("200", "菜单删除成功");
+    public RestResponse delete(@NotBlank String ids, BindingResult bind) {
+        handleBindingResult(bind);
+        service.remove(ids);
+        return RestResponse.of(HttpStatus.OK);
     }
 
     @PutMapping("add")

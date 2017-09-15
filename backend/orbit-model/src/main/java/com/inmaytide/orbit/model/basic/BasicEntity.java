@@ -10,21 +10,27 @@ import org.springframework.data.mybatis.annotations.Id;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class BasicEntity implements Serializable, Comparable<BasicEntity> {
+public class BasicEntity implements Serializable {
 
     private static final long serialVersionUID = 5784033340704847103L;
+
     @Id
     private Long id;
+
     @Column(name = "create_time")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createTime;
+
     @Column(name = "update_time")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime updateTime;
+
     private Long creator;
+
     private Long updater;
+
     private Integer version;
 
     public BasicEntity() {
@@ -77,10 +83,5 @@ public class BasicEntity implements Serializable, Comparable<BasicEntity> {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    @Override
-    public int compareTo(BasicEntity o) {
-        return (int) (o.getId() - getId());
     }
 }

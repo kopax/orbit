@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.web.controller.sys;
 
-import com.google.common.collect.Maps;
 import com.inmaytide.orbit.exceptions.InvalidParameterException;
 import com.inmaytide.orbit.http.RestResponse;
 import com.inmaytide.orbit.log.LogAnnotation;
@@ -19,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.Map;
 
 @RequestMapping("sys/log")
@@ -32,7 +32,7 @@ public class LogController {
     private LogService service;
 
     private Map<String, Object> buildConditions(String keywords, String begin, String end) {
-        Map<String, Object> conditions = Maps.newHashMap();
+        Map<String, Object> conditions = new HashMap<>();
         if (StringUtils.isNotBlank(keywords)) {
             conditions.put("keywords", keywords);
         }

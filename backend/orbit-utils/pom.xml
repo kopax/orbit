@@ -20,25 +20,11 @@
         <poi.version>3.16</poi.version>
     </properties>
 
-    <!-- mvn官方库中patchca-0.5.0.jar不存在 引用他人的个人库下载jar包 -->
-    <repositories>
-        <repository>
-            <id>gfs-maven-snapshot-repository</id>
-            <name>gfs-maven-snapshot-repository</name>
-            <url>https://raw.githubusercontent.com/gefangshuai/maven/master/</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.7.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.pusuo</groupId>
-            <artifactId>patchca</artifactId>
-            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -55,7 +41,11 @@
             <artifactId>poi-ooxml</artifactId>
             <version>${poi.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
 </project>

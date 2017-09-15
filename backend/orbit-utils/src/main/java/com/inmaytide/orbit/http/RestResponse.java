@@ -23,6 +23,10 @@ public class RestResponse implements Serializable {
         this.id = CommonUtils.uuid();
     }
 
+    public static RestResponse of(HttpStatus httpStatus) {
+        return of(Integer.toString(HttpStatus.OK.value()), null);
+    }
+
     public static RestResponse of(Object data) {
         return of(Integer.toString(HttpStatus.OK.value()), HttpStatus.OK.getReasonPhrase(), data);
     }

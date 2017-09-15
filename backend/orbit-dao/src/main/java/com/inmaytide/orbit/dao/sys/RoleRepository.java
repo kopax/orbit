@@ -16,4 +16,6 @@ public interface RoleRepository extends MybatisRepository<Role, Long> {
 
     Page<Role> findByCodeLikeOrNameLike(String code, String name, Pageable pageable);
 
+    void deleteByIdIn(Long[] ids);
+
 }

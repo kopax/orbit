@@ -19,7 +19,6 @@ import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -31,9 +30,6 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
 
     private static final Logger log = LoggerFactory.getLogger(LogServiceImpl.class);
 
-    @Resource
-    private UserService userService;
-
     public LogServiceImpl(LogRepository repository) {
         super(repository);
     }
@@ -44,7 +40,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         conditions.put("offset", pageable.getOffset());
         conditions.put("ispagation", 1);
         List<Log> content = getRepository().findList(conditions);
-        return new PageImpl<Log>(content, pageable, getRepository().findCount(conditions));
+        return new PageImpl<>(content, pageable, getRepository().findCount(conditions));
     }
 
     @Override
@@ -64,7 +60,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
             Log inst = Log.of();
             String content = String.format("%s => %s", annotation.value(), annotation.failure());
             inst.setContent(content);
-            inst.setOperator(userService.getCurrent().getId());
+            inst.setOperator(getCurrentUser().getId());
             inst.setDetails(e.getClass().getName() + " => " + e.getMessage());
             save(inst);
         }
@@ -78,7 +74,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         LogAnnotation annotation = getLogAnnotation(point);
         String content = String.format("%s => %s", annotation.value(), annotation.success());
         inst.setContent(content);
-        inst.setOperator(userService.getCurrent().getId());
+        inst.setOperator(getCurrentUser().getId());
         save(inst);
     }
 

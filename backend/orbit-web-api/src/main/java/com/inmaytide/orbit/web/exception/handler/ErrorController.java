@@ -54,7 +54,7 @@ public class ErrorController extends AbstractErrorController implements LogAdapt
     }
 
     public ErrorController(ErrorAttributes errorAttributes,
-                                ErrorProperties errorProperties, List<ErrorViewResolver> errorViewResolvers) {
+                           ErrorProperties errorProperties, List<ErrorViewResolver> errorViewResolvers) {
         super(errorAttributes, errorViewResolvers);
         Assert.notNull(errorProperties, "ErrorProperties must not be null");
         this.errorProperties = errorProperties;
@@ -66,7 +66,7 @@ public class ErrorController extends AbstractErrorController implements LogAdapt
     }
 
     @RequestMapping(produces = "text/html")
-    public ModelAndView errorHtml(HttpServletRequest request,  HttpServletResponse response) {
+    public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
         HttpStatus status = getStatus(request);
         Map<String, Object> model = getErrorAttributes(
                 request, isIncludeStackTrace(request, MediaType.TEXT_HTML));
@@ -84,12 +84,13 @@ public class ErrorController extends AbstractErrorController implements LogAdapt
     public ResponseEntity<RestResponse> error(HttpServletRequest request) {
         Map<String, Object> body = getErrorAttributes(request, isIncludeStackTrace(request, MediaType.ALL));
         HttpStatus status = getStatus(request);
-        return new ResponseEntity<RestResponse>(getRestResponse(request, status, body), status);
+        return new ResponseEntity<>(getRestResponse(request, status, body), status);
     }
 
     /**
      * Determine if the stacktrace attribute should be included.
-     * @param request the source request
+     *
+     * @param request  the source request
      * @param produces the media type produced (or {@code MediaType.ALL})
      * @return if the stacktrace attribute should be included
      */
@@ -106,6 +107,7 @@ public class ErrorController extends AbstractErrorController implements LogAdapt
 
     /**
      * Provide access to the error properties.
+     *
      * @return the error properties
      */
     protected ErrorProperties getErrorProperties() {

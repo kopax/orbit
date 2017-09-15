@@ -33,7 +33,7 @@ public class LoginController extends BasicController implements LogAdapter {
 
     @PostMapping("login")
     @LogAnnotation(value = "系统登录", success = "登录成功", failure = "登录失败")
-    public Object login(@RequestBody UsernamePasswordCaptchaToken token, HttpServletResponse response) {
+    public Object login(@RequestBody UsernamePasswordCaptchaToken token) {
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
         User user = (User) subject.getPrincipal();
