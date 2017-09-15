@@ -5,6 +5,7 @@ import {RoleService} from "./role.service";
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Commons} from "../../../commons";
+import {RoleModalComponent} from "./role-modal.component";
 
 @Component({
   selector: "role",
@@ -35,11 +36,15 @@ export class RoleComponent implements OnInit {
       })
   }
 
-  search(event) {
+  public search(event) {
     if (event.key && event.key != 'Enter') {
       return;
     }
     this.refreshList();
+  }
+
+  public add() {
+    let modalRef = this.modalService.open(RoleModalComponent, {size: 'lg'});
   }
 
 }

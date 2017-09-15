@@ -14,6 +14,7 @@ import {AutoHeightDirective} from "../../directive/auto-height.directive";
 import {NotRepeatValidator} from "../../directive/validators/not-repeat.validator";
 import {LocalDateTimePipe} from "../../pipe/LocalDateTimePipe";
 import {TranslateModule} from "@ngx-translate/core";
+import {RoleModalComponent} from "./role/role-modal.component";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {TranslateModule} from "@ngx-translate/core";
     PermissionChildViewComponent,
     PermissionModalComponent,
     LogComponent,
-    RoleComponent
+    RoleComponent,
+    RoleModalComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,8 @@ import {TranslateModule} from "@ngx-translate/core";
     TranslateModule
   ],
   entryComponents: [
-    PermissionModalComponent
+    PermissionModalComponent,
+    RoleModalComponent
   ],
   providers: [
     PermissionService,

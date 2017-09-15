@@ -2,7 +2,9 @@ package com.inmaytide.orbit.model.sys;
 
 import com.inmaytide.orbit.model.basic.BasicEntity;
 import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Entity;
 
+@Entity(name = "sys_organization")
 public class Organization extends BasicEntity {
 
     private static final long serialVersionUID = 7250670050182339430L;

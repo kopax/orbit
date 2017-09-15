@@ -6,7 +6,7 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class RoleService {
 
-  private url_list = GlobalVariable.BASE_API_URL + "sys/role/list"
+  private url_list = GlobalVariable.BASE_API_URL + "sys/roles";
 
   constructor(public http: HttpClient) {
 

@@ -23,4 +23,14 @@
     <select id="getSort" resultType="java.lang.Integer">
         select ifnull(max(sort), 0) + 1 sort from sys_permission
     </select>
+
+    <select id="findByRoleIds" resultType="com.inmaytide.orbit.model.sys.Permission">
+        select * from sys_permission p
+        where id in (
+        select p_id from sys_role_permission where r_id in
+        <foreach collection="roleIds" item="roleId" separator="," open="(" close=")">
+            #{roleId}
+        </foreach>
+        )
+    </select>
 </mapper>

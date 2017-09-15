@@ -1,0 +1,56 @@
+<div class="modal-header">
+  <h6 class="modal-title">{{'role.modal.title' | translate}}</h6>
+  <button type="button" class="close" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="btn-toolbar" role="toolbar" *ngIf="state == 'lock'">
+  <button type="button" class="btn btn-sm btn-success" title="{{'role.modal.btn.edit' | translate}}">
+    <i class="fa fa-pencil-square"></i></button>
+</div>
+<form class="form-horizontal" #form="ngForm" (ngSubmit)="save(form)">
+  <div class="modal-body">
+    <div class="form-group row">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="code">
+        <i class="required"></i>{{'role.column.code' | translate}}
+      </label>
+      <div *ngIf="state != 'lock'" class="col-md-4 col-sm-4 col-xs-12">
+        <input [(ngModel)]="role.code" name="code" id="code" maxlength="32" #code="ngModel"
+               class="form-control form-control-sm col-12" required
+               notRepeat="sys/role/checkCode" [selfId]="role.id">
+      </div>
+      <div *ngIf="state == 'lock'" class="col-md-4 col-sm-4 col-xs-12">
+        <p class="control-value">{{role.code}}</p>
+      </div>
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">
+        <i class="required"></i>{{'role.column.name' | translate}}
+      </label>
+      <div *ngIf="state != 'lock'" class="col-md-4 col-sm-4 col-xs-12">
+        <input [(ngModel)]="role.name" name="name" id="name" maxlength="32" #code="ngModel"
+               class="form-control form-control-sm col-12" required>
+      </div>
+      <div *ngIf="state == 'lock'" class="col-md-4 col-sm-4 col-xs-12">
+        <p class="control-value">{{role.name}}</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="description">
+        {{'role.column.description' | translate}}
+      </label>
+      <div *ngIf="state != 'lock'" class="col-10 description">
+        <textarea rows="2" type="text" id="description" name="description"
+                  [(ngModel)]="role.description" maxlength="128"
+                  class="form-control form-control-sm"></textarea>
+      </div>
+      <div *ngIf="state == 'lock'" class="col-md-6 col-sm-6 col-xs-12">
+        <p class="control-value">{{role.description}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <input type="submit" class="btn btn-sm btn-success" value="{{'role.modal.btn.save' | translate}}"/>
+    <button type="button" class="btn btn-sm btn-secondary" (click)="close()">
+      {{'role.modal.btn.cancel' | translate}}
+    </button>
+  </div>
+</form>

@@ -18,4 +18,5 @@ public interface RoleRepository extends MybatisRepository<Role, Long> {
 
     void deleteByIdIn(Long[] ids);
 
+    Integer countByCodeAndIdNot(String code, Long id);
 }

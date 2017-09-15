@@ -85,4 +85,9 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
         getRepository().update(role);
         return get(role.getId());
     }
+
+    @Override
+    public Boolean checkCode(String code, Long id) {
+        return getRepository().countByCodeAndIdNot(code, id) == 0;
+    }
 }

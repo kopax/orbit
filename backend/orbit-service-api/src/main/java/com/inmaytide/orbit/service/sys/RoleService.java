@@ -22,4 +22,6 @@ public interface RoleService extends BasicService {
     Role modify(Role role);
 
     Role get(Long id);
+
+    Boolean checkCode(String code, Long id);
 }

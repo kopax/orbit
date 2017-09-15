@@ -1,9 +1,9 @@
 package com.inmaytide.orbit.dao.sys;
 
 import com.inmaytide.orbit.model.sys.Permission;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.mybatis.repository.annotation.Query;
 import org.springframework.data.mybatis.repository.support.MybatisRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -22,5 +22,6 @@ public interface PermissionRepository extends MybatisRepository<Permission, Long
 
     Integer countByCodeAndIdNot(String code, Long id);
 
-    List<Permission> findByRoleIds(Long[] roleIds);
+    @Query(value = "findByRoleIds")
+    List<Permission> findByRoleIds(@Param("roleIds") Long[] roleIds);
 }

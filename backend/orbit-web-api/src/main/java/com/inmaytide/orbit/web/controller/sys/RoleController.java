@@ -55,8 +55,12 @@ public class RoleController extends BasicController {
         if (binding.hasErrors() || Objects.isNull(role.getId())) {
             throw new InvalidParameterException();
         }
-        service.modify(role);
-        return RestResponse.of(HttpStatus.OK);
+        return RestResponse.of(service.modify(role));
+    }
+
+    @GetMapping("checkCode/{code}/{id}")
+    public RestResponse checkCode(@PathVariable String code, @PathVariable Long id) {
+        return RestResponse.of(service.checkCode(code, id));
     }
 
 

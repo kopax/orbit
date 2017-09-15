@@ -20,7 +20,9 @@
           <h2>{{'role.list.title' | translate}}</h2>
           <div class="btn-toolbar" role="toolbar">
             <div class="btn-group btn-group-sm">
-              <button type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>{{'role.btn.add' | translate}}</button>
+              <button type="button" class="btn btn-sm btn-success" (click)="add()">
+                  <i class="fa fa-plus"></i>{{'role.btn.add' | translate}}
+              </button>
               <button type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>{{'role.btn.delete' | translate}}</button>
             </div>
           </div>
