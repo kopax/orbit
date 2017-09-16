@@ -1,5 +1,5 @@
-## An backstage management system
-### A project for practice, Use some unfamiliar technologies to develop.
+## Orbit
+### Orbit is a backstage admin system for practice, use some unfamiliar technologies to develop.
 * Development environment
   + Java 8
   + Redis
