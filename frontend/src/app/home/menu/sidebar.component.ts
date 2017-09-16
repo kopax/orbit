@@ -39,7 +39,6 @@ export class SidebarComponent implements OnInit {
     this.user = JSON.parse(objUser);
     this.menuSerivce.findUserMenus()
       .then(menus => {
-        console.log(menus.length);
         if (menus.length > 0) {
           this.menus = menus;
           this.menus.forEach(menu => menu.state = "inactive");

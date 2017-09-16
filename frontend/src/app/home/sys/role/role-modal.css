@@ -19,8 +19,9 @@
   resize: none;
 }
 
-.modal-body {
+.modal-body:first-child {
   padding-right: 80px;
+  padding-bottom: 5px;
 }
 
 .form-horizontal .control-label {
@@ -60,5 +61,29 @@
 .btn-toolbar button i {
   font-size: 20px;
   cursor: pointer;
+}
+
+.modal-body:nth-child(2) {
+  height: 280px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+ngb-tabset {
+  width: 100%;
+}
+
+ngb-tabset > ul > li > a {
+  padding: 0 !important;
+}
+
+.tab-permission-left {
+  height: 243px;
+  overflow-y: auto;
+  border-right: 1px solid #169F85;
+}
+
+ngtree {
+  margin-top: 5px;
 }
 

@@ -9,12 +9,16 @@ import {LogService} from "./log/log.service";
 import {RoleService} from "./role/role.service";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {NgbDropdownModule, NgbPaginationModule, NgbAlertModule, NgbDatepickerModule} from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDropdownModule, NgbPaginationModule, NgbAlertModule, NgbDatepickerModule,
+  NgbTabsetModule, NgbTooltip, NgbTooltipModule
+} from "@ng-bootstrap/ng-bootstrap";
 import {AutoHeightDirective} from "../../directive/auto-height.directive";
 import {NotRepeatValidator} from "../../directive/validators/not-repeat.validator";
 import {LocalDateTimePipe} from "../../pipe/LocalDateTimePipe";
 import {TranslateModule} from "@ngx-translate/core";
 import {RoleModalComponent} from "./role/role-modal.component";
+import {NgTree} from "ng.tree";
 
 @NgModule({
   declarations: [
@@ -26,7 +30,8 @@ import {RoleModalComponent} from "./role/role-modal.component";
     PermissionModalComponent,
     LogComponent,
     RoleComponent,
-    RoleModalComponent
+    RoleModalComponent,
+    NgTree
   ],
   imports: [
     CommonModule,
@@ -35,11 +40,14 @@ import {RoleModalComponent} from "./role/role-modal.component";
     NgbDropdownModule,
     NgbAlertModule,
     NgbDatepickerModule,
+    NgbTabsetModule,
+    NgbTooltipModule,
     TranslateModule
   ],
   entryComponents: [
     PermissionModalComponent,
-    RoleModalComponent
+    RoleModalComponent,
+    NgTree
   ],
   providers: [
     PermissionService,

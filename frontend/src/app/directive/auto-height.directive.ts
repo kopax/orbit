@@ -5,5 +5,5 @@ import {Directive, HostBinding} from "@angular/core"
 })
 
 export class AutoHeightDirective {
-  @HostBinding("style.height.px") height = window.innerHeight - 49;
+  @HostBinding("style.minHeight.px") minHeight = window.innerHeight - 49;
 }

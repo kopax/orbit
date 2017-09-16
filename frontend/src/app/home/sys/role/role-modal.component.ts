@@ -13,13 +13,59 @@ export class RoleModalComponent implements OnInit {
   public role: Role = new Role();
   public state = 'add';
 
+  public treeData: any[] = [{
+    name: "folder",
+    iconClass:"ngtree-none-icon fa fa-file-text-o",
+    nodes: [{
+      name: 'file',
+      iconClass:"ngtree-none-icon fa fa-file-text-o"
+    }]
+  },{
+    name: 'another folder',
+    iconClass:"ngtree-none-icon fa fa-file-text-o",
+    nodes:[{
+      name: 'another file',
+      iconClass:"ngtree-none-icon fa fa-file-text-o"
+    },{
+      name: 'another file',
+      iconClass:"ngtree-none-icon fa fa-file-text-o"
+    },{
+      name: 'another file',
+      iconClass:"ngtree-none-icon fa fa-file-text-o"
+    },{
+      name: 'another file',
+      iconClass:"ngtree-none-icon fa fa-file-text-o"
+    },{
+      name: 'another file',
+      iconClass:"ngtree-none-icon fa fa-file-text-o"
+    },{
+      name: 'another file',
+      iconClass:"ngtree-none-icon fa fa-file-text-o"
+    },{
+      name: 'another file',
+      iconClass:"ngtree-none-icon fa fa-file-text-o"
+    },{
+      name: 'another file',
+      iconClass:"ngtree-none-icon fa fa-file-text-o"
+    },{
+      name: 'another file',
+      iconClass:"ngtree-none-icon fa fa-file-text-o"
+    }]
+  }];
+
+  public treeConfig : any = {
+    dataMap:{
+      children:"nodes"
+    }
+  }
+
   constructor(private activeModal: NgbActiveModal,
               private service: RoleService) {
 
   }
 
   ngOnInit(): void {
-    throw new Error("Method not implemented.");
+
   }
 
   public save(form) {
