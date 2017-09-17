@@ -44,7 +44,7 @@ export class RoleComponent implements OnInit {
   }
 
   public add() {
-    let modalRef = this.modalService.open(RoleModalComponent, {size: 'lg'});
+    let modalRef = this.modalService.open(RoleModalComponent, {size: 'lg', backdrop: 'static'});
   }
 
 }

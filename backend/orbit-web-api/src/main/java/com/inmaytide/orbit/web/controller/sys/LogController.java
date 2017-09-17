@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.web.controller.sys;
 
-import com.inmaytide.orbit.exceptions.InvalidParameterException;
+import com.inmaytide.orbit.exceptions.IllegalParameterException;
 import com.inmaytide.orbit.http.RestResponse;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.basic.PageModel;
@@ -44,7 +44,7 @@ public class LogController {
                 conditions.put("end", DateTimeUtils.format(end, SEARCH_DEFAULT_END_TIME, "yyyy-M-d", "yyyy-MM-dd HH:mm:ss"));
             }
         } catch (Exception e) {
-            throw new InvalidParameterException();
+            throw new IllegalParameterException();
         }
         return conditions;
     }

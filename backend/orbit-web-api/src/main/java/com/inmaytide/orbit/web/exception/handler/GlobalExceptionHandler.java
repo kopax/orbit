@@ -1,7 +1,7 @@
 package com.inmaytide.orbit.web.exception.handler;
 
 import com.inmaytide.orbit.adepter.LogAdapter;
-import com.inmaytide.orbit.exceptions.InvalidParameterException;
+import com.inmaytide.orbit.exceptions.IllegalParameterException;
 import com.inmaytide.orbit.exceptions.ResponseErrorCodes;
 import com.inmaytide.orbit.exceptions.VersionMatchedException;
 import com.inmaytide.orbit.http.ErrorResult;
@@ -46,8 +46,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
             restResponse = RestResponse.of(Integer.toString(HttpStatus.FORBIDDEN.value()), "您暂时没有权限");
         } else if (e instanceof VersionMatchedException) {
             restResponse = RestResponse.of(ResponseErrorCodes.VersionMatched.getCode(), "数据已经被修改或不存在", ((VersionMatchedException) e).getData());
-        } else if (e instanceof InvalidParameterException) {
-            restResponse = RestResponse.of(ResponseErrorCodes.InvalidParameter.getCode(), e.getMessage(), ((InvalidParameterException) e).getErrors());
+        } else if (e instanceof IllegalParameterException) {
+            restResponse = RestResponse.of(ResponseErrorCodes.InvalidParameter.getCode(), e.getMessage(), ((IllegalParameterException) e).getErrors());
         } else {
             restResponse = RestResponse.of(status, ErrorResult.of(e));
         }

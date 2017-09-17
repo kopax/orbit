@@ -30,8 +30,12 @@
 }
 
 .error-label {
+  width: 100%;
   text-align: left !important;
   color: #ed1c24;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .form-control:disabled, .form-control[readonly] {

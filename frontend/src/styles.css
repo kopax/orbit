@@ -579,7 +579,8 @@ body .container.body .right_col {
 
 .container {
   width: 100%;
-  padding: 0
+  padding: 0;
+  max-width: 100%!important;
 }
 
 .navbar-nav > li > a,
@@ -5142,20 +5143,11 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
   background: none!important;
 }
 
-.tooltip .arrow {
-  position: absolute;
-  display: block;
-  width: 5px;
-  height: 5px;
+.tooltip {
+  min-width: 160px;
+}
+.tooltip .tooltip-inner {
+  text-align: left;
 }
 
-.tooltip .arrow:before {
-  margin-left: -3px;
-  content: "";
-  border-width: 5px 5px 0;
-  border-top-color: #000;
-  position: absolute;
-  border-color: transparent;
-  border-style: solid;
-}
 

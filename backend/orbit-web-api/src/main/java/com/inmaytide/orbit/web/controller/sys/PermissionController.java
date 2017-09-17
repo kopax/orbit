@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.web.controller.sys;
 
-import com.inmaytide.orbit.exceptions.InvalidParameterException;
+import com.inmaytide.orbit.exceptions.IllegalParameterException;
 import com.inmaytide.orbit.http.RestResponse;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.sys.Permission;
@@ -52,7 +52,7 @@ public class PermissionController extends BasicController {
     //@RequiresPermissions("perm:add")
     public RestResponse add(@RequestBody @Validated Permission permission, BindingResult bind) {
         if (bind.hasErrors() || !service.checkCode(permission.getCode(), -1L)) {
-            throw new InvalidParameterException(bind.getAllErrors());
+            throw new IllegalParameterException(bind.getAllErrors());
         }
         service.add(permission);
         return RestResponse.of(permission);
@@ -62,7 +62,7 @@ public class PermissionController extends BasicController {
     @LogAnnotation("修改菜单")
     public RestResponse update(@RequestBody @Validated Permission permission, BindingResult bind) {
         if (bind.hasErrors() || permission.getId() == null || !service.checkCode(permission.getCode(), permission.getId())) {
-            throw new InvalidParameterException(bind.getAllErrors());
+            throw new IllegalParameterException(bind.getAllErrors());
         }
         service.modify(permission);
         return RestResponse.of(permission);
@@ -72,7 +72,7 @@ public class PermissionController extends BasicController {
     @LogAnnotation("修改排序")
     public RestResponse exchangeSort(@RequestBody List<Permission> permissions) {
         if (permissions.size() != 2) {
-            throw new InvalidParameterException();
+            throw new IllegalParameterException();
         }
         service.exchangeSort(permissions.toArray(new Permission[2]));
         return RestResponse.of("200", "success");
