@@ -1,9 +1,12 @@
-/.settings/
-/.classpath
-/.project
-.DS_Store
 target/
 !.mvn/wrapper/maven-wrapper.jar
+.DS_Store
+
+### eclipse ###
+.settings
+.classpath
+.project
+
 
 ### STS ###
 .apt_generated
