@@ -29,10 +29,43 @@ CREATE TABLE `sys_log` (
   `content` varchar(512) DEFAULT NULL COMMENT '日志内容',
   `details` text COMMENT '明细',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=227 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `sys_organization`
+--
 
+DROP TABLE IF EXISTS `sys_organization`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_organization` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `code` varchar(32) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `category` bigint(20) DEFAULT NULL,
+  `parent` bigint(20) DEFAULT NULL,
+  `address` varchar(512) DEFAULT NULL,
+  `description` varchar(512) DEFAULT NULL,
+  `is_removed` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `creator` bigint(20) DEFAULT NULL,
+  `updater` bigint(20) DEFAULT NULL,
+  `version` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_organization`
+--
+
+LOCK TABLES `sys_organization` WRITE;
+/*!40000 ALTER TABLE `sys_organization` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_organization` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `sys_permission`
@@ -90,7 +123,7 @@ CREATE TABLE `sys_role` (
   `version` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10006 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +132,7 @@ CREATE TABLE `sys_role` (
 
 LOCK TABLES `sys_role` WRITE;
 /*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
-INSERT INTO `sys_role` VALUES (9999,'admin','Administrator',NULL,'2017-08-22 21:43:16',NULL,9999,NULL,0);
+INSERT INTO `sys_role` VALUES (9999,'admin','Administrator',NULL,'2017-08-22 21:43:16',NULL,9999,NULL,0),(10000,'company-administrator','CompanyAdministrator',NULL,'2017-09-17 21:51:57',NULL,9999,NULL,0),(10001,'organization','organization',NULL,'2017-09-17 21:58:20',NULL,9999,NULL,0),(10002,'23213','12312313',NULL,'2017-09-17 21:59:23',NULL,9999,NULL,0),(10003,'e123123','123123',NULL,'2017-09-17 22:01:47',NULL,9999,NULL,0),(10004,'123123','123123',NULL,'2017-09-17 22:10:43',NULL,9999,NULL,0),(10005,'123123123123','123123',NULL,'2017-09-17 22:15:46',NULL,9999,NULL,0);
 /*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +148,7 @@ CREATE TABLE `sys_role_permission` (
   `r_id` bigint(20) NOT NULL,
   `p_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10007 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10009 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +157,7 @@ CREATE TABLE `sys_role_permission` (
 
 LOCK TABLES `sys_role_permission` WRITE;
 /*!40000 ALTER TABLE `sys_role_permission` DISABLE KEYS */;
-INSERT INTO `sys_role_permission` VALUES (10000,9999,10000),(10001,9999,10001),(10002,9999,10002),(10003,9999,10004),(10005,9999,10005),(10006,9999,10019);
+INSERT INTO `sys_role_permission` VALUES (10000,9999,10000),(10001,9999,10001),(10002,9999,10002),(10003,9999,10004),(10005,9999,10005),(10006,9999,10019),(10008,9999,10030);
 /*!40000 ALTER TABLE `sys_role_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,4 +236,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-11 22:19:53
+-- Dump completed on 2017-09-17 22:50:25
