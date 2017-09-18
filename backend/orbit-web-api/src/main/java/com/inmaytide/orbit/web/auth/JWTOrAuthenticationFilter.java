@@ -22,6 +22,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Objects;
@@ -84,13 +85,7 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
         if (isLoginRequest(request, response)) {
             String json = IOUtils.toString(request.getInputStream(), Charset.forName("utf-8"));
             if (StringUtils.isNotEmpty(json)) {
-                ObjectMapper mapper = new ObjectMapper();
-                Map m = mapper.readValue(json, Map.class);
-                String username = Objects.toString(m.get(USERNAME), null);
-                String password = Objects.toString(m.get(PASSWORD), null);
-                String captcha = Objects.toString(m.get(CAPTCHA), null);
-                String captchaKey = Objects.toString(m.get(CAPTCHA_KEY), null);
-                return new UsernamePasswordCaptchaToken(username, password, captcha, captchaKey);
+                return createUPCToken(json);
             }
         }
 
@@ -107,6 +102,16 @@ public class JWTOrAuthenticationFilter extends AuthenticatingFilter {
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
         throw e;
+    }
+
+    private UsernamePasswordCaptchaToken createUPCToken(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        Map m = mapper.readValue(json, Map.class);
+        String username = Objects.toString(m.get(USERNAME), null);
+        String password = Objects.toString(m.get(PASSWORD), null);
+        String captcha = Objects.toString(m.get(CAPTCHA), null);
+        String captchaKey = Objects.toString(m.get(CAPTCHA_KEY), null);
+        return new UsernamePasswordCaptchaToken(username, password, captcha, captchaKey);
     }
 
     private AuthenticationToken createToken(String token) {

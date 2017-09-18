@@ -4,6 +4,7 @@ import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.consts.PermissionCategory;
 import com.inmaytide.orbit.dao.sys.PermissionRepository;
 import com.inmaytide.orbit.model.sys.Permission;
+import com.inmaytide.orbit.utils.IdGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
@@ -37,9 +38,10 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Permission add(Permission inst) {
+        inst.setId(IdGenerator.getInstance().nextId());
         setAdjunctionInformation(inst);
         inst.setSort(getRepository().getSort());
-        return getRepository().save(inst);
+        return getRepository().insert(inst);
     }
 
     @Override

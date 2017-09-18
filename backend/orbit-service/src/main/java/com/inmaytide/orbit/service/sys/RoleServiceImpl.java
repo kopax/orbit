@@ -3,6 +3,7 @@ package com.inmaytide.orbit.service.sys;
 import com.inmaytide.orbit.dao.sys.RoleRepository;
 import com.inmaytide.orbit.model.basic.PageModel;
 import com.inmaytide.orbit.model.sys.Role;
+import com.inmaytide.orbit.utils.IdGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,7 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
 
     @Resource
     private OrganizationService organizationService;
+
 
     public RoleServiceImpl(RoleRepository repository) {
         super(repository);
@@ -64,8 +66,9 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Role add(Role role) {
+        role.setId(IdGenerator.getInstance().nextId());
         setAdjunctionInformation(role);
-        saveIgnoreNull(role);
+        insert(role);
         return role;
     }
 

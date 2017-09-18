@@ -17,7 +17,7 @@
 
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/db_orbit"
-                        userId="root" password="123456"/>
+                        userId="root" password="123"/>
 
         <javaModelGenerator targetPackage="${targetModelPackage}" targetProject="${targetJavaProject}">
             <!--<property name="rootClass" value="com.inmaytide.orbit.model.basic.BasicEntity"/>-->

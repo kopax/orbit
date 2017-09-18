@@ -14,7 +14,7 @@ public class BasicEntity implements Serializable {
 
     private static final long serialVersionUID = 5784033340704847103L;
 
-    @Id
+    @Id(strategy = Id.GenerationType.ASSIGNATION)
     private Long id;
 
     @Column(name = "create_time")

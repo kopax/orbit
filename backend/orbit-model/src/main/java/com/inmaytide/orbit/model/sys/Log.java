@@ -1,40 +1,38 @@
 package com.inmaytide.orbit.model.sys;
 
-import com.inmaytide.orbit.office.excel.Comment;
-import com.inmaytide.orbit.office.excel.ExcelTemplate;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.annotations.Id;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity(table = "sys_log")
-public class Log implements Serializable{
-    @Id
+public class Log implements java.io.Serializable {
+
+    private static final long serialVersionUID = 9133989827160716863L;
+
+    @Id(strategy = Id.GenerationType.ASSIGNATION)
     private Long id;
+
+    private String name;
 
     private Long operator;
 
-    @Transient
-    @Comment(column = 0, header = "操作人")
-    private String operatorName;
+    @Column(name = "class_name")
+    private String className;
 
-    @Column(name = "log_time")
-    @Comment(column = 1, header = "操作时间")
-    private LocalDateTime logTime;
+    @Column(name = "method_name")
+    private String methodName;
 
-    @Comment(column = 2, header = "日志内容")
-    private String content;
+    private LocalDateTime time;
 
-    @Comment(column = 3, header = "日志详情")
-    private String details;
+    @Column(name = "is_succeed")
+    private String isSucceed;
 
-    public static Log of() {
-        Log log = new Log();
-        log.setLogTime(LocalDateTime.now());
-        return log;
+    private String message;
+
+    public Log() {
+        this.time = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -45,6 +43,14 @@ public class Log implements Serializable{
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Long getOperator() {
         return operator;
     }
@@ -53,35 +59,43 @@ public class Log implements Serializable{
         this.operator = operator;
     }
 
-    public LocalDateTime getLogTime() {
-        return logTime;
+    public String getClassName() {
+        return className;
     }
 
-    public void setLogTime(LocalDateTime logTime) {
-        this.logTime = logTime;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
-    public String getContent() {
-        return content;
+    public String getMethodName() {
+        return methodName;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
     }
 
-    public String getDetails() {
-        return details;
+    public LocalDateTime getTime() {
+        return time;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setTime(LocalDateTime time) {
+        this.time = time;
     }
 
-    public String getOperatorName() {
-        return operatorName;
+    public String getIsSucceed() {
+        return isSucceed;
     }
 
-    public void setOperatorName(String operatorName) {
-        this.operatorName = operatorName;
+    public void setIsSucceed(String isSucceed) {
+        this.isSucceed = isSucceed;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

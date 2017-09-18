@@ -1,11 +1,11 @@
 package com.inmaytide.orbit.service.sys;
 
-import com.inmaytide.orbit.adepter.LogAdapter;
 import com.inmaytide.orbit.dao.sys.LogRepository;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.basic.PageModel;
 import com.inmaytide.orbit.model.sys.Log;
 import com.inmaytide.orbit.office.excel.ExcelExportHelper;
+import com.inmaytide.orbit.utils.IdGenerator;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.aspectj.lang.JoinPoint;
@@ -16,9 +16,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.support.AbstractCrudService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -26,7 +28,7 @@ import java.util.Map;
 
 @Service
 @Transactional(readOnly = true)
-public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long> implements LogService, LogAdapter {
+public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long> implements LogService {
 
     private static final Logger log = LoggerFactory.getLogger(LogServiceImpl.class);
 
@@ -51,49 +53,49 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
     }
 
     @Override
+    @Async
     @Transactional(rollbackFor = Exception.class)
     public void record(JoinPoint point, Throwable e) {
         LogAnnotation annotation = getLogAnnotation(point);
         if ("login".equals(point.getSignature().getName())) {
             loginFailedRecord(point, e);
         } else {
-            Log inst = Log.of();
-            String content = String.format("%s => %s", annotation.value(), annotation.failure());
-            inst.setContent(content);
-            inst.setOperator(getCurrentUser().getId());
-            inst.setDetails(e.getClass().getName() + " => " + e.getMessage());
-            save(inst);
+            Log inst = buildLogFromJoinPoint(point);
+            inst.setIsSucceed(annotation.failure());
+            inst.setMessage(e.getClass().getName() + " => " + e.getMessage());
+            insert(inst);
         }
 
     }
 
     @Override
+    @Async
     @Transactional(rollbackFor = Exception.class)
     public void record(JoinPoint point) {
-        Log inst = Log.of();
+        Log inst = buildLogFromJoinPoint(point);
         LogAnnotation annotation = getLogAnnotation(point);
-        String content = String.format("%s => %s", annotation.value(), annotation.success());
-        inst.setContent(content);
-        inst.setOperator(getCurrentUser().getId());
-        save(inst);
+        inst.setIsSucceed(annotation.success());
+        insert(inst);
     }
 
 
     private void loginFailedRecord(JoinPoint point, Throwable e) {
-        Log inst = Log.of();
+        Log inst = buildLogFromJoinPoint(point);
         LogAnnotation annotation = getLogAnnotation(point);
         UsernamePasswordToken token = (UsernamePasswordToken) point.getArgs()[0];
-        String content = String.format("%s => %s, username => %s",
-                annotation.value(),
-                annotation.failure(),
-                token.getUsername());
-        inst.setContent(content);
-        inst.setDetails(e.getClass().getName() + " => " + e.getMessage());
-        save(inst);
+        inst.setIsSucceed(annotation.failure());
+        inst.setMessage(e.getClass().getName() + " => " + e.getMessage() + ", username => " + token.getUsername());
+        insert(inst);
     }
 
-    @Override
-    public Logger getLogger() {
-        return log;
+    private Log buildLogFromJoinPoint(JoinPoint point) {
+        LogAnnotation annotation = getLogAnnotation(point);
+        Log inst = new Log();
+        inst.setId(IdGenerator.getInstance().nextId());
+        inst.setName(annotation.value());
+        inst.setOperator(getCurrentUser().getId());
+        inst.setMethodName(point.getSignature().getName());
+        inst.setClassName(point.getSignature().getDeclaringTypeName());
+        return inst;
     }
 }

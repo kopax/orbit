@@ -8,7 +8,7 @@ public enum PermissionCategory {
     private String name;
     private long code;
 
-    private PermissionCategory(String name, long code) {
+    PermissionCategory(String name, long code) {
         this.name = name;
         this.code = code;
     }

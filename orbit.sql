@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.18, for osx10.12 (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.36, for Win32 (x86)
 --
 -- Host: localhost    Database: db_orbit
 -- ------------------------------------------------------
--- Server version	5.7.18
+-- Server version	5.5.36
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,14 +23,27 @@ DROP TABLE IF EXISTS `sys_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sys_log` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT '日志名称',
   `operator` bigint(20) DEFAULT NULL COMMENT '操作人',
-  `log_time` datetime DEFAULT NULL COMMENT '发生时间',
-  `content` varchar(512) DEFAULT NULL COMMENT '日志内容',
-  `details` text COMMENT '明细',
+  `class_name` varchar(128) DEFAULT NULL COMMENT '类名',
+  `method_name` varchar(128) DEFAULT NULL COMMENT '方法名',
+  `time` datetime DEFAULT NULL COMMENT '日志时间',
+  `is_succeed` varchar(128) DEFAULT NULL COMMENT '是否成功',
+  `message` varchar(255) DEFAULT NULL COMMENT '日志信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=227 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统日志';
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_log`
+--
+
+LOCK TABLES `sys_log` WRITE;
+/*!40000 ALTER TABLE `sys_log` DISABLE KEYS */;
+INSERT INTO `sys_log` VALUES (359333985492537344,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:44:58','登录成功',NULL),(359333988634071040,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:44:58','登录成功',NULL),(359333992916455424,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:45:00','登录成功',NULL),(359333996456448000,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:45:00','登录成功',NULL),(359333999816085504,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:45:01','登录成功',NULL),(359346162773397504,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 14:33:21','登录成功',NULL);
+/*!40000 ALTER TABLE `sys_log` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `sys_organization`
@@ -236,4 +249,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-17 22:50:25
+-- Dump completed on 2017-09-18 14:51:46

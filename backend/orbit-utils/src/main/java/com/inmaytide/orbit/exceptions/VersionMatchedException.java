@@ -3,7 +3,7 @@ package com.inmaytide.orbit.exceptions;
 /**
  * The version does not match when the data is modified.
  *
- * @author Moss Lo
+ * @author Moss
  * @since September 3, 2017
  */
 public class VersionMatchedException extends RuntimeException {
