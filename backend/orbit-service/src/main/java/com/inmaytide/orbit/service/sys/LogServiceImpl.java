@@ -6,6 +6,7 @@ import com.inmaytide.orbit.model.basic.PageModel;
 import com.inmaytide.orbit.model.sys.Log;
 import com.inmaytide.orbit.office.excel.ExcelExportHelper;
 import com.inmaytide.orbit.utils.IdGenerator;
+import com.inmaytide.orbit.utils.SessionHelper;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.aspectj.lang.JoinPoint;
@@ -96,6 +97,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         inst.setOperator(getCurrentUser().getId());
         inst.setMethodName(point.getSignature().getName());
         inst.setClassName(point.getSignature().getDeclaringTypeName());
+        inst.setIpAddress(SessionHelper.getSession().getHost());
         return inst;
     }
 }

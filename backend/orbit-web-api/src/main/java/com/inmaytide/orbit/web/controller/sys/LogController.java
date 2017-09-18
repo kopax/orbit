@@ -52,7 +52,7 @@ public class LogController {
     @GetMapping("list")
     @ResponseBody
     public RestResponse list(PageModel pageModel, String begin, String end) throws IOException {
-        return RestResponse.of(service.findList(buildConditions(pageModel.getKeywords(), begin, end), pageModel));
+        return RestResponse.of(service.findList(buildConditions(pageModel.getKeywords(false), begin, end), pageModel));
     }
 
     @GetMapping("export")

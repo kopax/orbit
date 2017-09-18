@@ -27,7 +27,7 @@ h2 {
 .table th:nth-child(1),
 .table td:nth-child(1) {
   text-align: center;
-  width: 60px;
+  width: 40px;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
@@ -35,7 +35,7 @@ h2 {
 
 .table th:nth-child(2),
 .table td:nth-child(2) {
-  width: 18%;
+  width: 13%;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
@@ -43,7 +43,7 @@ h2 {
 
 .table th:nth-child(3),
 .table td:nth-child(3) {
-  width: 18%;
+  width: 13%;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
@@ -51,7 +51,7 @@ h2 {
 
 .table th:nth-child(4),
 .table td:nth-child(4) {
-  width: 18%;
+  width: 13%;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
@@ -59,6 +59,22 @@ h2 {
 
 .table th:nth-child(5),
 .table td:nth-child(5) {
+  width: 15%;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.table th:nth-child(6),
+.table td:nth-child(6) {
+  width: 18%;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.table th:nth-child(7),
+.table td:nth-child(7) {
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;

@@ -18,6 +18,8 @@ export class RoleComponent implements OnInit {
 
   public page: Page<Role> = new Page<Role>();
 
+  public allChekced = "";
+
   constructor(private service: RoleService,
               private router: Router,
               private modalService: NgbModal) {
@@ -45,6 +47,35 @@ export class RoleComponent implements OnInit {
 
   public add() {
     let modalRef = this.modalService.open(RoleModalComponent, {size: 'lg', backdrop: 'static'});
+  }
+
+  public remove() {
+    let ids = [];
+    this.page.content.forEach(role => {
+      if (role['state'] == 'selected') {
+        ids.push(role.id)
+      }
+    });
+    this.service.remove(ids);
+  }
+
+  public selectRole(role) {
+    if (role.id === 9999) {
+      return;
+    }
+    role.state = role.state == 'selected' ? 'none' : 'selected';
+    if (role.state === 'none') {
+      this.allChekced = "";
+    }
+  }
+
+  public selectAll() {
+    this.page.content.forEach(role => {
+      if (role.id !== 9999) {
+        role['state'] = this.allChekced == 'checked' ? 'none' : 'selected';
+      }
+    });
+    this.allChekced = this.allChekced == 'checked' ? '' : 'checked';
   }
 
 }

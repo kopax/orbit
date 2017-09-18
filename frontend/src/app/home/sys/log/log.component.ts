@@ -70,7 +70,6 @@ export class LogComponent implements OnInit {
 
   export() {
     let _conditions = this.getConditions();
-    console.log(_conditions);
     location.href = this.logService.url_export +
                         "?keywords=" + (_conditions['keywords'] || '') +
                         "&begin=" + (_conditions['begin'] || '') +

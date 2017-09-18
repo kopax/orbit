@@ -1,5 +1,8 @@
 package com.inmaytide.orbit.model.sys;
 
+import com.inmaytide.orbit.office.excel.Comment;
+import com.inmaytide.orbit.office.excel.ExcelTemplate;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.annotations.Id;
@@ -7,6 +10,7 @@ import org.springframework.data.mybatis.annotations.Id;
 import java.time.LocalDateTime;
 
 @Entity(table = "sys_log")
+@ExcelTemplate
 public class Log implements java.io.Serializable {
 
     private static final long serialVersionUID = 9133989827160716863L;
@@ -14,9 +18,18 @@ public class Log implements java.io.Serializable {
     @Id(strategy = Id.GenerationType.ASSIGNATION)
     private Long id;
 
+    @Comment(header="日志名称", column = 0)
     private String name;
 
+    @Column(name = "ip_address")
+    @Comment(header="IP", column = 3)
+    private String ipAddress;
+
     private Long operator;
+
+    @Transient
+    @Comment(header="操作人", column = 2)
+    private String operatorName;
 
     @Column(name = "class_name")
     private String className;
@@ -24,11 +37,14 @@ public class Log implements java.io.Serializable {
     @Column(name = "method_name")
     private String methodName;
 
+    @Comment(header = "操作时间", column=4)
     private LocalDateTime time;
 
     @Column(name = "is_succeed")
+    @Comment(header="是否成功", column = 1)
     private String isSucceed;
 
+    @Comment(header = "日志信息", column=5)
     private String message;
 
     public Log() {
@@ -97,5 +113,21 @@ public class Log implements java.io.Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public String getOperatorName() {
+        return operatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
     }
 }

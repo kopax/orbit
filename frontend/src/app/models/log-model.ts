@@ -1,8 +1,10 @@
 export class Log {
   id: number;
-  logTime: number[];
+  name: string;
   operator: string;
-  content: string;
   operatorName: string;
-  details: string;
+  time: number[];
+  isSucceed: string;
+  message: string;
+  ipAddress: string;
 }

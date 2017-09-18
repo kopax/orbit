@@ -43,4 +43,11 @@ export class RoleService {
     return bit;
   }
 
+  remove(ids: number[]) {
+    return this.http.delete(this.url_crud, {
+      params: new HttpParams({
+        fromObject: {ids: ids.join(",")}
+      })
+    }).toPromise();
+  }
 }

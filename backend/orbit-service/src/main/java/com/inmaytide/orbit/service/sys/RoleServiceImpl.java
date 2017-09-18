@@ -46,8 +46,8 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
     @Override
     public Page<Role> findList(PageModel pageModel) {
         Pageable pageable = pageModel.toPageable();
-        if (StringUtils.isNotEmpty(pageModel.getKeywords())) {
-            return getRepository().findByCodeLikeOrNameLike(pageModel.getKeywords(), pageModel.getKeywords(), pageable);
+        if (StringUtils.isNotEmpty(pageModel.getKeywords(true))) {
+            return getRepository().findByCodeLikeOrNameLike(pageModel.getKeywords(true), pageModel.getKeywords(true), pageable);
         } else {
             return getRepository().findAll(pageable);
         }

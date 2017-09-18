@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.web.exception.handler;
 
-import com.inmaytide.orbit.adepter.LogAdapter;
 import com.inmaytide.orbit.exceptions.IllegalParameterException;
 import com.inmaytide.orbit.exceptions.ResponseErrorCodes;
 import com.inmaytide.orbit.exceptions.VersionMatchedException;
@@ -24,7 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.annotation.Resource;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements LogAdapter {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
@@ -51,7 +50,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         } else {
             restResponse = RestResponse.of(status, ErrorResult.of(e));
         }
-        error(e.getClass().getName(), e);
+        log.error(e.getClass().getName(), e);
         return super.handleExceptionInternal(e, restResponse, headers, status, request);
     }
 
@@ -75,9 +74,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         return RestResponse.of(Integer.toString(HttpStatus.UNAUTHORIZED.value()), i18n.getValue(key));
     }
 
-
-    @Override
-    public Logger getLogger() {
-        return log;
-    }
 }

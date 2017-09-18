@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.web.exception.handler;
 
-import com.inmaytide.orbit.adepter.LogAdapter;
 import com.inmaytide.orbit.http.ErrorResult;
 import com.inmaytide.orbit.http.RestResponse;
 import org.apache.shiro.authc.AuthenticationException;
@@ -27,7 +26,7 @@ import java.util.Objects;
 
 @Controller
 @RequestMapping("${server.error.path:${error.path:/error}}")
-public class ErrorController extends AbstractErrorController implements LogAdapter {
+public class ErrorController extends AbstractErrorController {
 
     private static final Logger log = LoggerFactory.getLogger(ErrorController.class);
 
@@ -117,7 +116,7 @@ public class ErrorController extends AbstractErrorController implements LogAdapt
     private RestResponse getRestResponse(HttpServletRequest request,
                                          HttpStatus status,
                                          Map<String, Object> body) {
-        debug(body.toString());
+        log.debug(body.toString());
         ErrorResult error = new ErrorResult();
         if (status == HttpStatus.NOT_FOUND) {
             error.setType(NoHandlerFoundException.class.getName());
@@ -149,10 +148,5 @@ public class ErrorController extends AbstractErrorController implements LogAdapt
             }
         }
         return super.getStatus(request);
-    }
-
-    @Override
-    public Logger getLogger() {
-        return log;
     }
 }

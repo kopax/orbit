@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.web.controller;
 
-import com.inmaytide.orbit.adepter.LogAdapter;
 import com.inmaytide.orbit.http.HttpHelper;
 import com.inmaytide.orbit.http.RestResponse;
 import com.inmaytide.orbit.log.LogAnnotation;
@@ -24,7 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 @RestController
-public class LoginController extends BasicController implements LogAdapter {
+public class LoginController extends BasicController {
 
     private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 
@@ -38,7 +37,7 @@ public class LoginController extends BasicController implements LogAdapter {
         subject.login(token);
         User user = (User) subject.getPrincipal();
         user.setToken(TokenUtils.generate(CommonUtils.uuid(), user.getUsername()));
-        debug("{} login succeed.", user.getUsername());
+        log.debug("{} login succeed.", user.getUsername());
         return RestResponse.of(user);
     }
 
@@ -51,8 +50,4 @@ public class LoginController extends BasicController implements LogAdapter {
         }
     }
 
-    @Override
-    public Logger getLogger() {
-        return log;
-    }
 }

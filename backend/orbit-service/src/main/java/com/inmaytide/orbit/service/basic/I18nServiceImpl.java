@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.service.basic;
 
-import com.inmaytide.orbit.adepter.LogAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +17,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class I18nServiceImpl implements I18nService, LogAdapter {
+public class I18nServiceImpl implements I18nService {
 
     private static final Logger log = LoggerFactory.getLogger(I18nServiceImpl.class);
 
@@ -47,7 +46,7 @@ public class I18nServiceImpl implements I18nService, LogAdapter {
         try {
             return messageSource.getMessage(key, args, locale);
         } catch (NoSuchMessageException e) {
-            info("No such message for code => {}", key);
+            log.info("No such message for code => {}", key);
             return "unknown";
         }
     }
@@ -79,9 +78,4 @@ public class I18nServiceImpl implements I18nService, LogAdapter {
                 : generateI18nResources(locale);
     }
 
-
-    @Override
-    public Logger getLogger() {
-        return log;
-    }
 }

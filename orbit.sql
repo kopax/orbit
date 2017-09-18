@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.36, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.7.18, for osx10.12 (x86_64)
 --
 -- Host: localhost    Database: db_orbit
 -- ------------------------------------------------------
--- Server version	5.5.36
+-- Server version	5.7.18
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,6 +31,7 @@ CREATE TABLE `sys_log` (
   `time` datetime DEFAULT NULL COMMENT '日志时间',
   `is_succeed` varchar(128) DEFAULT NULL COMMENT '是否成功',
   `message` varchar(255) DEFAULT NULL COMMENT '日志信息',
+  `ip_address` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统日志';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -41,7 +42,7 @@ CREATE TABLE `sys_log` (
 
 LOCK TABLES `sys_log` WRITE;
 /*!40000 ALTER TABLE `sys_log` DISABLE KEYS */;
-INSERT INTO `sys_log` VALUES (359333985492537344,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:44:58','登录成功',NULL),(359333988634071040,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:44:58','登录成功',NULL),(359333992916455424,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:45:00','登录成功',NULL),(359333996456448000,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:45:00','登录成功',NULL),(359333999816085504,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:45:01','登录成功',NULL),(359346162773397504,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 14:33:21','登录成功',NULL);
+INSERT INTO `sys_log` VALUES (359333985492537344,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:44:58','登录成功',NULL,NULL),(359333988634071040,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:44:58','登录成功',NULL,'192.168.100.100'),(359333992916455424,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:45:00','登录成功',NULL,NULL),(359333996456448000,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:45:00','登录成功',NULL,NULL),(359333999816085504,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 13:45:01','登录成功',NULL,NULL),(359346162773397504,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 14:33:21','登录成功',NULL,NULL),(359439681642958848,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 20:44:58','登录成功',NULL,NULL),(359451898757124096,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 21:33:31','登录失败','org.apache.shiro.authc.UnknownAccountException => null, username => 123123','127.0.0.1'),(359457118069329920,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 21:54:15','登录失败','org.apache.shiro.authc.IncorrectCredentialsException => Submitted credentials for token [com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken - admin, rememberMe=false] did not match the expected credentials., username => admin','127.0.0.1'),(359457144673800192,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 21:54:22','登录成功',NULL,'127.0.0.1'),(359460068191768576,'导出日志',9999,'com.inmaytide.orbit.web.controller.sys.LogController','export','2017-09-18 22:05:59','操作成功',NULL,'127.0.0.1'),(359473198099730432,'系统登录',9999,'com.inmaytide.orbit.web.controller.LoginController','login','2017-09-18 22:58:09','登录成功',NULL,'127.0.0.1');
 /*!40000 ALTER TABLE `sys_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +137,7 @@ CREATE TABLE `sys_role` (
   `version` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=10006 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=359476447221518337 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +146,7 @@ CREATE TABLE `sys_role` (
 
 LOCK TABLES `sys_role` WRITE;
 /*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
-INSERT INTO `sys_role` VALUES (9999,'admin','Administrator',NULL,'2017-08-22 21:43:16',NULL,9999,NULL,0),(10000,'company-administrator','CompanyAdministrator',NULL,'2017-09-17 21:51:57',NULL,9999,NULL,0),(10001,'organization','organization',NULL,'2017-09-17 21:58:20',NULL,9999,NULL,0),(10002,'23213','12312313',NULL,'2017-09-17 21:59:23',NULL,9999,NULL,0),(10003,'e123123','123123',NULL,'2017-09-17 22:01:47',NULL,9999,NULL,0),(10004,'123123','123123',NULL,'2017-09-17 22:10:43',NULL,9999,NULL,0),(10005,'123123123123','123123',NULL,'2017-09-17 22:15:46',NULL,9999,NULL,0);
+INSERT INTO `sys_role` VALUES (9999,'administrator','Administrator',NULL,'2017-09-18 23:09:49',NULL,9999,NULL,0),(359476447221518336,'adadsfaf','asdfafds',NULL,'2017-09-18 23:11:04',NULL,9999,NULL,0);
 /*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,4 +250,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-18 14:51:46
+-- Dump completed on 2017-09-18 23:14:36

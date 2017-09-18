@@ -9,7 +9,7 @@
           </label>
           <div class="col-sm-5">
             <div class="input-group">
-              <input [(ngModel)]="conditions.keywords" name="keywords" (keyup)="search($event)" class="form-control form-control-sm" placeholder="操作人、日志内容"/>
+              <input [(ngModel)]="conditions.keywords" name="keywords" (keyup)="search($event)" class="form-control form-control-sm" placeholder="{{'log.keywords.placeholder' | translate}}"/>
               <div class="input-group-addon" (click)="search($event)"><i class="fa fa-search"></i></div>
             </div>
           </div>
@@ -52,19 +52,23 @@
               <thead>
                 <tr>
                   <th>#</th>
+                  <th>日志名称</th>
+                  <th>是否成功</th>
                   <th>操作人</th>
+                  <th>IP</th>
                   <th>操作时间</th>
-                  <th>日志内容</th>
-                  <th>日志明细</th>
+                  <th>日志信息</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let inst of page.content; let i = index">
                   <td>{{i + 1}}</td>
-                  <td>{{inst.operatorName}}</td>
-                  <td>{{inst.logTime | localDateTime}}</td>
-                  <td title="{{inst.content}}">{{inst.content}}</td>
-                  <td title="{{inst.details}}">{{inst.details}}</td>
+                  <td title="{{inst.name}}">{{inst.name}}</td>
+                  <td title="{{inst.isSucceed}}">{{inst.isSucceed}}</td>
+                  <td title="{{inst.operatorName}}">{{inst.operatorName}}</td>
+                  <td title="{{inst.ipAddress}}">{{inst.ipAddress}}</td>
+                  <td title="{{inst.time | localDateTime}}">{{inst.time | localDateTime}}</td>
+                  <td title="{{inst.message}}">{{inst.message}}</td>
                 </tr>
               </tbody>
             </table>
@@ -72,14 +76,16 @@
           <div class="row">
             <div class="col-6 pagination-text">
               <span>
-                共 {{page.totalElements}} 条记录，
-                每页 <select (change)="pageChange('size')" [(ngModel)]="page.size" name="size">
-                        <option>10</option>
-                        <option>20</option>
-                        <option>50</option>
-                        <option>100</option>
-                    </select> 条记录，
-                共 {{page.totalPages}} 页</span>
+                {{'pagation.page.total' | translate}} {{page.totalElements}} {{'pagation.page.records' | translate}}
+                {{'pagation.page.per.pages' | translate}}
+                  <select [(ngModel)]="page.size" name="size" (change)="pageChange('size')">
+                    <option>10</option>
+                    <option>20</option>
+                    <option>50</option>
+                    <option>100</option>
+                  </select>
+                {{'pagation.page.records' | translate}}
+                {{'pagation.page.total' | translate}} {{page.totalPages}} {{'pagation.page.page' | translate}}</span>
             </div>
             <div class="col-6">
               <ngb-pagination (pageChange)="pageChange($event)" [rotate]="true" [maxSize]="7" [pageSize]="page.size" [collectionSize]="page.totalElements" [page]="page.number + 1" size="sm" [ellipses]="false"></ngb-pagination>
