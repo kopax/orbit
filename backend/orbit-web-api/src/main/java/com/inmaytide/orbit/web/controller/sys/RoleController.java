@@ -53,7 +53,7 @@ public class RoleController extends BasicController {
     }
 
     @PutMapping("role")
-    public RestResponse modify(@Validated Role role, BindingResult binding) {
+    public RestResponse modify(@RequestBody @Validated Role role, BindingResult binding) {
         if (binding.hasErrors() || Objects.isNull(role.getId())) {
             throw new IllegalParameterException();
         }

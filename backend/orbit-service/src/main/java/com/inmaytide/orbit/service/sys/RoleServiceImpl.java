@@ -67,9 +67,7 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
     @Transactional(rollbackFor = Exception.class)
     public Role add(Role role) {
         role.setId(IdGenerator.getInstance().nextId());
-        setAdjunctionInformation(role);
-        insert(role);
-        return role;
+        return getRepository().insert(role);
     }
 
     @Override
@@ -84,8 +82,8 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
         Role original = super.get(role.getId());
         matchVersion(role, original);
         BeanUtils.copyProperties(role, original, FINAL_FIELDS);
-        setModificationInformation(original);
-        getRepository().update(role);
+        original.setVersion(original.getVersion() + 1);
+        getRepository().update(original);
         return get(role.getId());
     }
 

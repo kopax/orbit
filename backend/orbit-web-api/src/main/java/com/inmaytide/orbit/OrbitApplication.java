@@ -1,6 +1,8 @@
 package com.inmaytide.orbit;
 
 import com.inmaytide.orbit.http.CorsProperties;
+import com.inmaytide.orbit.model.sys.User;
+import com.inmaytide.orbit.utils.SessionHelper;
 import com.inmaytide.orbit.web.auth.JWTOrAuthenticationFilter;
 import com.inmaytide.orbit.web.auth.cache.RedisSessionDao;
 import com.inmaytide.orbit.web.auth.cache.RedisShiroCacheManager;
@@ -8,6 +10,7 @@ import com.inmaytide.orbit.web.auth.realm.FormRealm;
 import com.inmaytide.orbit.web.auth.realm.JWTRealm;
 import com.inmaytide.orbit.web.auth.strategy.FirstExceptionStrategy;
 import com.inmaytide.orbit.web.filter.CorsFilter;
+import io.jsonwebtoken.lang.Assert;
 import org.apache.shiro.authc.Authenticator;
 import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -28,6 +31,8 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.mybatis.domains.AuditDateAware;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -37,6 +42,7 @@ import javax.annotation.Resource;
 import javax.servlet.Filter;
 import javax.sql.DataSource;
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +63,28 @@ public class OrbitApplication {
 
     @Resource
     private CorsProperties corsProperties;
+
+    @Bean
+    public AuditorAware<Long> auditorAware() {
+        return new AuditorAware<Long>() {
+            @Override
+            public Long getCurrentAuditor() {
+                Object object = SessionHelper.getPrincipal();
+                Assert.isInstanceOf(User.class, object);
+                return ((User) object).getId();
+            }
+        };
+    }
+
+    @Bean
+    public AuditDateAware<LocalDateTime> auditDateAware() {
+        return new AuditDateAware<LocalDateTime>() {
+            @Override
+            public LocalDateTime getCurrentDate() {
+                return LocalDateTime.now();
+            }
+        };
+    }
 
     @Bean
     public DataSourceTransactionManager transactionManager(@Qualifier("dataSource") DataSource dataSource) {

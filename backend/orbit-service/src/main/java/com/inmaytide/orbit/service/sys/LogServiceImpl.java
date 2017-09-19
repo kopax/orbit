@@ -38,7 +38,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
     }
 
     public Page<Log> findList(Map<String, Object> conditions, PageModel pageModel) {
-        Pageable pageable = pageModel.toPageable(Sort.Direction.DESC, "logTime");
+        Pageable pageable = pageModel.toPageable(Sort.Direction.DESC, "time");
         conditions.put("size", pageable.getPageSize());
         conditions.put("offset", pageable.getOffset());
         conditions.put("ispagation", 1);

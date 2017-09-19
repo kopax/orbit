@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface RoleService extends BasicService {
 
-    String[] FINAL_FIELDS = new String[]{"id", "create_time", "creator"};
+    String[] FINAL_FIELDS = new String[]{"id", "createTime", "creator"};
 
     Set<String> findCodesByUsername(String username);
 

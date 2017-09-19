@@ -4,13 +4,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Id;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class BasicEntity implements Serializable {
+public abstract class BasicEntity implements Serializable {
 
     private static final long serialVersionUID = 5784033340704847103L;
 
@@ -20,15 +21,19 @@ public class BasicEntity implements Serializable {
     @Column(name = "create_time")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @CreatedDate
     private LocalDateTime createTime;
 
     @Column(name = "update_time")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @LastModifiedDate
     private LocalDateTime updateTime;
 
+    @CreatedBy
     private Long creator;
 
+    @LastModifiedBy
     private Long updater;
 
     private Integer version;

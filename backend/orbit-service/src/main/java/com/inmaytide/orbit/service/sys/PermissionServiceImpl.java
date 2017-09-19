@@ -39,7 +39,6 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     @Transactional(rollbackFor = Exception.class)
     public Permission add(Permission inst) {
         inst.setId(IdGenerator.getInstance().nextId());
-        setAdjunctionInformation(inst);
         inst.setSort(getRepository().getSort());
         return getRepository().insert(inst);
     }
@@ -50,9 +49,8 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
         Permission origin = this.get(inst.getId());
         matchVersion(inst, origin);
         BeanUtils.copyProperties(inst, origin, FINAL_FIELDS);
-        setModificationInformation(origin);
-        update(origin);
-        return origin;
+        origin.setVersion(origin.getVersion() + 1);
+        return getRepository().update(origin);
     }
 
     @Override
@@ -88,7 +86,7 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
 
 
     private void modifySort(Long id, Integer sort) {
-        updateIgnore(setModificationInformation(new Permission(id, sort)));
+        updateIgnore(new Permission(id, sort));
     }
 
     private List<Permission> listToTree(List<Permission> list) {
@@ -100,8 +98,8 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     private static void setChildren(Permission permission, List<Permission> list) {
         List<Permission> children = list.stream()
                 .filter(p -> p.getParent().equals(permission.getId()))
+                .peek(p -> setChildren(p, list))
                 .collect(Collectors.toList());
-        children.forEach(p -> setChildren(p, list));
         permission.setChildren(children);
     }
 }

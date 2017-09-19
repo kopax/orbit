@@ -36,25 +36,9 @@ public interface BasicService {
 
     default <T extends BasicEntity> void matchVersion(T modified, T original) {
         if (modified == null || original == null
-                || Objects.equals(modified.getVersion(), original.getVersion())) {
+                || !Objects.equals(modified.getVersion(), original.getVersion())) {
             throw new VersionMatchedException(original);
         }
-    }
-
-    default <T extends BasicEntity> T setModificationInformation(T instance) {
-        Objects.requireNonNull(instance);
-        instance.setUpdateTime(LocalDateTime.now());
-        instance.setUpdater(getCurrentUser().getId());
-        instance.setVersion(instance.getVersion() + 1);
-        return instance;
-    }
-
-    default <T extends BasicEntity> T setAdjunctionInformation(T instance) {
-        Objects.requireNonNull(instance);
-        instance.setCreateTime(LocalDateTime.now());
-        instance.setCreator(getCurrentUser().getId());
-        instance.setVersion(START_VERSION);
-        return instance;
     }
 
     default User getCurrentUser() {
