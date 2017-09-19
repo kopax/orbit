@@ -26,7 +26,7 @@ export class RoleService {
       .catch(reason => Promise.reject(reason));
   }
 
-  public checkCode(id: number, code: string): boolean {
+  public checkCode(id: string, code: string): boolean {
     let remote = this.url_check_code + code + "/" + id;
     let xhr = new XMLHttpRequest();
     let bit = true;

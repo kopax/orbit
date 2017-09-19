@@ -2,9 +2,13 @@ package com.inmaytide.orbit.model.basic;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import org.springframework.data.annotation.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Id;
 
@@ -16,6 +20,7 @@ public abstract class BasicEntity implements Serializable {
     private static final long serialVersionUID = 5784033340704847103L;
 
     @Id(strategy = Id.GenerationType.ASSIGNATION)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @Column(name = "create_time")
@@ -31,9 +36,11 @@ public abstract class BasicEntity implements Serializable {
     private LocalDateTime updateTime;
 
     @CreatedBy
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long creator;
 
     @LastModifiedBy
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long updater;
 
     private Integer version;

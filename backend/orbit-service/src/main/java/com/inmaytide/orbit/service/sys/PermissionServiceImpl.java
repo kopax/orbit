@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +42,7 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     @Transactional(rollbackFor = Exception.class)
     public Permission add(Permission inst) {
         inst.setId(IdGenerator.getInstance().nextId());
+        inst.setVersion(START_VERSION);
         inst.setSort(getRepository().getSort());
         return getRepository().insert(inst);
     }

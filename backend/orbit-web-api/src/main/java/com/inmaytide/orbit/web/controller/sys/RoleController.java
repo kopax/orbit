@@ -2,6 +2,7 @@ package com.inmaytide.orbit.web.controller.sys;
 
 import com.inmaytide.orbit.exceptions.IllegalParameterException;
 import com.inmaytide.orbit.http.RestResponse;
+import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.basic.PageModel;
 import com.inmaytide.orbit.model.sys.Role;
 import com.inmaytide.orbit.service.sys.RoleService;
@@ -38,12 +39,14 @@ public class RoleController extends BasicController {
     }
 
     @PostMapping("role")
+    @LogAnnotation("新增角色")
     public RestResponse add(@RequestBody @Validated Role role, BindingResult binding) {
         handleBindingResult(binding);
         return RestResponse.of(service.add(role));
     }
 
     @DeleteMapping("role")
+    @LogAnnotation("删除角色")
     public RestResponse remove(String ids) {
         if (StringUtils.isEmpty(ids)) {
             throw new IllegalParameterException();

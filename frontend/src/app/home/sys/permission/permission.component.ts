@@ -113,8 +113,8 @@ export class PermissionComponent implements OnInit {
     return index === data.length - 1 ? 0 : index + 1;
   }
 
-  private getSameLevel(data: Permission[], parent: number): Permission[] {
-    if (parent == -1) {
+  private getSameLevel(data: Permission[], parent: string): Permission[] {
+    if (parent == "-1") {
       return data;
     }
     let children = [];

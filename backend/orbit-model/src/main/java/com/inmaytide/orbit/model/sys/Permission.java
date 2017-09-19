@@ -1,9 +1,10 @@
 package com.inmaytide.orbit.model.sys;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.inmaytide.orbit.model.basic.BasicEntity;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.Entity;
 
@@ -38,6 +39,7 @@ public class Permission extends BasicEntity {
     private String description;
 
     @NotNull
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long parent;
 
     private Integer sort;

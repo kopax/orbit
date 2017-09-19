@@ -36,6 +36,7 @@ import org.springframework.data.mybatis.domains.AuditDateAware;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
@@ -50,6 +51,7 @@ import java.util.Map;
 @SpringBootApplication
 @EnableCaching(proxyTargetClass = true)
 @EnableTransactionManagement(proxyTargetClass = true)
+@EnableAsync
 public class OrbitApplication {
 
     @Value("#{ @environment['shiro.loginUrl'] ?: '/login.jsp' }")

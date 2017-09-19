@@ -66,6 +66,7 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Role add(Role role) {
+        role.setVersion(START_VERSION);
         role.setId(IdGenerator.getInstance().nextId());
         return getRepository().insert(role);
     }

@@ -9,8 +9,8 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
       <div class="alter-message">{{message}}</div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-sm btn-success" (click)="submit()">确定</button>
-      <button type="button" class="btn btn-sm btn-secondary" (click)="close()">取消</button>
+      <button type="button" class="btn btn-sm btn-success" (click)="submit()">{{'layer.confirm.btn.ok' | translate}}</button>
+      <button type="button" class="btn btn-sm btn-secondary" (click)="close()">{{'layer.confirm.btn.cancel' | translate}}</button>
     </div>
   `,
   styleUrls: ['./layer.css']

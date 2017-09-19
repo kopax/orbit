@@ -78,7 +78,7 @@ export class RoleModalComponent implements OnInit {
       this.tipShow(this.tipCode, this.translate.getParsedResult({}, "role.validator.code.not.empty"));
       return false;
     }
-    if (!this.service.checkCode(this.role.id | -1, this.role.code)) {
+    if (!this.service.checkCode(isUndefined(this.role.id) || this.role.id == null || this.role.id == "" ? "-1" : this.role.id, this.role.code)) {
       this.tipShow(this.tipCode, this.translate.getParsedResult({}, "role.validator.code.not.repeat"));
       return false;
     }

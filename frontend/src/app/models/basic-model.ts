@@ -1,5 +1,5 @@
 export class BasicModel {
-  id: number;
+  id: string;
   createTime: number[];
   updatetime: number[];
   creator: number;

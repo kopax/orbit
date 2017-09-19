@@ -6,6 +6,9 @@ import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Commons} from "../../../commons";
 import {RoleModalComponent} from "./role-modal.component";
+import {LayerConfirm} from "../../../layers/layer.confirm";
+import {LayerAlert} from "../../../layers/layer.alert";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: "role",
@@ -22,7 +25,8 @@ export class RoleComponent implements OnInit {
 
   constructor(private service: RoleService,
               private router: Router,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private translate: TranslateService) {
   }
 
   ngOnInit(): void {
@@ -56,11 +60,23 @@ export class RoleComponent implements OnInit {
         ids.push(role.id)
       }
     });
-    this.service.remove(ids);
+
+    if (ids.length == 0) {
+      Commons.error(this.modalService, this.translate.getParsedResult({}, "role.remove.nochosen"));
+    } else {
+      Commons.confirm(this.modalService, this.translate.getParsedResult({}, "role.remove.confirm"))
+        .then(result => {
+          if (result) {
+            this.service.remove(ids)
+              .then(response => this.refreshList())
+              .catch(reason => Commons.errorHandler(reason, this.router, this.modalService));
+          }
+        });
+    }
   }
 
   public selectRole(role) {
-    if (role.id === 9999) {
+    if (role.id === "9999") {
       return;
     }
     role.state = role.state == 'selected' ? 'none' : 'selected';
@@ -71,7 +87,7 @@ export class RoleComponent implements OnInit {
 
   public selectAll() {
     this.page.content.forEach(role => {
-      if (role.id !== 9999) {
+      if (role.id !== "9999") {
         role['state'] = this.allChekced == 'checked' ? 'none' : 'selected';
       }
     });

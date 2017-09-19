@@ -96,7 +96,7 @@ export class PermissionModalComponent implements OnInit {
   private add() {
     this.service.add(this.permission).then(permission => {
       this.activeModal.close();
-      if (this.parent.id == -1) {
+      if (this.parent.id == "-1") {
         this.data.push(permission);
       } else {
         this.parent.children.push(permission);
