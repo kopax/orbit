@@ -10,7 +10,7 @@
         <groupId>com.inmaytide.orbit</groupId>
         <artifactId>orbit</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../orbit/pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <name>orbit-web-api</name>

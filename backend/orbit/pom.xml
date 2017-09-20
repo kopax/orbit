@@ -24,12 +24,12 @@
     </properties>
 
     <modules>
-        <module>../orbit-utils</module>
-        <module>../orbit-model</module>
-        <module>../orbit-dao</module>
-        <module>../orbit-service-api</module>
-        <module>../orbit-service</module>
-        <module>../orbit-web-api</module>
+        <module>orbit-utils</module>
+        <module>orbit-model</module>
+        <module>orbit-dao</module>
+        <module>orbit-service-api</module>
+        <module>orbit-service</module>
+        <module>orbit-web-api</module>
     </modules>
 
     <dependencies>
