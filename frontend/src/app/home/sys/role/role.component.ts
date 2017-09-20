@@ -88,10 +88,16 @@ export class RoleComponent implements OnInit {
   public selectAll() {
     this.page.content.forEach(role => {
       if (role.id !== "9999") {
-        role['state'] = this.allChekced == 'checked' ? 'none' : 'selected';
+        role['state'] = this.allChekced === 'checked' ? 'none' : 'selected';
       }
     });
-    this.allChekced = this.allChekced == 'checked' ? '' : 'checked';
+    this.allChekced = this.allChekced === 'checked' ? '' : 'checked';
+  }
+
+  public edit(role: Role) {
+    let modalRef = this.modalService.open(RoleModalComponent, {size: 'lg', backdrop: 'static'});
+    modalRef.componentInstance.role = role;
+    modalRef.componentInstance.state = "lock";
   }
 
 }

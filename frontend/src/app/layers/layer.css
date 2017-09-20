@@ -13,13 +13,26 @@
   color: #ffc107;
 }
 
+.modal-body {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
 .alter-message {
-  position: absolute;
-  top: 25px;
-  left: 60px;
+  align-self: center;
+  padding-left: 13px;
+  font-size: 14px;
 }
 
 .modal-footer {
   padding: 8px 15px;
+}
+
+.modal-footer .btn {
+  min-width: 60px;
+  margin-bottom: 0;
+  padding: 3px;
+  font-size: 12px;
 }
 

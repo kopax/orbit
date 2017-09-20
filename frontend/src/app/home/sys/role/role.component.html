@@ -44,7 +44,9 @@
               <tbody>
                 <tr *ngFor="let inst of page.content" (click)="selectRole(inst)">
                   <td><input checked="{{inst.state == 'selected' ? 'checked' : ''}}" type="checkbox" disabled="{{inst.id == '9999' ? 'disabled' : ''}}"></td>
-                  <td>{{inst.code}}</td>
+                  <td>
+                    <a href="javascript:void(0)" (click)="edit(inst)">{{inst.code}}</a>
+                  </td>
                   <td>{{inst.name}}</td>
                   <td>{{inst.description}}</td>
                 </tr>

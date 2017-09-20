@@ -26,6 +26,9 @@ public class I18nServiceImpl implements I18nService {
     @Resource
     private MessageSource messageSource;
 
+    @Value("#{ @environment['orbit.frontend.message-cache'] ?: 'messages' }")
+    private boolean isCache = true;
+
     @Value("#{ @environment['spring.messages.basename'] ?: 'messages' }")
     private String basename;
 
@@ -66,7 +69,7 @@ public class I18nServiceImpl implements I18nService {
         ResourceBundle bundle = ResourceBundle.getBundle(basename, locale);
         Map<String, String> map = new HashMap<>(bundle.keySet().size());
         bundle.keySet().forEach(key -> map.put(key, bundle.getString(key)));
-        if (!map.isEmpty()) {
+        if (!map.isEmpty() && isCache) {
             cache.put(locale, map);
         }
         return map;

@@ -5,7 +5,7 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
   selector: 'layer-alert',
   template: `
     <div class="modal-body">
-      <i class="fa fa-{{icon}} {{iconCss}}" style="font-size: 36px;"></i>
+      <i class="fa fa-{{icon}} {{iconCss}}"></i>
       <div class="alter-message">{{message}}</div>
     </div>
     <div class="modal-footer">

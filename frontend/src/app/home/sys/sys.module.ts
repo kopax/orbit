@@ -18,7 +18,7 @@ import {NotRepeatValidator} from "../../directive/validators/not-repeat.validato
 import {LocalDateTimePipe} from "../../pipe/LocalDateTimePipe";
 import {TranslateModule} from "@ngx-translate/core";
 import {RoleModalComponent} from "./role/role-modal.component";
-import {NgTree} from "ng.tree";
+import {TreeviewModule} from "ngx-treeview";
 
 @NgModule({
   declarations: [
@@ -30,8 +30,7 @@ import {NgTree} from "ng.tree";
     PermissionModalComponent,
     LogComponent,
     RoleComponent,
-    RoleModalComponent,
-    NgTree
+    RoleModalComponent
   ],
   imports: [
     CommonModule,
@@ -42,12 +41,12 @@ import {NgTree} from "ng.tree";
     NgbDatepickerModule,
     NgbTabsetModule,
     NgbTooltipModule,
-    TranslateModule
+    TranslateModule,
+    TreeviewModule.forRoot()
   ],
   entryComponents: [
     PermissionModalComponent,
-    RoleModalComponent,
-    NgTree
+    RoleModalComponent
   ],
   providers: [
     PermissionService,

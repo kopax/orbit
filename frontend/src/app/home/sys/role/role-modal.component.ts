@@ -2,13 +2,13 @@ import {Component, OnInit, ViewChild} from "@angular/core";
 import {NgbActiveModal, NgbModal, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {RoleService} from "./role.service";
 import {Role} from "../../../models/role-model";
-import {NgModel} from "@angular/forms";
 import {isUndefined} from "util";
 import {TranslateService} from "@ngx-translate/core";
 import {Router} from "@angular/router";
 import {Commons} from "../../../commons";
 import {PermissionService} from "../permission/permission.service";
 import {Permission} from "../../../models/permission-model";
+import {TreeviewItem} from "ngx-treeview";
 
 @Component({
   selector: "role-modal",
@@ -19,12 +19,10 @@ export class RoleModalComponent implements OnInit {
 
   public role: Role = new Role();
   public state = 'add';
-  public treeData = [];
+  public items: TreeviewItem[];
   public treeConfig = {
-    dataMap: {
-      children: "nodes"
-    }
-  };
+    hasAllCheckBox: false
+  }
   @ViewChild("tipCode") public tipCode: NgbTooltip;
   @ViewChild("tipName") public tipName: NgbTooltip;
 
@@ -39,20 +37,31 @@ export class RoleModalComponent implements OnInit {
   ngOnInit(): void {
     this.permissionSerivce.getData()
       .subscribe(
-        response => this.treeData = this.generateTreeData(response.data as Permission[]),
+        response => this.items = this.generateTreeItems(response.data as Permission[]),
         error => Commons.errorHandler(error, this.router, this.modalService)
       );
   }
 
-  public generateTreeData(data: Permission[]) {
-    let nodes = [];
-    data.forEach(permission => {
-      nodes.push({
-        name: permission.name,
-        iconClass: "ngtree-none-icon fa fa-file-text-o",
-        nodes: this.generateTreeData(permission.children)
+  public generateTreeItems(data: Permission[]) {
+    const nodes = [];
+    if (data.length > 0) {
+      data.forEach(permission => {
+        if (permission.category == 1) {
+          const node = {
+            value: permission.id,
+            text: permission.name
+          };
+          if (permission.children.length > 0) {
+            const children = this.generateTreeItems(permission.children);
+            if (children.length > 0) {
+              node['children'] = children;
+            }
+          }
+          nodes.push(new TreeviewItem(node));
+        }
       });
-    });
+    }
+    console.log(nodes);
     return nodes;
   }
 
