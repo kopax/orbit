@@ -10,8 +10,6 @@ import com.inmaytide.orbit.utils.SessionHelper;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.aspectj.lang.JoinPoint;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +28,9 @@ import java.util.Map;
 @Transactional(readOnly = true)
 public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long> implements LogService {
 
-    private static final Logger log = LoggerFactory.getLogger(LogServiceImpl.class);
+    private static final String LOGIN_METHOD_NAME = "login";
+
+    private static final String LOGIN_CONTROLLER_NAME = "com.inmaytide.orbit.web.controller.LoginController";
 
     public LogServiceImpl(LogRepository repository) {
         super(repository);
@@ -38,57 +38,38 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
 
     public Page<Log> findList(Map<String, Object> conditions, PageModel pageModel) {
         Pageable pageable = pageModel.toPageable(Sort.Direction.DESC, "time");
-        conditions.put("size", pageable.getPageSize());
+        conditions.put("size", new Integer(pageable.getPageSize()));
         conditions.put("offset", pageable.getOffset());
-        conditions.put("ispagation", 1);
         List<Log> content = getRepository().findList(conditions);
         return new PageImpl<>(content, pageable, getRepository().findCount(conditions));
     }
 
     @Override
     public void export(OutputStream os, Map<String, Object> conditions) throws IOException, InvalidFormatException {
-        conditions.put("ispagation", "0");
-        List<Log> content = getRepository().findList(conditions);
-        ExcelExportHelper.export(Log.class, content, os);
+        ExcelExportHelper.export(Log.class, getRepository().findList(conditions), os);
     }
 
-    @Override
     @Async
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void record(JoinPoint point, Throwable e) {
-        LogAnnotation annotation = getLogAnnotation(point);
-        if ("login".equals(point.getSignature().getName())) {
-            loginFailedRecord(point, e);
-        } else {
-            Log inst = buildLogFromJoinPoint(point);
-            inst.setIsSucceed(annotation.failure());
-            inst.setMessage(e.getClass().getName() + " => " + e.getMessage());
-            insert(inst);
+        Log inst = createInstance(point, false);
+        inst.setMessage(String.format("%s => %s", e.getClass().getName(), e.getMessage()));
+        if (isLoggingIn(point)) {
+            UsernamePasswordToken token = (UsernamePasswordToken) point.getArgs()[0];
+            inst.setMessage(String.format("%s, username => %s", inst.getMessage(), token.getUsername()));
         }
-
+        insert(inst);
     }
 
-    @Override
     @Async
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void record(JoinPoint point) {
-        Log inst = buildLogFromJoinPoint(point);
-        LogAnnotation annotation = getLogAnnotation(point);
-        inst.setIsSucceed(annotation.success());
-        insert(inst);
+        insert(createInstance(point, true));
     }
 
-
-    private void loginFailedRecord(JoinPoint point, Throwable e) {
-        Log inst = buildLogFromJoinPoint(point);
-        LogAnnotation annotation = getLogAnnotation(point);
-        UsernamePasswordToken token = (UsernamePasswordToken) point.getArgs()[0];
-        inst.setIsSucceed(annotation.failure());
-        inst.setMessage(e.getClass().getName() + " => " + e.getMessage() + ", username => " + token.getUsername());
-        insert(inst);
-    }
-
-    private Log buildLogFromJoinPoint(JoinPoint point) {
+    private Log createInstance(JoinPoint point, boolean isSucceed) {
         LogAnnotation annotation = getLogAnnotation(point);
         Log inst = new Log();
         inst.setId(IdGenerator.getInstance().nextId());
@@ -97,6 +78,12 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         inst.setMethodName(point.getSignature().getName());
         inst.setClassName(point.getSignature().getDeclaringTypeName());
         inst.setIpAddress(SessionHelper.getSession().getHost());
+        inst.setIsSucceed(isSucceed ? annotation.success() : annotation.failure());
         return inst;
+    }
+
+    private boolean isLoggingIn(JoinPoint point) {
+        return LOGIN_METHOD_NAME.equals(point.getSignature().getName())
+                && LOGIN_CONTROLLER_NAME.equals(point.getSignature().getDeclaringTypeName());
     }
 }

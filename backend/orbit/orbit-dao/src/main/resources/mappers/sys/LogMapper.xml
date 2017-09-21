@@ -45,7 +45,7 @@
             </if>
         </where>
         order by time desc
-        <if test="conditions.ispagation == 1">
+        <if test="size != null">
             limit #{conditions.size} offset #{conditions.offset}
         </if>
     </select>

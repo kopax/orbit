@@ -6,7 +6,7 @@ public abstract class Constants {
 
     public static final String APP_KEY = "orbit";
 
-    public static final String CACHE_CAPTCHA_KEY_PREFIX = "default_captcha";
+    public static final String CACHE_CAPTCHA_KEY_PATTERN = "default_captcha-%s";
 
     public static final String AUTHORIZATION_CACHE_NAME = "auth_cache";
 

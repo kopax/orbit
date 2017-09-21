@@ -43,9 +43,7 @@ public class CaptchaServiceImpl implements CaptchaService {
     }
 
     private String generateCacheCaptchaKey(String keySuffix) {
-        return new StringBuilder(Constants.CACHE_CAPTCHA_KEY_PREFIX)
-                .append("-")
-                .append(keySuffix).toString();
+        return String.format(Constants.CACHE_CAPTCHA_KEY_PATTERN, keySuffix);
     }
 
 }
