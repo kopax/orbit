@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
 import {Commons} from "../../../commons";
 import {PermissionService} from "../permission/permission.service";
 import {Permission} from "../../../models/permission-model";
-import {TreeviewItem} from "ngx-treeview";
+import {MTreeNode} from "../../../m-tree/m-tree-node";
 
 @Component({
   selector: "role-modal",
@@ -19,10 +19,8 @@ export class RoleModalComponent implements OnInit {
 
   public role: Role = new Role();
   public state = 'add';
-  public items: TreeviewItem[];
-  public treeConfig = {
-    hasAllCheckBox: false
-  }
+  public nodes: MTreeNode[];
+
   @ViewChild("tipCode") public tipCode: NgbTooltip;
   @ViewChild("tipName") public tipName: NgbTooltip;
 
@@ -37,31 +35,23 @@ export class RoleModalComponent implements OnInit {
   ngOnInit(): void {
     this.permissionSerivce.getData()
       .subscribe(
-        response => this.items = this.generateTreeItems(response.data as Permission[]),
+        response => this.nodes = this.generateTreeNodes(response.data as Permission[]),
         error => Commons.errorHandler(error, this.router, this.modalService)
       );
   }
 
-  public generateTreeItems(data: Permission[]) {
+  public generateTreeNodes(data: Permission[]) {
     const nodes = [];
-    if (data.length > 0) {
-      data.forEach(permission => {
-        if (permission.category == 1) {
-          const node = {
-            value: permission.id,
-            text: permission.name
-          };
-          if (permission.children.length > 0) {
-            const children = this.generateTreeItems(permission.children);
-            if (children.length > 0) {
-              node['children'] = children;
-            }
-          }
-          nodes.push(new TreeviewItem(node));
-        }
-      });
-    }
-    console.log(nodes);
+    data.forEach(permission => {
+      if (permission.category == 1) {
+        nodes.push({
+          id: permission.id,
+          name: permission.name,
+          spread: false,
+          children: this.generateTreeNodes(permission.children)
+        })
+      }
+    });
     return nodes;
   }
 

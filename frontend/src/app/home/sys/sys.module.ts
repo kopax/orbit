@@ -18,7 +18,8 @@ import {NotRepeatValidator} from "../../directive/validators/not-repeat.validato
 import {LocalDateTimePipe} from "../../pipe/LocalDateTimePipe";
 import {TranslateModule} from "@ngx-translate/core";
 import {RoleModalComponent} from "./role/role-modal.component";
-import {TreeviewModule} from "ngx-treeview";
+import {MTreeComponent} from "../../m-tree/m-tree";
+import {MTreeModule} from "../../m-tree/m-tree.module";
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import {TreeviewModule} from "ngx-treeview";
     NgbTabsetModule,
     NgbTooltipModule,
     TranslateModule,
-    TreeviewModule.forRoot()
+    MTreeModule
   ],
   entryComponents: [
     PermissionModalComponent,

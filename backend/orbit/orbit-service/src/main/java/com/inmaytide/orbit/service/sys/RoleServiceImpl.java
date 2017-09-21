@@ -1,8 +1,10 @@
 package com.inmaytide.orbit.service.sys;
 
+import com.inmaytide.orbit.dao.sys.RolePermissionRepository;
 import com.inmaytide.orbit.dao.sys.RoleRepository;
 import com.inmaytide.orbit.model.basic.PageModel;
 import com.inmaytide.orbit.model.sys.Role;
+import com.inmaytide.orbit.model.sys.RolePermission;
 import com.inmaytide.orbit.utils.IdGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -11,9 +13,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -32,6 +37,9 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
 
     @Resource
     private OrganizationService organizationService;
+
+    @Resource
+    private RolePermissionRepository rolePermissionRepository;
 
 
     public RoleServiceImpl(RoleRepository repository) {
@@ -86,6 +94,15 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
         original.setVersion(original.getVersion() + 1);
         getRepository().update(original);
         return get(role.getId());
+    }
+
+    private void addPermissions(Role role) {
+        rolePermissionRepository.deleteByRId(role.getId());
+        if (!CollectionUtils.isEmpty(role.getPermissions())) {
+            List<RolePermission> rolePermissions = new ArrayList<>(role.getPermissions().size());
+            role.getPermissions().forEach(permission -> rolePermissions.add(new RolePermission(IdGenerator.getInstance().nextId(), role.getId(), permission.getId())));
+            rolePermissionRepository.insertInBatch(rolePermissions);
+        }
     }
 
     @Override

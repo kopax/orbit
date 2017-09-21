@@ -84,10 +84,7 @@ ngb-tabset > ul > li > a {
 .tab-permission-left {
   height: 243px;
   overflow-y: auto;
+  padding-top: 5px;
   border-right: 1px solid #169F85;
-}
-
-ngtree {
-  margin-top: 5px;
 }
 
