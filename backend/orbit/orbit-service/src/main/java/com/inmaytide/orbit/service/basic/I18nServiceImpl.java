@@ -21,6 +21,8 @@ public class I18nServiceImpl implements I18nService {
 
     private static final Logger log = LoggerFactory.getLogger(I18nServiceImpl.class);
 
+    private static final String UN_KNOWN_MESSAGE = "unknown";
+
     private Map<Locale, Map<String, String>> cache = new ConcurrentHashMap<>(4);
 
     @Resource
@@ -50,7 +52,7 @@ public class I18nServiceImpl implements I18nService {
             return messageSource.getMessage(key, args, locale);
         } catch (NoSuchMessageException e) {
             log.info("No such message for code => {}", key);
-            return "unknown";
+            return UN_KNOWN_MESSAGE;
         }
     }
 
@@ -58,6 +60,12 @@ public class I18nServiceImpl implements I18nService {
     public String getValue(String key, Object... args) {
         Locale locale = LocaleContextHolder.getLocale();
         return getValue(key, locale, args);
+    }
+
+    @Override
+    public String getValue(String key, String defaultValue) {
+        String value = getValue(key);
+        return "UN_KNOWN_MESSAGE".equals(value) ? defaultValue : value;
     }
 
     private Locale resolveLocale(String lang) {

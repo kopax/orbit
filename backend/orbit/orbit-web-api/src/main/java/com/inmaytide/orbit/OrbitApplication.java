@@ -45,6 +45,7 @@ import javax.sql.DataSource;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,24 +69,16 @@ public class OrbitApplication {
 
     @Bean
     public AuditorAware<Long> auditorAware() {
-        return new AuditorAware<Long>() {
-            @Override
-            public Long getCurrentAuditor() {
-                Object object = SessionHelper.getPrincipal();
-                Assert.isInstanceOf(User.class, object);
-                return ((User) object).getId();
-            }
+        return () -> {
+            Object object = SessionHelper.getPrincipal();
+            Assert.isInstanceOf(User.class, object);
+            return ((User) object).getId();
         };
     }
 
     @Bean
     public AuditDateAware<LocalDateTime> auditDateAware() {
-        return new AuditDateAware<LocalDateTime>() {
-            @Override
-            public LocalDateTime getCurrentDate() {
-                return LocalDateTime.now();
-            }
-        };
+        return LocalDateTime::now;
     }
 
     @Bean
@@ -97,7 +90,7 @@ public class OrbitApplication {
     public FilterRegistrationBean corsFilter() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new CorsFilter(corsProperties));
-        filterRegistrationBean.setUrlPatterns(Arrays.asList(corsProperties.getMapping()));
+        filterRegistrationBean.setUrlPatterns(Collections.singletonList(corsProperties.getMapping()));
         filterRegistrationBean.setOrder(1);
         return filterRegistrationBean;
     }

@@ -4,10 +4,8 @@ import com.inmaytide.orbit.dao.sys.LogRepository;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.basic.PageModel;
 import com.inmaytide.orbit.model.sys.Log;
-import com.inmaytide.orbit.office.excel.ExcelExportHelper;
 import com.inmaytide.orbit.utils.IdGenerator;
 import com.inmaytide.orbit.utils.SessionHelper;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.aspectj.lang.JoinPoint;
 import org.springframework.data.domain.Page;
@@ -19,8 +17,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +32,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         super(repository);
     }
 
+    @Override
     public Page<Log> findList(Map<String, Object> conditions, PageModel pageModel) {
         Pageable pageable = pageModel.toPageable(Sort.Direction.DESC, "time");
         conditions.put("size", new Integer(pageable.getPageSize()));
@@ -45,8 +42,8 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
     }
 
     @Override
-    public void export(OutputStream os, Map<String, Object> conditions) throws IOException, InvalidFormatException {
-        ExcelExportHelper.export(Log.class, getRepository().findList(conditions), os);
+    public List<Log> findList(Map<String, Object> conditions) {
+        return getRepository().findList(conditions);
     }
 
     @Async

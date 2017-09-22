@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.log;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 

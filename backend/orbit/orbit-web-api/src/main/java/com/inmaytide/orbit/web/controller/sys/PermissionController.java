@@ -1,16 +1,11 @@
 package com.inmaytide.orbit.web.controller.sys;
 
 import com.inmaytide.orbit.exceptions.IllegalParameterException;
-import com.inmaytide.orbit.http.RestResponse;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.sys.Permission;
-import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.PermissionService;
 import com.inmaytide.orbit.web.controller.BasicController;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -18,69 +13,56 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@RequestMapping("sys/permission")
+@RequestMapping("sys")
 @RestController
 public class PermissionController extends BasicController {
 
     @Resource
     private PermissionService service;
 
-    @GetMapping("someones/menus")
-    @RequiresAuthentication
-    public RestResponse getMenusOfSomeone() {
-        User user = service.getCurrentUser();
-        return RestResponse.of(service.findByUsername(user.getUsername()));
-    }
-
-    @GetMapping("list")
+    @GetMapping("permissions")
     @RequiresPermissions("perm:list")
-    public RestResponse list() {
-        return RestResponse.of(service.findAllListToTree());
+    public List<Permission> list() {
+        return service.findAllListToTree();
     }
 
-    @DeleteMapping("delete")
-    //@RequiresPermissions("perm:remove")
+    @DeleteMapping("permissions/{ids}")
     @LogAnnotation("删除菜单")
-    public RestResponse delete(@NotBlank String ids, BindingResult bind) {
-        handleBindingResult(bind);
+    public void remove(String ids) {
+        requireNotBlank(ids);
         service.remove(ids);
-        return RestResponse.of(HttpStatus.OK);
     }
 
-    @PutMapping("add")
+    @PostMapping("permissions")
     @LogAnnotation("添加菜单")
-    //@RequiresPermissions("perm:add")
-    public RestResponse add(@RequestBody @Validated Permission permission, BindingResult bind) {
+    public Permission add(@RequestBody @Validated Permission permission, BindingResult bind) {
         if (bind.hasErrors() || !service.checkCode(permission.getCode(), -1L)) {
-            throw new IllegalParameterException(bind.getAllErrors());
+            throw new IllegalParameterException();
         }
-        service.add(permission);
-        return RestResponse.of(permission);
+        return service.add(permission);
     }
 
-    @PutMapping("update")
+    @PutMapping("permissions/{id}")
     @LogAnnotation("修改菜单")
-    public RestResponse update(@RequestBody @Validated Permission permission, BindingResult bind) {
+    public Permission update(@RequestBody @Validated Permission permission, BindingResult bind) {
         if (bind.hasErrors() || permission.getId() == null || !service.checkCode(permission.getCode(), permission.getId())) {
-            throw new IllegalParameterException(bind.getAllErrors());
+            throw new IllegalParameterException();
         }
-        service.modify(permission);
-        return RestResponse.of(permission);
+        return service.modify(permission);
     }
 
-    @PutMapping(value = "exchangeSort", produces = "application/json")
+    @PatchMapping(value = "exchangeSort")
     @LogAnnotation("修改排序")
-    public RestResponse exchangeSort(@RequestBody List<Permission> permissions) {
+    public void exchangeSort(@RequestBody List<Permission> permissions) {
         if (permissions.size() != 2) {
             throw new IllegalParameterException();
         }
         service.exchangeSort(permissions.toArray(new Permission[2]));
-        return RestResponse.of("200", "success");
     }
 
     @GetMapping("checkCode/{code}/{id}")
-    public RestResponse checkCode(@PathVariable String code, @PathVariable Long id) {
-        return RestResponse.of(service.checkCode(code, id));
+    public Boolean checkCode(@PathVariable String code, @PathVariable Long id) {
+        return service.checkCode(code, id);
     }
 
 }

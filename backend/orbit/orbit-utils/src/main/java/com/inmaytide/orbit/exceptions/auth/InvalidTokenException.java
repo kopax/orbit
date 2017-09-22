@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.web.auth.exception;
+package com.inmaytide.orbit.exceptions.auth;
 
 import org.apache.shiro.authc.AuthenticationException;
 

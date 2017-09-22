@@ -1,24 +1,20 @@
-package com.inmaytide.orbit.web.exception.handler;
+package com.inmaytide.orbit.web.controller.exception;
 
-import com.inmaytide.orbit.http.ErrorResult;
-import com.inmaytide.orbit.http.RestResponse;
+import com.inmaytide.orbit.exceptions.handler.ResponseError;
 import org.apache.shiro.authc.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -64,41 +60,19 @@ public class ErrorController extends AbstractErrorController {
         return this.errorProperties.getPath();
     }
 
-    @RequestMapping(produces = "text/html")
-    public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
-        HttpStatus status = getStatus(request);
-        Map<String, Object> model = getErrorAttributes(
-                request, isIncludeStackTrace(request, MediaType.TEXT_HTML));
-        RestResponse restResponse = getRestResponse(request, status, model);
-        model.put("restResponse", restResponse);
-        model.put(KEY_EXCEPTION, restResponse.getError().getType());
-        model.put(KEY_MESSAGE, restResponse.getError().getMessage());
-        response.setStatus(status.value());
-        ModelAndView modelAndView = resolveErrorView(request, response, status, model);
-        return (modelAndView == null ? new ModelAndView("error", model) : modelAndView);
-    }
-
     @RequestMapping
     @ResponseBody
-    public ResponseEntity<RestResponse> error(HttpServletRequest request) {
-        Map<String, Object> body = getErrorAttributes(request, isIncludeStackTrace(request, MediaType.ALL));
+    public ResponseEntity<ResponseError> error(HttpServletRequest request) {
+        Map<String, Object> body = getErrorAttributes(request, isIncludeStackTrace(request));
         HttpStatus status = getStatus(request);
-        return new ResponseEntity<>(getRestResponse(request, status, body), status);
+        return new ResponseEntity<>(getResponseError(request, status, body), status);
     }
 
-    /**
-     * Determine if the stacktrace attribute should be included.
-     *
-     * @param request  the source request
-     * @param produces the media type produced (or {@code MediaType.ALL})
-     * @return if the stacktrace attribute should be included
-     */
-    protected boolean isIncludeStackTrace(HttpServletRequest request, MediaType produces) {
+    private boolean isIncludeStackTrace(HttpServletRequest request) {
         ErrorProperties.IncludeStacktrace include = getErrorProperties().getIncludeStacktrace();
         if (include == ErrorProperties.IncludeStacktrace.ALWAYS) {
             return true;
-        }
-        if (include == ErrorProperties.IncludeStacktrace.ON_TRACE_PARAM) {
+        } else if (include == ErrorProperties.IncludeStacktrace.ON_TRACE_PARAM) {
             return getTraceParameter(request);
         }
         return false;
@@ -109,15 +83,15 @@ public class ErrorController extends AbstractErrorController {
      *
      * @return the error properties
      */
-    protected ErrorProperties getErrorProperties() {
+    private ErrorProperties getErrorProperties() {
         return this.errorProperties;
     }
 
-    private RestResponse getRestResponse(HttpServletRequest request,
-                                         HttpStatus status,
-                                         Map<String, Object> body) {
+    private ResponseError getResponseError(HttpServletRequest request,
+                                           HttpStatus status,
+                                           Map<String, Object> body) {
         log.debug(body.toString());
-        ErrorResult error = new ErrorResult();
+        ResponseError error = new ResponseError();
         if (status == HttpStatus.NOT_FOUND) {
             error.setType(NoHandlerFoundException.class.getName());
             error.setMessage(body.get("path").toString());
@@ -125,17 +99,14 @@ public class ErrorController extends AbstractErrorController {
             Object object = request.getAttribute("javax.servlet.error.exception");
             if (object != null && object instanceof Exception) {
                 Exception exception = (Exception) object;
-                if (exception.getCause() != null) {
-                    error = ErrorResult.of(exception.getCause());
-                } else {
-                    error = ErrorResult.of(exception);
-                }
+                error = ResponseError.of(exception.getCause() == null ? exception : exception.getCause());
             } else {
                 error.setType(Objects.toString(body.get(KEY_EXCEPTION), "Unknow exception"));
                 error.setMessage(Objects.toString(body.get(KEY_MESSAGE), "Unknow message"));
             }
         }
-        return RestResponse.of(status, error);
+        error.setCode(status.value());
+        return error;
     }
 
     @Override

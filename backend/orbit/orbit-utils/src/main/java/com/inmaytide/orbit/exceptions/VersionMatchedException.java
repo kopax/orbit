@@ -10,15 +10,12 @@ public class VersionMatchedException extends RuntimeException {
 
     private static final long serialVersionUID = -22605139663792344L;
 
-    private Object data;
-
-    public VersionMatchedException(Object data) {
+    public VersionMatchedException() {
         super();
-        this.data = data;
     }
 
-    public Object getData() {
-        return data;
+    public VersionMatchedException(Throwable e) {
+        super(e);
     }
 
 }

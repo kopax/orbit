@@ -7,7 +7,6 @@ import com.inmaytide.orbit.utils.SessionHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Function;
@@ -37,7 +36,7 @@ public interface BasicService {
     default <T extends BasicEntity> void matchVersion(T modified, T original) {
         if (modified == null || original == null
                 || !Objects.equals(modified.getVersion(), original.getVersion())) {
-            throw new VersionMatchedException(original);
+            throw new VersionMatchedException();
         }
     }
 

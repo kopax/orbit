@@ -1,14 +1,16 @@
 package com.inmaytide.orbit.web.controller;
 
 import com.inmaytide.orbit.http.HttpHelper;
-import com.inmaytide.orbit.http.RestResponse;
 import com.inmaytide.orbit.log.LogAnnotation;
+import com.inmaytide.orbit.model.sys.Permission;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.CaptchaService;
+import com.inmaytide.orbit.service.sys.PermissionService;
 import com.inmaytide.orbit.utils.CommonUtils;
 import com.inmaytide.orbit.utils.TokenUtils;
 import com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +23,18 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 @RestController
-public class LoginController extends BasicController {
+public class PotralController extends BasicController {
 
-    private static final Logger log = LoggerFactory.getLogger(LoginController.class);
+    private static final Logger log = LoggerFactory.getLogger(PotralController.class);
 
     @Resource
     private CaptchaService captchaService;
+
+    @Resource
+    private PermissionService permissionService;
 
     @PostMapping("login")
     @LogAnnotation(value = "系统登录", success = "登录成功", failure = "登录失败")
@@ -38,7 +44,7 @@ public class LoginController extends BasicController {
         User user = (User) subject.getPrincipal();
         user.setToken(TokenUtils.generate(CommonUtils.uuid(), user.getUsername()));
         log.debug("{} login succeed.", user.getUsername());
-        return RestResponse.of(user);
+        return user;
     }
 
     @GetMapping("captcha")
@@ -48,6 +54,13 @@ public class LoginController extends BasicController {
         try (OutputStream os = response.getOutputStream()) {
             captchaService.generateCaptcha("png", os, v);
         }
+    }
+
+    @GetMapping("/user/menus")
+    @RequiresAuthentication
+    public List<Permission> getMenusOfSomeone() {
+        User user = permissionService.getCurrentUser();
+        return permissionService.findByUsername(user.getUsername());
     }
 
 }

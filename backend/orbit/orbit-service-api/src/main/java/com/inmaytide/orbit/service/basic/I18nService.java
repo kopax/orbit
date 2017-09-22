@@ -9,7 +9,9 @@ public interface I18nService {
 
     Map<String, String> getI18nResources(String lang);
 
-    String getValue(String key, Object... args);
+    String getValue(String key, Object[] args);
 
-    String getValue(String key, Locale locale, Object... args);
+    String getValue(String key, Locale locale, Object[] args);
+
+    String getValue(String key, String defaultValue);
 }
