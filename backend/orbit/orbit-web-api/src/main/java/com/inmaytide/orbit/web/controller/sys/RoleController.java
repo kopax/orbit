@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.web.controller.sys;
 
-import com.inmaytide.orbit.exceptions.IllegalParameterException;
+import com.inmaytide.orbit.exception.IllegalParameterException;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.basic.PageModel;
 import com.inmaytide.orbit.model.sys.Role;

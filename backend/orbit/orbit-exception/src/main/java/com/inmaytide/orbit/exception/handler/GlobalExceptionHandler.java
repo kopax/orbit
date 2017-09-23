@@ -1,8 +1,6 @@
-package com.inmaytide.orbit.web.controller.exception;
+package com.inmaytide.orbit.exception.handler;
 
-import com.inmaytide.orbit.exceptions.handler.ResponseError;
-import com.inmaytide.orbit.exceptions.handler.ResponseErrorBuilders;
-import com.inmaytide.orbit.service.basic.I18nService;
+import com.inmaytide.orbit.i18n.I18nMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +19,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @Resource
-    private I18nService i18n;
+    private I18nMessages i18n;
 
     @ExceptionHandler(value = Throwable.class)
     public ResponseEntity<Object> exception(Exception e, WebRequest request) {
@@ -33,7 +31,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleExceptionInternal(Exception e, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ResponseError error = ResponseErrorBuilders.getBuilder(e).build(e, status);
         status = HttpStatus.valueOf(error.getCode());
-        error.setMessage(i18n.getValue(error.getMessage(), error.getMessage()));
+        error.setMessage(i18n.get(error.getMessage(), error.getMessage()));
         log.error(e.getClass().getName(), e);
         return super.handleExceptionInternal(e, error, headers, status, request);
     }

@@ -33,8 +33,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mybatis.domains.AuditDateAware;
-import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -44,10 +42,7 @@ import javax.servlet.Filter;
 import javax.sql.DataSource;
 import java.awt.*;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootApplication
 @EnableCaching(proxyTargetClass = true)
@@ -72,7 +67,8 @@ public class OrbitApplication {
         return () -> {
             Object object = SessionHelper.getPrincipal();
             Assert.isInstanceOf(User.class, object);
-            return ((User) object).getId();
+            User user = (User) object;
+            return Optional.of(user.getId());
         };
     }
 
@@ -88,7 +84,7 @@ public class OrbitApplication {
 
     @Bean
     public FilterRegistrationBean corsFilter() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        FilterRegistrationBean<CorsFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new CorsFilter(corsProperties));
         filterRegistrationBean.setUrlPatterns(Collections.singletonList(corsProperties.getMapping()));
         filterRegistrationBean.setOrder(1);
@@ -103,11 +99,6 @@ public class OrbitApplication {
         return bean;
     }
 
-
-    @Bean
-    public RedisCacheManager redisCacheManager(RedisTemplate redisTemplate) {
-        return new RedisCacheManager(redisTemplate);
-    }
 
     @Bean
     public SessionManager sessionManager(RedisSessionDao sessionDao) {

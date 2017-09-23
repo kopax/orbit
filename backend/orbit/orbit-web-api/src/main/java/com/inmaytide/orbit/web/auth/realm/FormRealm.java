@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.web.auth.realm;
 
-import com.inmaytide.orbit.exceptions.auth.IncorrectCaptchaException;
+import com.inmaytide.orbit.exception.auth.IncorrectCaptchaException;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.CaptchaService;
 import com.inmaytide.orbit.utils.CommonUtils;

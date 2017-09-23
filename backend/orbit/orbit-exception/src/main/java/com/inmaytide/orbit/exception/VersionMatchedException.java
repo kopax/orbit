@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.exceptions;
+package com.inmaytide.orbit.exception;
 
 /**
  * The version does not match when the data is modified.
@@ -12,6 +12,10 @@ public class VersionMatchedException extends RuntimeException {
 
     public VersionMatchedException() {
         super();
+    }
+
+    public VersionMatchedException(String message) {
+        super(message);
     }
 
     public VersionMatchedException(Throwable e) {

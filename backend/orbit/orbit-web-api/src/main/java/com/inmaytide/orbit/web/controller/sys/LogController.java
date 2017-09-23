@@ -1,11 +1,11 @@
 package com.inmaytide.orbit.web.controller.sys;
 
-import com.inmaytide.orbit.exceptions.IllegalParameterException;
+import com.inmaytide.orbit.exception.IllegalParameterException;
+import com.inmaytide.orbit.i18n.I18nMessages;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.basic.PageModel;
 import com.inmaytide.orbit.model.sys.Log;
 import com.inmaytide.orbit.office.excel.ExcelExportHelper;
-import com.inmaytide.orbit.service.basic.I18nService;
 import com.inmaytide.orbit.service.sys.LogService;
 import com.inmaytide.orbit.utils.DateTimeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +33,7 @@ public class LogController {
     private LogService service;
 
     @Resource
-    private I18nService i18n;
+    private I18nMessages i18n;
 
     private Map<String, Object> buildConditions(String keywords, String begin, String end) {
         Map<String, Object> conditions = new HashMap<>();
@@ -65,7 +65,7 @@ public class LogController {
                        String keywords, String begin, String end) throws IOException, InvalidFormatException {
         Map<String, Object> conditions = buildConditions(keywords, begin, end);
         response.setContentType("application/octet-stream");
-        String filename = new String(i18n.getValue("log.export.file.name", "日志列表").getBytes("utf-8"), "iso-8859-1") + ".xlsx";
+        String filename = new String(i18n.get("log.export.file.name", "日志列表").getBytes("utf-8"), "iso-8859-1") + ".xlsx";
         response.addHeader("Content-Disposition", "attachment;filename=" + filename);
 
         try (OutputStream os = response.getOutputStream()) {

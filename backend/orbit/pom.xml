@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.inmaytide.orbit</groupId>
     <artifactId>orbit</artifactId>
@@ -9,10 +9,33 @@
     <name>orbit</name>
     <url>http://maven.apache.org</url>
 
+    <!-- (you don't need this if you are using a .RELEASE version) -->
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <url>http://repo.spring.io/snapshot</url>
+            <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <url>http://repo.spring.io/milestone</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <url>http://repo.spring.io/snapshot</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <url>http://repo.spring.io/milestone</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.4.RELEASE</version>
+        <version>2.0.0.M4</version>
     </parent>
 
 
@@ -21,6 +44,7 @@
         <project.version>1.0-SNAPSHOT</project.version>
         <spring.data.mybatis.version>1.0.17.RELEASE</spring.data.mybatis.version>
         <shiro.version>1.4.0</shiro.version>
+        <common.lang.version>3.6</common.lang.version>
     </properties>
 
     <modules>
@@ -30,7 +54,9 @@
         <module>orbit-service-api</module>
         <module>orbit-service</module>
         <module>orbit-web-api</module>
-    </modules>
+        <module>orbit-exception</module>
+    <module>orbit-i18n</module>
+  </modules>
 
     <dependencies>
         <dependency>
@@ -69,6 +95,16 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${common.lang.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -76,10 +112,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.7.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.9</source>
+                    <target>1.9</target>
                 </configuration>
             </plugin>
             <plugin>

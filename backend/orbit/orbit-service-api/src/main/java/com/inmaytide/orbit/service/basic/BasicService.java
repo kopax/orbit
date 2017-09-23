@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.service.basic;
 
-import com.inmaytide.orbit.exceptions.VersionMatchedException;
+import com.inmaytide.orbit.exception.VersionMatchedException;
 import com.inmaytide.orbit.model.basic.BasicEntity;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.utils.SessionHelper;

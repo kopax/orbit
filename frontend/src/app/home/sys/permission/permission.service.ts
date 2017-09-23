@@ -15,7 +15,7 @@ export class PermissionService {
   private url_delete = GlobalVariable.BASE_API_URL + "sys/permission/delete";
   private url_update = GlobalVariable.BASE_API_URL + "sys/permission/update";
   private url_change_sort = GlobalVariable.BASE_API_URL + "sys/permission/exchangeSort";
-  private url_user_menus = GlobalVariable.BASE_API_URL + "sys/permission/someones/menus";
+  private url_user_menus = GlobalVariable.BASE_API_URL + "/user/menus";
 
   public constructor(public http: HttpClient,
                      public router: Router) {
@@ -28,7 +28,7 @@ export class PermissionService {
   public findUserMenus(): Promise<Permission[]> {
     return this.http.get(this.url_user_menus)
       .toPromise()
-      .then(response => response['data'] as Permission[])
+      .then(response => response as Permission[])
       .catch(reason => Promise.reject(reason));
   }
 

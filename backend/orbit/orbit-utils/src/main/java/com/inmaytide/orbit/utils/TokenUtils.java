@@ -7,8 +7,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
+import java.io.UnsupportedEncodingException;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 
 public class TokenUtils {
@@ -22,10 +23,17 @@ public class TokenUtils {
         return generate(id, subject, DEFAULT_ISSUER, DEFAULT_VAILD_PERIOD);
     }
 
+    private static byte[] getApiKeySecretBytes() {
+        try {
+            return Base64.getEncoder().encode(Constants.APP_KEY.getBytes("utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static String generate(String id, String subject, String issuer, long ttlMillis) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
-        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(Constants.APP_KEY);
-        Key key = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+        Key key = new SecretKeySpec(getApiKeySecretBytes(), signatureAlgorithm.getJcaName());
 
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
@@ -47,7 +55,7 @@ public class TokenUtils {
 
     public static Claims getClaims(String jwt) {
         return Jwts.parser()
-                .setSigningKey(DatatypeConverter.parseBase64Binary(Constants.APP_KEY))
+                .setSigningKey(getApiKeySecretBytes())
                 .parseClaimsJws(jwt)
                 .getBody();
     }

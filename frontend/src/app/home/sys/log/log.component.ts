@@ -64,16 +64,19 @@ export class LogComponent implements OnInit {
   query(pageNumber, pageSize, conditions) {
     this.logService
       .list(conditions, pageNumber, pageSize)
-      .then(data => this.page = data as Page<Log>)
+      .then(data => {
+        console.log(data);
+        this.page = data as Page<Log>
+      })
       .catch(reason => Commons.errorHandler(reason, this.router, this.modalService));
   }
 
   export() {
     let _conditions = this.getConditions();
     location.href = this.logService.url_export +
-                        "?keywords=" + (_conditions['keywords'] || '') +
-                        "&begin=" + (_conditions['begin'] || '') +
-                        "&end=" + (_conditions['end'] || '');
+      "?keywords=" + (_conditions['keywords'] || '') +
+      "&begin=" + (_conditions['begin'] || '') +
+      "&end=" + (_conditions['end'] || '');
   }
 
   resetConditions() {

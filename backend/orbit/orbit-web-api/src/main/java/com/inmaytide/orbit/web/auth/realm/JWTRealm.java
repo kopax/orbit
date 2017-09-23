@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.web.auth.realm;
 
-import com.inmaytide.orbit.exceptions.auth.InvalidTokenException;
+import com.inmaytide.orbit.exception.auth.InvalidTokenException;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.utils.TokenUtils;
 import com.inmaytide.orbit.web.auth.token.JWTAuthenticationToken;

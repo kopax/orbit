@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.exceptions;
+package com.inmaytide.orbit.exception;
 
 public class IllegalParameterException extends RuntimeException {
 

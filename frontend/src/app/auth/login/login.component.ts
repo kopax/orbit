@@ -41,23 +41,16 @@ export class LoginComponent implements OnInit {
   public login(form) {
     if (form.valid) {
       this.user.captchaKey = this.captchaKey;
-      this.loginService.login(this.user);
-      if (this.loginService.getCurrentUser().subscribe(
-          data => {
-            this.failCount = 1;
-            this.router.navigateByUrl("home");
-          },
-          error => {
-            this.failCount++;
-            this.ngbAlert.message = error;
-            this.hasMessage = true;
-            this.loginService.subject = new Subject<User>();
-            if (this.failCount >= 3) {
-              this.refreshCaptcha();
-            }
-          }
-        )) {
-      }
+      this.loginService.login(this.user)
+        .then(user => {
+          this.failCount = 1;
+          this.router.navigateByUrl("home");
+        }).catch(reason => {
+          this.failCount++;
+          this.ngbAlert.message = (reason.error && JSON.parse(reason.error).message) || "网络连接超时";
+          this.hasMessage = true;
+          this.failCount >= 3 && this.refreshCaptcha();
+        });
     } else {
       if (this.failCount >= 3) {
         this.ngbAlert.message = "Username、password and captcha cannot be empty"

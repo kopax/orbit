@@ -1,12 +1,13 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import * as GlobalVariable from "../../../globals";
+import {Log} from "../../../models/log-model";
 
 @Injectable()
 export class LogService {
 
-  private url_list = GlobalVariable.BASE_API_URL + "sys/log/list";
-  public url_export = GlobalVariable.BASE_API_URL + "sys/log/export";
+  public url_list = GlobalVariable.BASE_API_URL + "sys/logs";
+  public url_export = GlobalVariable.BASE_API_URL + "sys/logs/as-excel";
 
   constructor(public http: HttpClient) {
 
@@ -16,12 +17,8 @@ export class LogService {
     let body = Object.assign(conditions, {number: pageNo, size: pageSize});
     return this.http
       .get(this.url_list, {
-        headers: {"content-type": "application/json"},
         params: new HttpParams({fromObject: body})
-      })
-      .toPromise()
-      .then(response => response['data'])
-      .catch(reason => Promise.reject(reason));
+      }).toPromise();
   }
 
 }

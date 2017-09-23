@@ -101,7 +101,7 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
         if (!CollectionUtils.isEmpty(role.getPermissions())) {
             List<RolePermission> rolePermissions = new ArrayList<>(role.getPermissions().size());
             role.getPermissions().forEach(permission -> rolePermissions.add(new RolePermission(IdGenerator.getInstance().nextId(), role.getId(), permission.getId())));
-            rolePermissionRepository.insertInBatch(rolePermissions);
+            //rolePermissionRepository.insertInBatch(rolePermissions);
         }
     }
 

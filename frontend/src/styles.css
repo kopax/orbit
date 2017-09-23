@@ -1860,6 +1860,7 @@ ul.msg_list li a .message {
   position: absolute;
   background: #fff;
   margin-top: 0;
+  display: block!important;
   border: 1px solid #D9DEE4;
   -webkit-box-shadow: none;
   right: 0;

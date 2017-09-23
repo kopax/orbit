@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.web.controller;
 
-import com.inmaytide.orbit.exceptions.IllegalParameterException;
+import com.inmaytide.orbit.exception.IllegalParameterException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.BindingResult;
 

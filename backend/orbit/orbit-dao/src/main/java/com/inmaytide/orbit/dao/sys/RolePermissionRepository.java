@@ -9,5 +9,5 @@ public interface RolePermissionRepository extends MybatisRepository<RolePermissi
 
     void deleteByRId(Long roleId);
 
-    void insertInBatch(List<RolePermission> rolePermissions);
+    //void insertInBatch(List<RolePermission> rolePermissions);
 }

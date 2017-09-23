@@ -8,36 +8,35 @@ import * as GlobalVariable from "../../globals";
 
 @Injectable()
 export class LoginService {
+
   public loginURL = GlobalVariable.BASE_API_URL + 'login';
-  public subject: Subject<User> = new Subject<User>();
 
   constructor(public http: HttpClient) {
   }
 
-  public getCurrentUser(): Observable<User> {
-    return this.subject.asObservable();
-  }
-
-  public login(user: Token) {
+  public login(token: Token): Promise<User> {
     return this.http
-      .post(this.loginURL, user)
-      .subscribe(
-        response => {
-          const data = response["data"];
-          if (data && data.token) {
-            localStorage.setItem(GlobalVariable.CURRENT_USER, JSON.stringify(data));
-            this.subject.next(Object.assign({}, data));
-          }
-        },
-        errorResponse => {
-          this.subject.error((errorResponse.error && JSON.parse(errorResponse.error).message) || "网络连接超时");
-        }
-      )
+      .post(this.loginURL, token)
+      .toPromise()
+      .then(user => {
+        localStorage.setItem(GlobalVariable.CURRENT_USER, JSON.stringify(user));
+        return user;
+      }).catch(reason => Promise.reject(reason));
+    // .subscribe(
+    //   user => {
+    //     if (user && user.token) {
+    //       localStorage.setItem(GlobalVariable.CURRENT_USER, JSON.stringify(user));
+    //       this.subject.next(Object.assign({}, user));
+    //     }
+    //   },
+    //   error => {
+    //     this.subject.error((error.error && JSON.parse(error.error).message) || "网络连接超时");
+    //   }
+    //)
   }
 
   public logout(): void {
     localStorage.removeItem(GlobalVariable.CURRENT_USER);
-    this.subject.next(Object.assign({}));
   }
 
 }

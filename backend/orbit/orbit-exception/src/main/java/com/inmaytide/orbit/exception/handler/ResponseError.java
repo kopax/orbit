@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.exceptions.handler;
+package com.inmaytide.orbit.exception.handler;
 
 import org.springframework.http.HttpStatus;
 
