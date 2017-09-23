@@ -1,24 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.inmaytide.orbit.utils</groupId>
     <artifactId>orbit-utils</artifactId>
-    <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <name>orbit-utils</name>
+    <url>http://maven.apache.org</url>
 
     <parent>
         <groupId>com.inmaytide.orbit</groupId>
         <artifactId>orbit</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
-
-    <name>orbit-utils</name>
-    <url>http://maven.apache.org</url>
-
-    <properties>
-        <poi.version>3.16</poi.version>
-    </properties>
 
     <dependencies>
         <dependency>

@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.http;
+package com.inmaytide.orbit.auz.helper;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

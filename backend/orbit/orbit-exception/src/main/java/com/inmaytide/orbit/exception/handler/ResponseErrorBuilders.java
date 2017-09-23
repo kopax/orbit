@@ -2,8 +2,8 @@ package com.inmaytide.orbit.exception.handler;
 
 import com.inmaytide.orbit.exception.IllegalParameterException;
 import com.inmaytide.orbit.exception.VersionMatchedException;
-import com.inmaytide.orbit.exception.auth.IncorrectCaptchaException;
-import com.inmaytide.orbit.exception.auth.InvalidTokenException;
+import com.inmaytide.orbit.exception.auz.IncorrectCaptchaException;
+import com.inmaytide.orbit.exception.auz.InvalidTokenException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.UnauthorizedException;

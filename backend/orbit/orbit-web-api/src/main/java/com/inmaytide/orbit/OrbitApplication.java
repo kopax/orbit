@@ -1,16 +1,15 @@
 package com.inmaytide.orbit;
 
-import com.inmaytide.orbit.http.CorsProperties;
+import com.inmaytide.orbit.auz.cache.RedisSessionDao;
+import com.inmaytide.orbit.auz.cache.RedisShiroCacheManager;
+import com.inmaytide.orbit.auz.filter.CorsFilter;
+import com.inmaytide.orbit.auz.filter.JWTOrAuthenticationFilter;
+import com.inmaytide.orbit.auz.helper.CorsProperties;
+import com.inmaytide.orbit.auz.helper.SessionHelper;
+import com.inmaytide.orbit.auz.realm.FormRealm;
+import com.inmaytide.orbit.auz.realm.JWTRealm;
+import com.inmaytide.orbit.auz.strategy.FirstExceptionStrategy;
 import com.inmaytide.orbit.model.sys.User;
-import com.inmaytide.orbit.utils.SessionHelper;
-import com.inmaytide.orbit.web.auth.JWTOrAuthenticationFilter;
-import com.inmaytide.orbit.web.auth.cache.RedisSessionDao;
-import com.inmaytide.orbit.web.auth.cache.RedisShiroCacheManager;
-import com.inmaytide.orbit.web.auth.realm.FormRealm;
-import com.inmaytide.orbit.web.auth.realm.JWTRealm;
-import com.inmaytide.orbit.web.auth.strategy.FirstExceptionStrategy;
-import com.inmaytide.orbit.web.filter.CorsFilter;
-import io.jsonwebtoken.lang.Assert;
 import org.apache.shiro.authc.Authenticator;
 import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -42,7 +41,10 @@ import javax.servlet.Filter;
 import javax.sql.DataSource;
 import java.awt.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
 @EnableCaching(proxyTargetClass = true)
@@ -64,12 +66,7 @@ public class OrbitApplication {
 
     @Bean
     public AuditorAware<Long> auditorAware() {
-        return () -> {
-            Object object = SessionHelper.getPrincipal();
-            Assert.isInstanceOf(User.class, object);
-            User user = (User) object;
-            return Optional.of(user.getId());
-        };
+        return () -> SessionHelper.getCurrentUser().orElse(new User()).getId();
     }
 
     @Bean
@@ -84,7 +81,7 @@ public class OrbitApplication {
 
     @Bean
     public FilterRegistrationBean corsFilter() {
-        FilterRegistrationBean<CorsFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new CorsFilter(corsProperties));
         filterRegistrationBean.setUrlPatterns(Collections.singletonList(corsProperties.getMapping()));
         filterRegistrationBean.setOrder(1);

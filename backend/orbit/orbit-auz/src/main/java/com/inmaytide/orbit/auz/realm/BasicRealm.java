@@ -1,21 +1,18 @@
-package com.inmaytide.orbit.web.auth.realm;
+package com.inmaytide.orbit.auz.realm;
 
 import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.PermissionService;
 import com.inmaytide.orbit.service.sys.RoleService;
 import com.inmaytide.orbit.service.sys.UserService;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
-import java.util.Objects;
 
 public abstract class BasicRealm extends AuthorizingRealm {
 

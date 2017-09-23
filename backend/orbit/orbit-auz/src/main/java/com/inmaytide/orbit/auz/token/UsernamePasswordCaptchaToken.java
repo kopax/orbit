@@ -1,4 +1,4 @@
-package com.inmaytide.orbit.web.auth.token;
+package com.inmaytide.orbit.auz.token;
 
 import org.apache.shiro.authc.UsernamePasswordToken;
 

@@ -1,5 +1,6 @@
-package com.inmaytide.orbit.utils;
+package com.inmaytide.orbit.auz.helper;
 
+import com.inmaytide.orbit.model.sys.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.session.Session;
@@ -14,10 +15,11 @@ public class SessionHelper {
     }
 
     public static Session getSession() {
-        return getSubject().map(Subject::getSession).orElseThrow(RuntimeException::new);
+        return getSubject().map(Subject::getSession).orElseThrow(AuthenticationException::new);
     }
 
     public static <T> Optional<T> getSessionAttribute(String key) {
+        //noinspection unchecked
         return Optional.ofNullable((T) getSession().getAttribute(key));
     }
 
@@ -25,10 +27,10 @@ public class SessionHelper {
         getSession().setAttribute(key, value);
     }
 
-    public static Object getPrincipal() {
-        //获取不到用户信息
+    public static Optional<User> getCurrentUser() {
         Subject subject = getSubject().orElseThrow(AuthenticationException::new);
-        return subject.getPrincipal();
+        Object principal = subject.getPrincipal();
+        return Optional.ofNullable((User) principal);
     }
 
 }

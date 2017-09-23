@@ -1,11 +1,12 @@
 package com.inmaytide.orbit.service.sys;
 
+import com.inmaytide.orbit.auz.helper.SessionHelper;
 import com.inmaytide.orbit.dao.sys.LogRepository;
 import com.inmaytide.orbit.log.LogAnnotation;
 import com.inmaytide.orbit.model.basic.PageModel;
 import com.inmaytide.orbit.model.sys.Log;
+import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.utils.IdGenerator;
-import com.inmaytide.orbit.utils.SessionHelper;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.aspectj.lang.JoinPoint;
 import org.springframework.data.domain.Page;
@@ -35,7 +36,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
     @Override
     public Page<Log> findList(Map<String, Object> conditions, PageModel pageModel) {
         Pageable pageable = pageModel.toPageable(Sort.Direction.DESC, "time");
-        conditions.put("size", new Integer(pageable.getPageSize()));
+        conditions.put("size", Integer.valueOf(pageable.getPageSize()));
         conditions.put("offset", pageable.getOffset());
         List<Log> content = getRepository().findList(conditions);
         return new PageImpl<>(content, pageable, getRepository().findCount(conditions));
@@ -71,7 +72,7 @@ public class LogServiceImpl extends AbstractCrudService<LogRepository, Log, Long
         Log inst = new Log();
         inst.setId(IdGenerator.getInstance().nextId());
         inst.setName(annotation.value());
-        inst.setOperator(getCurrentUser().getId());
+        inst.setOperator(SessionHelper.getCurrentUser().orElse(new User()).getId());
         inst.setMethodName(point.getSignature().getName());
         inst.setClassName(point.getSignature().getDeclaringTypeName());
         inst.setIpAddress(SessionHelper.getSession().getHost());

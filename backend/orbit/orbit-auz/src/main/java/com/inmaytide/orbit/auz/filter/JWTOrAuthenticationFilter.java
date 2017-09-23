@@ -1,13 +1,13 @@
-package com.inmaytide.orbit.web.auth;
+package com.inmaytide.orbit.auz.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inmaytide.orbit.exception.auth.CannotCreateTokenException;
-import com.inmaytide.orbit.exception.auth.InvalidTokenException;
-import com.inmaytide.orbit.http.CorsProperties;
-import com.inmaytide.orbit.http.HttpHelper;
+import com.inmaytide.orbit.auz.helper.CorsProperties;
+import com.inmaytide.orbit.auz.helper.HttpHelper;
+import com.inmaytide.orbit.auz.token.JWTAuthenticationToken;
+import com.inmaytide.orbit.auz.token.UsernamePasswordCaptchaToken;
+import com.inmaytide.orbit.exception.auz.CannotCreateTokenException;
+import com.inmaytide.orbit.exception.auz.InvalidTokenException;
 import com.inmaytide.orbit.utils.TokenUtils;
-import com.inmaytide.orbit.web.auth.token.JWTAuthenticationToken;
-import com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;

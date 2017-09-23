@@ -1,10 +1,10 @@
-package com.inmaytide.orbit.web.auth.realm;
+package com.inmaytide.orbit.auz.realm;
 
-import com.inmaytide.orbit.exception.auth.IncorrectCaptchaException;
+import com.inmaytide.orbit.auz.helper.Md5Helper;
+import com.inmaytide.orbit.auz.token.UsernamePasswordCaptchaToken;
+import com.inmaytide.orbit.exception.auz.IncorrectCaptchaException;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.CaptchaService;
-import com.inmaytide.orbit.utils.CommonUtils;
-import com.inmaytide.orbit.web.auth.token.UsernamePasswordCaptchaToken;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -46,7 +46,7 @@ public class FormRealm extends BasicRealm {
     }
 
     private ByteSource credentialsSalt(String username) {
-        return ByteSource.Util.bytes(CommonUtils.salt(username));
+        return ByteSource.Util.bytes(Md5Helper.salt(username));
     }
 
 }

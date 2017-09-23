@@ -2,8 +2,6 @@ package com.inmaytide.orbit.service.basic;
 
 import com.inmaytide.orbit.exception.VersionMatchedException;
 import com.inmaytide.orbit.model.basic.BasicEntity;
-import com.inmaytide.orbit.model.sys.User;
-import com.inmaytide.orbit.utils.SessionHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
@@ -40,10 +38,5 @@ public interface BasicService {
         }
     }
 
-    default User getCurrentUser() {
-        Object object = SessionHelper.getPrincipal();
-        Assert.isInstanceOf(User.class, object);
-        return (User) object;
-    }
 
 }
