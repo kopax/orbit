@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>com.ifrabbit</groupId>
-            <artifactId>spring-boot-starter-data-mybatis</artifactId>
+            <artifactId>spring-data-mybatis</artifactId>
             <version>${spring.data.mybatis.version}</version>
         </dependency>
     </dependencies>

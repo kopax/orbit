@@ -66,7 +66,7 @@ public class OrbitApplication {
 
     @Bean
     public AuditorAware<Long> auditorAware() {
-        return () -> SessionHelper.getCurrentUser().orElse(new User()).getId();
+        return () -> SessionHelper.getCurrentUser().map(User::getId);
     }
 
     @Bean
@@ -81,7 +81,7 @@ public class OrbitApplication {
 
     @Bean
     public FilterRegistrationBean corsFilter() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        FilterRegistrationBean<CorsFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new CorsFilter(corsProperties));
         filterRegistrationBean.setUrlPatterns(Collections.singletonList(corsProperties.getMapping()));
         filterRegistrationBean.setOrder(1);
