@@ -2,6 +2,7 @@ package com.inmaytide.orbit.service.sys;
 
 import com.inmaytide.orbit.dao.sys.RolePermissionRepository;
 import com.inmaytide.orbit.dao.sys.RoleRepository;
+import com.inmaytide.orbit.exception.IllegalParameterException;
 import com.inmaytide.orbit.model.basic.PageModel;
 import com.inmaytide.orbit.model.sys.Role;
 import com.inmaytide.orbit.model.sys.RolePermission;
@@ -62,8 +63,8 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
     }
 
     @Override
-    public Role get(Long id) {
-        Role role = super.get(id);
+    public Role getRole(Long id) {
+        Role role = super.get(id).orElseThrow(RuntimeException::new);
         Long[] ids = new Long[]{id};
         role.setPermissions(permissionService.findByRoleIds(ids));
         role.setOrganizations(organizationService.findByRoleIds(ids));
@@ -88,12 +89,12 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Role modify(Role role) {
-        Role original = super.get(role.getId());
+        Role original = getRepository().findById(role.getId()).orElseThrow(IllegalParameterException::new);
         matchVersion(role, original);
         BeanUtils.copyProperties(role, original, FINAL_FIELDS);
         original.setVersion(original.getVersion() + 1);
         getRepository().update(original);
-        return get(role.getId());
+        return this.getRole(role.getId());
     }
 
     private void addPermissions(Role role) {

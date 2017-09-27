@@ -5,8 +5,7 @@ import org.apache.shiro.cache.CacheException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.cache.RedisCache;
-import org.springframework.data.redis.connection.RedisServerCommands;
-import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.util.Assert;
 
 import java.util.*;
@@ -19,13 +18,13 @@ public class RedisShiroCache<K, V> implements Cache<K, V> {
 
     private final RedisCache cache;
 
-    private final RedisOperations redisOperations;
+    private final RedisCacheWriter redisCacheWriter;
 
     public RedisShiroCache(org.springframework.cache.Cache cache) {
         Assert.notNull(cache, "Cache argument cannot be null.");
         Assert.isInstanceOf(RedisCache.class, cache, "Cache argument must be RedisCache instance.");
         this.cache = (RedisCache) cache;
-        redisOperations = (RedisOperations) cache.getNativeCache();
+        this.redisCacheWriter = (RedisCacheWriter) cache.getNativeCache();
     }
 
     public RedisShiroCache(org.springframework.cache.Cache cache, String prefix) {
@@ -68,7 +67,7 @@ public class RedisShiroCache<K, V> implements Cache<K, V> {
         if (value == null) {
             return null;
         }
-        redisOperations.delete(k);
+        this.redisCacheWriter.remove(cache.getName(), k.toString().getBytes());
         return (V) value.get();
     }
 
@@ -80,13 +79,14 @@ public class RedisShiroCache<K, V> implements Cache<K, V> {
 
     @Override
     public int size() {
-        Object size = redisOperations.execute(RedisServerCommands::dbSize);
-        return Integer.valueOf(Objects.toString(size, "0"));
+        //Object size = redisOperations.execute(RedisServerCommands::dbSize);
+        return Integer.valueOf(Objects.toString(0, "0"));
     }
 
     @Override
     public Set<K> keys() {
-        return redisOperations.keys(this.keyPrefix + "*");
+        //return redisOperations.keys(this.keyPrefix + "*");
+        return new HashSet<>();
     }
 
     @Override

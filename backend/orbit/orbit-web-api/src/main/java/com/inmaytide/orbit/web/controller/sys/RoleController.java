@@ -33,7 +33,7 @@ public class RoleController extends BasicController {
 
     @GetMapping("role/{id}")
     public Role role(@PathVariable Long id) {
-        return service.get(id);
+        return service.getRole(id);
     }
 
     @PostMapping("role")

@@ -1,6 +1,7 @@
 server:
-  context-path: /orbit
   port: 7001
+  servlet:
+    context-path: /orbit
 
 spring:
   datasource:

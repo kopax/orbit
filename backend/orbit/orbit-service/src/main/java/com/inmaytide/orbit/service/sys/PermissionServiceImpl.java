@@ -3,6 +3,7 @@ package com.inmaytide.orbit.service.sys;
 import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.consts.PermissionCategory;
 import com.inmaytide.orbit.dao.sys.PermissionRepository;
+import com.inmaytide.orbit.exception.IllegalParameterException;
 import com.inmaytide.orbit.model.sys.Permission;
 import com.inmaytide.orbit.utils.IdGenerator;
 import org.springframework.beans.BeanUtils;
@@ -50,7 +51,7 @@ public class PermissionServiceImpl extends AbstractCrudService<PermissionReposit
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Permission modify(Permission inst) {
-        Permission origin = this.get(inst.getId());
+        Permission origin = this.get(inst.getId()).orElseThrow(IllegalParameterException::new);
         matchVersion(inst, origin);
         BeanUtils.copyProperties(inst, origin, FINAL_FIELDS);
         origin.setVersion(origin.getVersion() + 1);
