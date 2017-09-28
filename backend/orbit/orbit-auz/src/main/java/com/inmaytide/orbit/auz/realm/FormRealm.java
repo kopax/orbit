@@ -1,5 +1,6 @@
 package com.inmaytide.orbit.auz.realm;
 
+import com.inmaytide.orbit.auz.cache.SimpleByteSource;
 import com.inmaytide.orbit.auz.helper.Md5Helper;
 import com.inmaytide.orbit.auz.token.UsernamePasswordCaptchaToken;
 import com.inmaytide.orbit.exception.auz.IncorrectCaptchaException;
@@ -46,7 +47,7 @@ public class FormRealm extends BasicRealm {
     }
 
     private ByteSource credentialsSalt(String username) {
-        return ByteSource.Util.bytes(Md5Helper.salt(username));
+        return new SimpleByteSource(Md5Helper.salt(username));
     }
 
 }

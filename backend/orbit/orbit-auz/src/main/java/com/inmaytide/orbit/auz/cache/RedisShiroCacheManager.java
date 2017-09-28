@@ -19,27 +19,19 @@ public class RedisShiroCacheManager implements CacheManager {
 
     private final ConcurrentMap<String, Cache> caches = new ConcurrentHashMap<>();
 
-    private String keyPrefix = "shiro_cache";
-
     @Resource
     private RedisCacheManager cacheManager;
 
     @Override
     public <K, V> Cache<K, V> getCache(String name) throws CacheException {
-        logger.debug("Get RedisCache instance by name {}", name);
+        logger.info("Get RedisCache instance by name {}", name);
+        //noinspection unchecked
         Cache<K, V> cache = caches.get(name);
         if (cache == null) {
-            cache = new RedisShiroCache<K, V>(cacheManager.getCache(name),  keyPrefix);
+            cache = new RedisShiroCache<>(cacheManager.getCache(name));
             caches.put(name, cache);
         }
         return cache;
     }
 
-    public String getKeyPrefix() {
-        return keyPrefix;
-    }
-
-    public void setKeyPrefix(String keyPrefix) {
-        this.keyPrefix = keyPrefix;
-    }
 }

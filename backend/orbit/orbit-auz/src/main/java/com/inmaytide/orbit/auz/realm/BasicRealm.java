@@ -1,6 +1,5 @@
 package com.inmaytide.orbit.auz.realm;
 
-import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.model.sys.User;
 import com.inmaytide.orbit.service.sys.PermissionService;
 import com.inmaytide.orbit.service.sys.RoleService;
@@ -30,7 +29,8 @@ public abstract class BasicRealm extends AuthorizingRealm {
 
     public BasicRealm() {
         setCachingEnabled(true);
-        setAuthenticationCacheName(Constants.AUTHORIZATION_CACHE_NAME);
+        setAuthenticationCachingEnabled(true);
+        setAuthorizationCachingEnabled(true);
     }
 
     @Override

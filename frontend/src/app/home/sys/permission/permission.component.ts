@@ -23,12 +23,12 @@ export class PermissionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setList();
+    this.queryList();
   }
 
-  public setList() {
+  public queryList() {
     this.service.getData().subscribe(
-      response => this.permissions = response.data,
+      response => this.permissions = response,
       error => Commons.errorHandler(error, this.router, this.modalService)
     );
   }

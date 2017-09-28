@@ -10,10 +10,10 @@ import {HttpParams} from "@angular/common/http";
 export class PermissionService {
 
   //remote urls
-  private url_add = GlobalVariable.BASE_API_URL + "sys/permission/add";
-  private url_list = GlobalVariable.BASE_API_URL + "sys/permission/list";
-  private url_delete = GlobalVariable.BASE_API_URL + "sys/permission/delete";
-  private url_update = GlobalVariable.BASE_API_URL + "sys/permission/update";
+  private url_add = GlobalVariable.BASE_API_URL + "sys/permissions";
+  private url_list = GlobalVariable.BASE_API_URL + "sys/permissions";
+  private url_delete = GlobalVariable.BASE_API_URL + "sys/permissions";
+  private url_update = GlobalVariable.BASE_API_URL + "sys/permissions";
   private url_change_sort = GlobalVariable.BASE_API_URL + "sys/permission/exchangeSort";
   private url_user_menus = GlobalVariable.BASE_API_URL + "/user/menus";
 
@@ -22,13 +22,13 @@ export class PermissionService {
   }
 
   public getData(): Observable<any> {
-    return this.http.get(this.url_list).map(response => response);
+    return this.http.get(this.url_list);
   }
 
   public findUserMenus(): Promise<Permission[]> {
     return this.http.get(this.url_user_menus)
       .toPromise()
-      .then(response => response as Permission[])
+      .then(body => body as Permission[])
       .catch(reason => Promise.reject(reason));
   }
 
@@ -46,9 +46,9 @@ export class PermissionService {
   }
 
   public add(permission: Permission): Promise<Permission> {
-    return this.http.put(this.url_add, permission)
+    return this.http.post(this.url_add, permission)
       .toPromise()
-      .then(response => response['data'] as Permission)
+      .then(body => body as Permission)
       .catch(reason => Promise.reject(reason));
   }
 

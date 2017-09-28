@@ -45,7 +45,7 @@
             </if>
         </where>
         order by time desc
-        <if test="conditions.size != null">
+        <if test="conditions.containsKey('size')">
             limit #{conditions.size} offset #{conditions.offset}
         </if>
     </select>
