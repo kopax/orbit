@@ -5,10 +5,10 @@ import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.cache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -19,7 +19,7 @@ public class RedisShiroCacheManager implements CacheManager {
 
     private final ConcurrentMap<String, Cache> caches = new ConcurrentHashMap<>();
 
-    @Resource
+    @Autowired
     private RedisCacheManager cacheManager;
 
     @Override

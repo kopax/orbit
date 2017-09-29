@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -40,13 +41,13 @@ public class PotralController extends BasicController {
 
     @PostMapping("login")
     @LogAnnotation(value = "系统登录", success = "登录成功", failure = "登录失败")
-    public Object login(@RequestBody UsernamePasswordCaptchaToken token) {
+    public Mono<User> login(@RequestBody UsernamePasswordCaptchaToken token) {
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
         User user = (User) subject.getPrincipal();
         user.setToken(TokenUtils.generate(CommonUtils.uuid(), user.getUsername()));
         log.debug("{} login succeed.", user.getUsername());
-        return user;
+        return Mono.create(userMonoSink -> userMonoSink.success(user));
     }
 
     @GetMapping("captcha")
