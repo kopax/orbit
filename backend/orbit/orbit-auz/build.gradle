@@ -1,0 +1,4 @@
+dependencies {
+    compile project(":orbit-domain")
+    compile "org.apache.shiro:shiro-spring-boot-web-starter:${rootProject.shiroVersion}"
+}

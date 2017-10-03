@@ -1,10 +1,9 @@
 package com.inmaytide.orbit.i18n;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
@@ -14,15 +13,15 @@ import java.util.Map;
  * @author Moss
  * @since September 11, 2017
  */
-@RestController
 public class I18nResourceProvider {
 
     @Autowired
     private I18nResourceHolder resourceHolder;
 
-    @GetMapping("lang/{lang}")
-    public Map<String, String> lang(@PathVariable String lang) {
-        return StringUtils.isEmpty(lang) ? resourceHolder.getResources() : resourceHolder.getResources(lang);
+
+    public Mono<ServerResponse> lang(ServerRequest request) {
+        String lang = request.pathVariable("lang");
+        return ServerResponse.ok().body(Mono.justOrEmpty(resourceHolder.getResources(lang)), Map.class);
     }
 
 }

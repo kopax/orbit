@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.dao.sys;
 
-import com.inmaytide.orbit.model.sys.Role;
+import com.inmaytide.orbit.domain.sys.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mybatis.repository.annotation.Query;

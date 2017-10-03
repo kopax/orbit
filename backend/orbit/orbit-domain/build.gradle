@@ -1,0 +1,6 @@
+dependencies {
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$rootProject.jacksonVersion"
+    compile "com.ifrabbit:spring-data-mybatis:$rootProject.springDataMybatisVersion"
+    compile "org.springframework.boot:spring-boot-starter-validation"
+    compile project(":orbit-utils")
+}

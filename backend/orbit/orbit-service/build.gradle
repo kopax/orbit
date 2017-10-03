@@ -1,0 +1,7 @@
+dependencies {
+    compile project(":orbit-domain")
+    compile project(":orbit-auz")
+    compile project(":orbit-dao")
+    compile project(":orbit-exception")
+    compile "net.pusuo:patchca:0.5.0"
+}

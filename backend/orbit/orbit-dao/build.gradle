@@ -1,0 +1,5 @@
+dependencies {
+    compile project(":orbit-domain")
+    compile "com.ifrabbit:spring-boot-starter-data-mybatis:$rootProject.springDataMybatisVersion"
+    compile "org.mybatis:mybatis-typehandlers-jsr310:1.0.2"
+}

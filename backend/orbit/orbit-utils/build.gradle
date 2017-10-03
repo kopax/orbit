@@ -1,0 +1,6 @@
+dependencies {
+    compile "org.apache.poi:poi:$rootProject.poiVersion"
+    compile "org.apache.poi:poi-ooxml:$rootProject.poiVersion"
+    compile "io.jsonwebtoken:jjwt:0.7.0"
+    compile "org.springframework.boot:spring-boot-starter-aop"
+}

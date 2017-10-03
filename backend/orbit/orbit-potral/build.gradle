@@ -1,0 +1,6 @@
+archivesBaseName = 'orbit-potral'
+
+dependencies {
+    compile project(":orbit-i18n")
+    compile project(":orbit-exception")
+}

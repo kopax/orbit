@@ -3,6 +3,7 @@ package com.inmaytide.orbit.exception.handler;
 import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class ResponseError implements Serializable {
 
@@ -21,7 +22,7 @@ public class ResponseError implements Serializable {
 
     public static ResponseError of(HttpStatus status, String message) {
         ResponseError error = new ResponseError();
-        error.setCode(status.value());
+        error.setCode(Objects.isNull(status) ? HttpStatus.INTERNAL_SERVER_ERROR.value() : status.value());
         error.setMessage(message);
         return error;
     }

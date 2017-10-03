@@ -1,6 +1,7 @@
 package com.inmaytide.orbit.exception.handler;
 
 import com.inmaytide.orbit.exception.IllegalParameterException;
+import com.inmaytide.orbit.exception.PathNotFoundException;
 import com.inmaytide.orbit.exception.VersionMatchedException;
 import com.inmaytide.orbit.exception.auz.IncorrectCaptchaException;
 import com.inmaytide.orbit.exception.auz.InvalidTokenException;
@@ -19,6 +20,7 @@ public enum ResponseErrorBuilders {
     VersionMatched(VersionMatchedException.class, (e, status) -> ResponseError.of(HttpStatus.CONFLICT, "数据已经被修改或不存在")),
     IllegalParameter(IllegalParameterException.class, (e, status) -> ResponseError.of(HttpStatus.BAD_REQUEST, e.getMessage())),
     Unauthorized(UnauthorizedException.class, (e, status) -> ResponseError.of(HttpStatus.FORBIDDEN, "没有权限")),
+    NotFound(PathNotFoundException.class, (e, status) -> ResponseError.of(HttpStatus.NOT_FOUND, e.getMessage())),
     Default(Exception.class, (e, status) -> ResponseError.of(status, ExceptionUtils.getStackTrace(e)));
 
     static Map<Class<? extends Throwable>, String> EXCEPTIONS_MESSAGES_MAPPER = new ConcurrentHashMap<>();

@@ -1,6 +1,6 @@
 package com.inmaytide.orbit.auz.helper;
 
-import com.inmaytide.orbit.model.sys.User;
+import com.inmaytide.orbit.domain.sys.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.session.Session;

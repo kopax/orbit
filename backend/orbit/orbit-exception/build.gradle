@@ -1,0 +1,7 @@
+archivesBaseName = 'orbit-exception'
+
+dependencies {
+    //compile "org.apache.shiro:shiro-spring-boot-web-starter:${getRootProject().shiroVersion}"
+    compile "org.apache.shiro:shiro-core:${rootProject.shiroVersion}"
+    compile project(':orbit-i18n')
+}
