@@ -1,5 +1,5 @@
 # Intellij IDEA
-/.idea/
+.idea/
 *.iml
 out/
 
@@ -9,7 +9,6 @@ Thumbs.db
 
 # Gradle
 .gradle/
-gradle/
 build/
 
 # frontend
