@@ -2,7 +2,7 @@ package com.inmaytide.orbit.web.controller.sys;
 
 import com.inmaytide.orbit.exception.IllegalParameterException;
 import com.inmaytide.orbit.log.LogAnnotation;
-import com.inmaytide.orbit.model.sys.Permission;
+import com.inmaytide.orbit.domain.sys.Permission;
 import com.inmaytide.orbit.service.sys.PermissionService;
 import com.inmaytide.orbit.web.controller.BasicController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RequestMapping("sys")
-@RestController
+//@RestController
 public class PermissionController extends BasicController {
 
     @Resource

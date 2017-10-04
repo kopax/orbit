@@ -1,7 +1,9 @@
 package com.inmaytide.orbit.service.sys.impl;
 
 import com.inmaytide.orbit.dao.sys.UserRepository;
-import com.inmaytide.orbit.model.sys.User;
+import com.inmaytide.orbit.domain.sys.User;
+import com.inmaytide.orbit.log.LogAnnotation;
+import com.inmaytide.orbit.service.sys.UserService;
 import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

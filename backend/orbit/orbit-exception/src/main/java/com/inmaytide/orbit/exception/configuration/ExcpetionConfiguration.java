@@ -17,13 +17,6 @@ import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
 public class ExcpetionConfiguration {
 
     @Bean
-    public HttpHandler exceptionHandler(RouterFunction routers, GlobalExceptionHandler exceptionHandler) {
-        return WebHttpHandlerBuilder
-                .webHandler(RouterFunctions.toWebHandler(routers))
-                .exceptionHandler(exceptionHandler).build();
-    }
-
-    @Bean
     @ConditionalOnMissingBean(ErrorHandler.class)
     public ErrorHandler errorHandler() {
         return new ErrorHandler();

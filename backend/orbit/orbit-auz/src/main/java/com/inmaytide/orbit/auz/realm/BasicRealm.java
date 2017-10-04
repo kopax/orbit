@@ -1,9 +1,9 @@
 package com.inmaytide.orbit.auz.realm;
 
-import com.inmaytide.orbit.model.sys.User;
-import com.inmaytide.orbit.service.sys.PermissionService;
-import com.inmaytide.orbit.service.sys.RoleService;
-import com.inmaytide.orbit.service.sys.UserService;
+import com.inmaytide.orbit.auz.provider.PermissionProvider;
+import com.inmaytide.orbit.auz.provider.RoleProvider;
+import com.inmaytide.orbit.auz.provider.UserProvider;
+import com.inmaytide.orbit.domain.sys.User;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -17,17 +17,17 @@ public abstract class BasicRealm extends AuthorizingRealm {
 
     @Resource
     @Lazy
-    private UserService userService;
+    private UserProvider userProvider;
 
     @Resource
     @Lazy
-    private RoleService roleService;
+    private RoleProvider roleProvider;
 
     @Resource
     @Lazy
-    private PermissionService permissionService;
+    private PermissionProvider permissionProvider;
 
-    public BasicRealm() {
+    protected BasicRealm() {
         setCachingEnabled(true);
         setAuthenticationCachingEnabled(true);
         setAuthorizationCachingEnabled(true);
@@ -38,20 +38,20 @@ public abstract class BasicRealm extends AuthorizingRealm {
         Assert.notNull(principals, "PrincipalCollection method argument cannot be null.");
         User user = (User) getAvailablePrincipal(principals);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.setRoles(getRoleService().findCodesByUsername(user.getUsername()));
-        info.setStringPermissions(getPermissionService().findCodesByUsername(user.getUsername()));
+        info.setRoles(getRoleProvider().findCodesByUsername(user.getUsername()));
+        info.setStringPermissions(getPermissionProvider().findCodesByUsername(user.getUsername()));
         return info;
     }
 
-    public UserService getUserService() {
-        return userService;
+    protected UserProvider getUserProvider() {
+        return userProvider;
     }
 
-    public RoleService getRoleService() {
-        return roleService;
+    protected RoleProvider getRoleProvider() {
+        return roleProvider;
     }
 
-    public PermissionService getPermissionService() {
-        return permissionService;
+    protected PermissionProvider getPermissionProvider() {
+        return permissionProvider;
     }
 }

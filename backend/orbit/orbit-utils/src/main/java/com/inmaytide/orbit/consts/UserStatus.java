@@ -1,14 +1,16 @@
 package com.inmaytide.orbit.consts;
 
+import java.util.Arrays;
+
 public enum UserStatus {
 
-    NORMAL("Normal", 1L),
-    LOCKED("Locked", 2L);
+    NORMAL(1L, "Normal"),
+    LOCKED(2L, "Locked");
 
     private String name;
     private Long code;
 
-    private UserStatus(String name, Long code) {
+    private UserStatus(Long code, String name) {
         this.name = name;
         this.code = code;
     }
@@ -20,6 +22,12 @@ public enum UserStatus {
             }
         }
         return null;
+    }
+
+    public static UserStatus valueOf(Long code) {
+        return Arrays.stream(values())
+                .filter(userStatus -> userStatus.getCode().equals(code))
+                .findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
     public String getName() {

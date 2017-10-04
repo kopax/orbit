@@ -1,26 +1,25 @@
-package com.inmaytide.orbit.service.sys.impl;
+package com.inmaytide.orbit.auz.provider;
 
 import com.inmaytide.orbit.consts.Constants;
-import com.inmaytide.orbit.service.sys.CaptchaService;
 import org.patchca.service.ConfigurableCaptchaService;
 import org.patchca.utils.encoder.EncoderHelper;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.function.Supplier;
 
-@Service
-public class CaptchaServiceImpl implements CaptchaService {
+public class DefaultCaptchaProvider implements CaptchaProvider {
 
-    @Resource
     private ConfigurableCaptchaService configurableCaptchaService;
 
-    @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    public DefaultCaptchaProvider(ConfigurableCaptchaService configurableCaptchaService, StringRedisTemplate stringRedisTemplate) {
+        this.configurableCaptchaService = configurableCaptchaService;
+        this.stringRedisTemplate = stringRedisTemplate;
+    }
 
     @Override
     public void generateCaptcha(String format, OutputStream os, String keySuffix) throws IOException {

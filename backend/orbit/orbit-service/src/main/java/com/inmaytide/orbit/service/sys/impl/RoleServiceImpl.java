@@ -3,9 +3,13 @@ package com.inmaytide.orbit.service.sys.impl;
 import com.inmaytide.orbit.dao.sys.RolePermissionRepository;
 import com.inmaytide.orbit.dao.sys.RoleRepository;
 import com.inmaytide.orbit.exception.IllegalParameterException;
-import com.inmaytide.orbit.model.basic.PageModel;
-import com.inmaytide.orbit.model.sys.Role;
-import com.inmaytide.orbit.model.sys.RolePermission;
+import com.inmaytide.orbit.domain.basic.PageModel;
+import com.inmaytide.orbit.domain.sys.Role;
+import com.inmaytide.orbit.domain.sys.RolePermission;
+import com.inmaytide.orbit.service.sys.OrganizationService;
+import com.inmaytide.orbit.service.sys.PermissionService;
+import com.inmaytide.orbit.service.sys.RoleService;
+import com.inmaytide.orbit.service.sys.UserService;
 import com.inmaytide.orbit.utils.IdGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -90,7 +94,6 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
     @Transactional(rollbackFor = Exception.class)
     public Role modify(Role role) {
         Role original = getRepository().findById(role.getId()).orElseThrow(IllegalParameterException::new);
-        matchVersion(role, original);
         BeanUtils.copyProperties(role, original, FINAL_FIELDS);
         original.setVersion(original.getVersion() + 1);
         getRepository().update(original);

@@ -2,10 +2,10 @@ package com.inmaytide.orbit.auz.realm;
 
 import com.inmaytide.orbit.auz.cache.SimpleByteSource;
 import com.inmaytide.orbit.auz.helper.Md5Helper;
+import com.inmaytide.orbit.auz.provider.CaptchaProvider;
 import com.inmaytide.orbit.auz.token.UsernamePasswordCaptchaToken;
 import com.inmaytide.orbit.exception.auz.IncorrectCaptchaException;
-import com.inmaytide.orbit.model.sys.User;
-import com.inmaytide.orbit.service.sys.CaptchaService;
+import com.inmaytide.orbit.domain.sys.User;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 public class FormRealm extends BasicRealm {
 
     @Resource
-    private CaptchaService captchaService;
+    private CaptchaProvider captchaService;
 
     public FormRealm() {
         super();
@@ -39,7 +39,7 @@ public class FormRealm extends BasicRealm {
         String username = token.getUsername();
         Assert.hasText(username, "Null usernames are not allowed by this realm");
         captchaService.validation(token.getCaptcha(), token.getCaptchaKey(), IncorrectCaptchaException::new);
-        User user = getUserService().findByUsername(username).orElseThrow(UnknownAccountException::new);
+        User user = getUserProvider().findByUsername(username).orElseThrow(UnknownAccountException::new);
         if (user.isLocked()) {
             throw new LockedAccountException();
         }

@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-@Component
 public class RedisSessionDao extends AbstractSessionDAO {
 
     private static final Logger log = LoggerFactory.getLogger(RedisSessionDao.class);

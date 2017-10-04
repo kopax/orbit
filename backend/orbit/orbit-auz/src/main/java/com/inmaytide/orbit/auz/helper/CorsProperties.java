@@ -2,6 +2,9 @@ package com.inmaytide.orbit.auz.helper;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Arrays;
 
 @ConfigurationProperties(prefix = "orbit.cors")
 @Component
@@ -9,7 +12,7 @@ public class CorsProperties {
 
     private String mapping = "/**";
 
-    private String allowCredentials = "true";
+    private Boolean allowCredentials = true;
 
     private String allowedOrigins = "*";
 
@@ -17,7 +20,7 @@ public class CorsProperties {
 
     private String allowedHeaders = "*";
 
-    private String maxAge = "3600";
+    private Long maxAge = 3600L;
 
     public String getMapping() {
         return mapping;
@@ -27,11 +30,11 @@ public class CorsProperties {
         this.mapping = mapping;
     }
 
-    public String getAllowCredentials() {
+    public Boolean getAllowCredentials() {
         return allowCredentials;
     }
 
-    public void setAllowCredentials(String allowCredentials) {
+    public void setAllowCredentials(Boolean allowCredentials) {
         this.allowCredentials = allowCredentials;
     }
 
@@ -59,11 +62,24 @@ public class CorsProperties {
         this.allowedHeaders = allowedHeaders;
     }
 
-    public String getMaxAge() {
+    public Long getMaxAge() {
         return maxAge;
     }
 
-    public void setMaxAge(String maxAge) {
+    public void setMaxAge(Long maxAge) {
         this.maxAge = maxAge;
+    }
+
+    public CorsConfiguration translate() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setMaxAge(getMaxAge());
+        config.setAllowCredentials(getAllowCredentials());
+        String[] headers = getAllowedHeaders().split(",");
+        Arrays.stream(headers).map(String::trim).forEach(config::addAllowedHeader);
+        String[] methods = getAllowedMethods().split(",");
+        Arrays.stream(methods).map(String::trim).forEach(config::addAllowedMethod);
+        String[] origins = getAllowedOrigins().split(",");
+        Arrays.stream(origins).map(String::trim).forEach(config::addAllowedOrigin);
+        return config;
     }
 }

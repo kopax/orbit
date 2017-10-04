@@ -44,6 +44,9 @@ subprojects {
         compile "org.apache.commons:commons-lang3:${commonsLangVersion}"
         compile "org.springframework.boot:spring-boot-starter"
         compile "org.springframework.boot:spring-boot-starter-data-redis"
+        compile "org.springframework.boot:spring-boot-starter-aop"
+        compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.0.BETA-6'
+        testCompile "org.springframework.boot:spring-boot-starter-test"
     }
 
     jar {

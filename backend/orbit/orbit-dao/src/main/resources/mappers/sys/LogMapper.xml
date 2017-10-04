@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.inmaytide.orbit.model.sys.Log">
+<mapper namespace="com.inmaytide.orbit.domain.sys.Log">
 
 
     <select id="findCount" parameterType="java.util.Map" resultType="java.lang.Long">
@@ -23,7 +23,7 @@
     </select>
 
 
-    <select id="findList" parameterType="java.util.Map" resultType="com.inmaytide.orbit.model.sys.Log">
+    <select id="findList" parameterType="java.util.Map" resultType="com.inmaytide.orbit.domain.sys.Log">
         select id, operator, log.time, log.name, message,
                is_succeed isSucceed, ip_address ipAddress,
                class_name className, method_name methodName,

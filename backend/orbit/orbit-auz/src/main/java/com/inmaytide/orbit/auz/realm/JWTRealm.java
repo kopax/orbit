@@ -2,7 +2,7 @@ package com.inmaytide.orbit.auz.realm;
 
 import com.inmaytide.orbit.auz.token.JWTAuthenticationToken;
 import com.inmaytide.orbit.exception.auz.InvalidTokenException;
-import com.inmaytide.orbit.model.sys.User;
+import com.inmaytide.orbit.domain.sys.User;
 import com.inmaytide.orbit.utils.TokenUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -28,7 +28,7 @@ public class JWTRealm extends BasicRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         JWTAuthenticationToken token = (JWTAuthenticationToken) authenticationToken;
-        Optional<User> user = getUserService().findByUsername(Objects.toString(token.getUserId()));
+        Optional<User> user = getUserProvider().findByUsername(Objects.toString(token.getUserId()));
         User u = user.orElseThrow(InvalidTokenException::new);
         if (TokenUtils.validateToken(token.getToken())) {
             return new SimpleAccount(u, token.getToken(), getName());

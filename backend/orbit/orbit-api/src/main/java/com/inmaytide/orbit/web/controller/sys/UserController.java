@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
-@RestController
-@RequestMapping("sys/user")
+//@RestController
+//@RequestMapping("sys/user")
 public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);

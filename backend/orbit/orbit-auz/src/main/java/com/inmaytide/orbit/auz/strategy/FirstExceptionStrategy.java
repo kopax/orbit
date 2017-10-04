@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
  * WARN: This approach works fine as long as there is ONLY ONE Realm per Token type.
  *
  */
-@Component
 public class FirstExceptionStrategy extends FirstSuccessfulStrategy {
 
     @Override

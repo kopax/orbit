@@ -31,12 +31,4 @@ public interface BasicService {
     }
 
 
-    default <T extends BasicEntity> void matchVersion(T modified, T original) {
-        if (modified == null || original == null
-                || !Objects.equals(modified.getVersion(), original.getVersion())) {
-            throw new VersionMatchedException();
-        }
-    }
-
-
 }

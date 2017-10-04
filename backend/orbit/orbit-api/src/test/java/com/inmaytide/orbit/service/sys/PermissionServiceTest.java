@@ -2,7 +2,7 @@ package com.inmaytide.orbit.service.sys;
 
 import com.inmaytide.orbit.consts.Constants;
 import com.inmaytide.orbit.consts.PermissionCategory;
-import com.inmaytide.orbit.model.sys.Permission;
+import com.inmaytide.orbit.domain.sys.Permission;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +23,7 @@ public class PermissionServiceTest {
     public void add() {
         Permission permission = new Permission();
         permission.setCode("workflow");
-        permission.setCategory(Long.toString(PermissionCategory.MENU.getCode()));
+        permission.setCategory(PermissionCategory.MENU);
         permission.setAction(null);
         permission.setParent(-1L);
         permission.setName("Workflow");

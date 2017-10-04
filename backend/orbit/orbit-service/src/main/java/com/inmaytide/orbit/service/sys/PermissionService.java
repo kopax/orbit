@@ -1,16 +1,15 @@
 package com.inmaytide.orbit.service.sys;
 
-import com.inmaytide.orbit.model.sys.Permission;
+import com.inmaytide.orbit.auz.provider.PermissionProvider;
+import com.inmaytide.orbit.domain.sys.Permission;
 import com.inmaytide.orbit.service.basic.BasicService;
 
 import java.util.List;
 import java.util.Set;
 
-public interface PermissionService extends BasicService {
+public interface PermissionService extends BasicService, PermissionProvider {
 
     String[] FINAL_FIELDS = new String[]{"id", "parent", "create_time", "creator", "sort"};
-
-    Set<String> findCodesByUsername(String username);
 
     List<Permission> findByRoleIds(final Long[] roleIds);
 

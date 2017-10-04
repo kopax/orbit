@@ -6,7 +6,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.inmaytide.orbit.model" level="debug"/>
+    <logger name="com.inmaytide.orbit.domain" level="debug"/>
 
     <root level="info">
         <appender-ref ref="stdout"/>

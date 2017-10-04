@@ -3,7 +3,6 @@ package com.inmaytide.orbit.domain.sys;
 import com.inmaytide.orbit.consts.UserStatus;
 import com.inmaytide.orbit.domain.basic.BasicEntity;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
 
 @Entity(table = "sys_user")

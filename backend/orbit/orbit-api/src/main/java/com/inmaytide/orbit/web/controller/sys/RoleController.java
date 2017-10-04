@@ -2,8 +2,8 @@ package com.inmaytide.orbit.web.controller.sys;
 
 import com.inmaytide.orbit.exception.IllegalParameterException;
 import com.inmaytide.orbit.log.LogAnnotation;
-import com.inmaytide.orbit.model.basic.PageModel;
-import com.inmaytide.orbit.model.sys.Role;
+import com.inmaytide.orbit.domain.basic.PageModel;
+import com.inmaytide.orbit.domain.sys.Role;
 import com.inmaytide.orbit.service.sys.RoleService;
 import com.inmaytide.orbit.web.controller.BasicController;
 import org.apache.commons.lang3.StringUtils;
@@ -18,8 +18,8 @@ import java.util.Objects;
  * @author Moss
  * @since September 10, 2017
  */
-@RestController
-@RequestMapping("sys")
+//@RestController
+//@RequestMapping("sys")
 public class RoleController extends BasicController {
 
     @Resource
