@@ -1,81 +1,18 @@
-# Gradle
-# ------
-.gradle
-/build
-/buildSrc/build
-/subprojects/*/build
-/subprojects/docs/src/samples/*/*/build
-/subprojects/internal-android-performance-testing/build-android-libs
+# Intellij IDEA
+/.idea/
+*.iml
+out/
 
-# IDEA
-# ----
-.idea
-.shelf
-/*.iml
-/*.ipr
-/*.iws
-/buildSrc/*.iml
-/buildSrc/*.ipr
-/buildSrc/*.iws
-/buildSrc/out
-/out
-/subprojects/*/*.iml
-/subprojects/*/out
-/.teamcity/*.iml
-/.teamcity/target
-
-# Eclipse
-# -------
-*.classpath
-*.project
-*.settings
-/bin
-/subprojects/*/bin
-atlassian-ide-plugin.xml
-
-# NetBeans
-# --------
-.nb-gradle
-.nb-gradle-properties
-
-# Vim
-# ---
-*.sw[op]
-
-# Emacs
-# -----
-*~
-\#*\#
-.\#*
-
-# Textmate
-# --------
-.textmate
-
-# Sublime Text
-# ------------
-*.sublime-*
-
-# jEnv
-# ----
-.java-version
-
-# OS X
-# ----
+# System files
 .DS_Store
+Thumbs.db
 
-# HPROF
-# -----
-*.hprof
+# Gradle
+.gradle/
+gradle/
+build/
 
-# Work dirs
-# ---------
-/incoming-distributions
-/intTestHomeDir
-
-# Logs
-# ----
-/*.log
-
-# oh-my-zsh gradle plugin
-.gradletasknamecache
+# frontend
+node_modules/
+e2e/*.js
+e2e/*.map
